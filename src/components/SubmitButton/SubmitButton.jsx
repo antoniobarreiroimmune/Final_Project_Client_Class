@@ -4,6 +4,9 @@ import React from "react"
 const SubmitButton = () => {
   return (
     <ChakraButton
+      _hover={{
+        backgroundColor: "brown",
+      }}
       minH={"56px"}
       width={"100%"}
       fontSize={"24px"}

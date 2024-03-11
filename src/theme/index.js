@@ -7,7 +7,7 @@ export const COLORS = {
 export const theme = extendTheme({
   styles: {
     global: {
-      body: { "overscroll-behavior": "none" },
+      body: { overscrollBehavior: "none" },
     },
   },
 })
