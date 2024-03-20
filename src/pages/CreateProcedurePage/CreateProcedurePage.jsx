@@ -73,11 +73,11 @@ function CreateProcedurePage() {
             const isTextArea = option === "procedureReport";
             const isProcedureCompleted = option === "procedureCompleted";
             return (
-              <Box key={option} p={2} mb={4} width={ 
-                  isBoolean && !isProcedureCompleted ? "48%" : 
-                  isProcedureCompleted ? "100%" : 
-                  isTextArea ? "100%" : 
-                  "100%"} 
+              <Box key={option} p={2} mb={4} width={ // Added margin bottom here for all fields
+                  isBoolean && !isProcedureCompleted ? "48%" : // half width for boolean fields, except procedureCompleted
+                  isProcedureCompleted ? "100%" : // full width for procedureCompleted to center it
+                  isTextArea ? "100%" : // full width for text area
+                  "100%"} // full width for other fields
                 bg="gray.200" borderRadius="md">
                 <Text fontSize={"16px"} mb={"2"}>
                   {option.replace(/([A-Z])/g, ' $1').trim()}
@@ -90,8 +90,8 @@ function CreateProcedurePage() {
                       fontWeight: 'medium',
                       fontSize: '16px',
                       borderRadius: '10px',
-                      backgroundColor: 'green.200',
-                      borderColor: 'blue.200'
+                      backgroundColor: 'white',
+                      borderColor: 'gray.200'
                     }}>
                     {isBoolean ? BOOLEAN_OPTIONS.map(({ label, value }) => (
                       <option key={label} value={value}>{label}</option>
@@ -103,7 +103,7 @@ function CreateProcedurePage() {
                   <textarea name={option} onChange={onChange} value={procedureData[option]} placeholder={option.replace(/([A-Z])/g, ' $1').trim()}
                     style={{
                       width: '100%', 
-                      height: '150px', 
+                      height: '150px', // Adjusted for 5 lines approximately
                       fontWeight: 'medium',
                       fontSize: '16px',
                       borderRadius: '10px',
@@ -117,7 +117,7 @@ function CreateProcedurePage() {
             );
           })}
         </Flex>
-        <Box pt={4} marginBottom={"50px"}>
+        <Box pt={4} marginBottom={50}>
           <button type="submit"
             style={{
               padding: '10px 20px',
@@ -125,8 +125,8 @@ function CreateProcedurePage() {
               cursor: 'pointer',
               borderRadius: '10px',
               fontWeight: 'medium',
-              backgroundColor: 'blue',
-              borderColor: 'blue',
+              backgroundColor: 'blue.200',
+              borderColor: 'blue.200',
               color: 'white'
             }}>Submit</button>
         </Box>
