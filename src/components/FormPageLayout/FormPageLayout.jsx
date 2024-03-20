@@ -1,23 +1,19 @@
-import { Box, Flex } from "@chakra-ui/react"
-// import LikeIcon from "../LikeIcon/LikeIcon"
+import { Flex } from "@chakra-ui/react";
 
-const FormPageLayout = ({ backgroundImage, children, canBeLiked }) => {
+const FormPageLayout = ({children }) => {
   return (
-    <Flex minH={"1000px"}>
-      <Box
-        w={"50%"}
-        backgroundImage={backgroundImage}
-        backgroundSize={"cover"}
-        backgroundPosition={"center"}
-        position={"relative"}
+    
+     
+      <Flex 
+        direction="column" 
+        alignItems="center"
+        justifyContent="center" 
+        minH="100vh" 
       >
-        {/* {canBeLiked && <LikeIcon />} */}
-      </Box>
-      <Flex alignItems={"center"} justify={"center"} w={"50%"}>
-        {children}
+        {children} 
       </Flex>
-    </Flex>
-  )
-}
+    
+  );
+};
 
-export default FormPageLayout
+export default FormPageLayout;

@@ -24,22 +24,21 @@ const CustomForm = ({
       )}
       <form onSubmit={onSubmit} style={{ marginTop: "30px" }}>
         <Flex flexDir={"column"} gap={"30px"}>
-          {options.map((option) => {
-            return (
-              <Input
-                type={option === "password" ? "password" : "text"}
-                name={option}
-                onChange={onChange}
-                key={option}
-                placeholder={capitalizeText(option)} // CAPITALIZED!!! "name" => "Name"
-              />
-            )
-          })}
+          {options.map(({ name, type }) => ( 
+            <Input
+              type={type}
+              name={name}
+              onChange={onChange}
+              key={name}
+              placeholder={capitalizeText(name)}
+            />
+          ))}
         </Flex>
         <SubmitButton />
       </form>
     </Flex>
   )
 }
+
 
 export default CustomForm

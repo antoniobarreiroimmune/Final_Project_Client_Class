@@ -13,8 +13,9 @@ const Navbar = () => {
       link: "/",
       text: "Home",
     },
-    { link: "/restaurants", text: "Restaurants" },
-    { link: "/restaurants/create", text: "Create" },
+    { link: "/guardhome", text: "Procedimientos" },
+    { link: "/create", text: "Nuevo Procedimiento" },
+    
   ]
 
   const location = useLocation()
@@ -27,7 +28,7 @@ const Navbar = () => {
     >
       <CustomLink to="/">
         <Text fontSize={"40px"} fontWeight={"700"}>
-          Let Him Cook
+          Libro de Autopsias
         </Text>
       </CustomLink>
 

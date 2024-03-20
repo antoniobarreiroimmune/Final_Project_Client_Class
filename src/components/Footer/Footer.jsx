@@ -1,8 +1,7 @@
 import { Flex } from "@chakra-ui/layout"
-import { COLORS } from "../../theme"
+import { COLORS } from "../../theme" 
 import CustomLink from "../CustomLink/CustomLink"
 import GithubIcon from "../GithubIcon/GithubIcon"
-import InstagramIcon from "../InstagramIcon/InstagramIcon.jsx"
 import CodeIcon from "../CodeIcon/CodeIcon"
 
 const Footer = () => {
@@ -11,11 +10,6 @@ const Footer = () => {
       component: <GithubIcon />,
       link: "#",
       id: 1,
-    },
-    {
-      component: <InstagramIcon />,
-      link: "#",
-      id: 2,
     },
     {
       component: <CodeIcon />,
@@ -28,8 +22,8 @@ const Footer = () => {
       width={"100%"}
       position={"fixed"}
       bottom={"0"}
-      padding={"20px 80px"}
-      backgroundColor={COLORS.SECONDARY}
+      padding={"5px 80px"} 
+      backgroundColor={"black"} 
       justifyContent={"space-between"}
       alignItems={"center"}
     >

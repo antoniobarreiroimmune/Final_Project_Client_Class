@@ -32,9 +32,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = (e) => {
     if (e) e.preventDefault()
-    // REMOVEMOS EL TOKEN
-    // SETEAMOS EL USUARIO A NULL
-    // REDIRECCIÓN AL LOGIN!!!
+   
     console.log("ENTRO AL LOGOUT!!!")
     localStorage.removeItem("token")
     setUser(null)
@@ -42,18 +40,12 @@ export const AuthProvider = ({ children }) => {
   }
 
   const login = async (userData) => {
-    // LLAMADA ==> LOGIN ----
-    // token... => INFORMACIÓN DEL USUARIO!!! ----
-    // GUARDAMOS EL TOKEN ----
-    // RECOGEMOS AL USUARIO CON EL TOKEN
-    // GUARDAMOS AL USUARIO EN EL ESTADO DE USER
-    // REDIRECCIÓN A NUESTRO PERFIL...
-    // Y SI LOS DATOS NO SON CORRECTOS...
+  
     try {
       const { token } = await authService.login(userData)
       setToken(token)
       await getUser()
-      navigate("/profile")
+      navigate("/")
     } catch (error) {
       console.log("EL ERROR", error)
     }

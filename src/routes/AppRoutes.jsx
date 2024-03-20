@@ -1,64 +1,58 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import Layout from "../layouts/Layout"
-import HomePage from "../pages/HomePage/HomePage"
-import RestaunrantsPage from "../pages/RestaunrantsPage/RestaunrantsPage"
-import LoaderRestaunrantsPage from "../pages/RestaunrantsPage/LoaderRestaunrantsPage"
-import CreateRestaurantPage from "../pages/CreateRestaurantPage/CreateRestaurantPage"
-import LoginPage from "../pages/LoginPage/LoginPage"
-import SignupPage from "../pages/SignupPage/SignupPage"
-import ProfilePage from "../pages/ProfilePage/ProfilePage"
-import RestaurantDetailsPage from "../pages/RestaurantDetailsPage/RestaurantDetailsPage"
-import NotFoundPage from "../pages/NotFoundPage/NotFoundPage"
-import AuthMiddleware from "../middlewares/AuthMiddleware"
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Layout from "../layouts/Layout";
+import LoginPage from "../pages/LoginPage/LoginPage";
+import SignupPage from "../pages/SignupPage/SignupPage";
+import ProfilePage from "../pages/ProfilePage/ProfilePage";
+import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
+import GuardHomePage from "../pages/GuardHomePage/GuardHomePage";
+import CreateProcedurePage from "../pages/CreateProcedurePage/CreateProcedurePage";
+import EditProcedure from "../pages/EditProcedure/EditProcedure";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
+   
     {
       path: "/",
-      element: <Layout />,
+      element: <Layout />, 
       children: [
         {
-          path: "/",
-          element: <HomePage />,
+          index: true,
+          element: <GuardHomePage />,
         },
         {
-          path: "/login",
-          element: <LoginPage />,
+          path: "guardhome",
+          element: <GuardHomePage />,
         },
         {
-          path: "/signup",
-          element: <SignupPage />,
+          path: "signup",
+          element: <SignupPage />,  
         },
         {
-          path: "/profile",
-          element: (
-            <AuthMiddleware>
-              <ProfilePage />
-            </AuthMiddleware>
-          ),
+          path: "create",
+          element: <CreateProcedurePage />,
         },
         {
-          path: "/restaurants",
-          element: <RestaunrantsPage />,
-          loader: LoaderRestaunrantsPage,
+          path: "edit/:id",
+          element: <EditProcedure />,
         },
         {
-          path: "/restaurants/:id",
-          element: <RestaurantDetailsPage />,
-        },
-        {
-          path: "/restaurants/create",
-          element: <CreateRestaurantPage />,
+          path: "profile",
+          element: <ProfilePage />,
         },
         {
           path: "*",
           element: <NotFoundPage />,
         },
       ],
+      
     },
-  ])
+    {
+      path: "login",
+      element: <LoginPage />,
+    },
+  ]);
 
-  return <RouterProvider router={router}></RouterProvider>
-}
+  return <RouterProvider router={router} />;
+};
 
-export default AppRoutes
+export default AppRoutes;

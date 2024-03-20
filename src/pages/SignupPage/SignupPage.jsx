@@ -1,55 +1,50 @@
-import React, { useEffect, useState } from "react"
-import FormPageLayout from "../../components/FormPageLayout/FormPageLayout"
-import CustomForm from "../../components/CustomForm/CustomForm"
-import authService from "../../services/auth.service"
-import { useToast } from "@chakra-ui/react"
-import { useNavigate } from "react-router-dom"
+import React, { useState, useContext } from 'react';
+import CustomForm from '../../components/CustomForm/CustomForm';
+import { useNavigate } from 'react-router-dom';
+import authService from '../../services/auth.service';
 
 const SignupPage = () => {
   const [userData, setUserData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  })
-  const toast = useToast()
-  const navigate = useNavigate()
-
-  const BACKGROUND_IMAGE =
-    "https://res.cloudinary.com/dagndlfhj/image/upload/v1709581221/matt-connor-9Qs_9n2oSJo-unsplash_izp5kl.jpg"
+    username: '',
+    email: '',
+    password: '',
+    role:''
+  });
+  const navigate = useNavigate();
 
   const onChange = (e) => {
-    const { name, value } = e.target
-    setUserData({ ...userData, [name]: value })
-  }
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+  };
+
   const onSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      await authService.signup(userData)
-      toast({
-        title: "Account created.",
-        description: "We've created your account for you.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      })
-      navigate("/login")
+      const data = await authService.signup(userData);
+      
+      navigate('/login'); 
     } catch (error) {
-      console.log("Error ==>", error)
+      console.error('Signup Error', error);
+      
     }
-  }
+  };
+
+  const options = [
+    { name: 'username', type: 'text' },
+    { name: 'email', type: 'email' },
+    { name: 'password', type: 'password' },
+    { name: 'role', type: 'text'}
+  ];
 
   return (
-    <FormPageLayout backgroundImage={BACKGROUND_IMAGE}>
-      <CustomForm
-        marginBottom={"80px"}
-        title={"Signup"}
-        subtitle={"Let’s start cooking!:"}
-        onChange={onChange}
-        onSubmit={onSubmit}
-        options={["username", "email", "password"]}
-      />
-    </FormPageLayout>
-  )
-}
+    <CustomForm
+      title="Sign Up"
+      subtitle="Create your account"
+      onChange={onChange}
+      onSubmit={onSubmit}
+      options={options}
+    />
+  );
+};
 
-export default SignupPage
+export default SignupPage;
