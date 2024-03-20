@@ -23,7 +23,7 @@ const Footer = () => {
       position={"fixed"}
       bottom={"0"}
       padding={"5px 80px"} 
-      backgroundColor={"black"} 
+      backgroundColor={COLORS.ACCENT} 
       justifyContent={"space-between"}
       alignItems={"center"}
     >

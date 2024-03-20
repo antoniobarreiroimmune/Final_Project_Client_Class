@@ -1,5 +1,7 @@
 import { Flex, Text } from "@chakra-ui/layout"
 import CustomLink from "../CustomLink/CustomLink"
+import { COLORS } from "../../theme"
+
 
 const AuthLink = ({ onClick, children, to }) => {
   return (
@@ -7,7 +9,7 @@ const AuthLink = ({ onClick, children, to }) => {
       onClick={onClick}
       borderRadius="30px"
       padding={"10px 20px"}
-      backgroundColor={"black"}
+      backgroundColor={COLORS.ACCENT}
       color={"white"}
       to={to}
     >

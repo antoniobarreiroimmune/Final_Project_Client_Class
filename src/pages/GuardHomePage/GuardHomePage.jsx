@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
-import { Flex, Table, Thead, Tbody, Tr, Th, Td, Box, Button, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react';
+import {
+  Flex, Table, Thead, Tbody, Tr, Th, Td, Box, Button,
+  Alert, AlertIcon, AlertTitle, AlertDescription, Input
+} from '@chakra-ui/react';
 import Title from '../../components/Title/Title';
 import proceduresService from '../../services/procedures.service';
 
 function GuardHomePage() {
   const [procedures, setProcedures] = useState([]);
+  const [filteredProcedures, setFilteredProcedures] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
@@ -16,34 +21,29 @@ function GuardHomePage() {
       try {
         const loadedProcedures = await proceduresService.getAllProcedures();
         setProcedures(loadedProcedures);
+        setFilteredProcedures(loadedProcedures); 
         setShowError(false);
         setErrorMessage('');
       } catch (error) {
         console.error('Error loading procedures:', error);
-        if (error.response) {
-          switch (error.response.status) {
-            case 401:
-              navigate('/login');
-              break;
-            case 403:
-              setShowError(true);
-              setErrorMessage('Proceso no autorizado');
-              break;
-            default:
-              setShowError(true);
-              setErrorMessage('Ha ocurrido un error');
-              break;
-          }
-        } else {
-          
-          setShowError(true);
-          setErrorMessage('Error de conexión');
-        }
+        setShowError(true);
+        setErrorMessage('Error al cargar los procedimientos');
       }
     };
 
     loadProcedures();
   }, [navigate]);
+
+  useEffect(() => {
+    const results = procedures.filter(procedure =>
+      procedure.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      procedure.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      procedure.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      procedure.dni.includes(searchTerm) ||
+      procedure.location.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProcedures(results);
+  }, [searchTerm, procedures]);
 
   const handleEdit = (procedure) => {
     navigate(`/edit/${procedure._id}`, { state: { procedure } });
@@ -51,7 +51,7 @@ function GuardHomePage() {
 
   return (
     <PageWrapper>
-      <Flex direction="column" align="center" mt="25vh" width="100%"> 
+      <Flex direction="column" align="center" mt="25vh" width="100%">
         <Title>Procedimientos</Title>
         {showError && (
           <Alert status="error" mb={4}>
@@ -60,6 +60,12 @@ function GuardHomePage() {
             <AlertDescription>{errorMessage}</AlertDescription>
           </Alert>
         )}
+        <Input
+          placeholder="Buscar procedimientos..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          my="4"
+        />
         <Box width="100%" overflowX="auto">
           <Table variant="simple" size="sm">
             <Thead>
@@ -81,22 +87,22 @@ function GuardHomePage() {
               </Tr>
             </Thead>
             <Tbody>
-              {procedures.map((procedure, index) => (
+              {filteredProcedures.map((procedure, index) => (
                 <Tr key={procedure._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'}>
-                  <Td textAlign="center" px={1}>{procedure.name}</Td>
-                  <Td textAlign="center" px={1}>{procedure.firstName}</Td>
-                  <Td textAlign="center" px={1}>{procedure.lastName}</Td>
-                  <Td textAlign="center" px={1}>{procedure.dni}</Td>
-                  <Td textAlign="center" px={1}>{procedure.location}</Td>
-                  <Td textAlign="center" px={1}>{procedure.observations}</Td>
-                  <Td textAlign="center" px={1}>{procedure.isGenderViolence ? 'Sí' : 'No'}</Td>
-                  <Td textAlign="center" px={1}>{procedure.isDomesticViolence ? 'Sí' : 'No'}</Td>
-                  <Td textAlign="center" px={1}>{procedure.judicialBody}</Td>
-                  <Td textAlign="center" px={1}>{procedure.procedureReport}</Td>
-                  <Td textAlign="center" px={1}>{procedure.procedureCompleted ? 'Sí' : 'No'}</Td>
-                  <Td textAlign="center" px={1}>{new Date(procedure.createdAt).toLocaleDateString()}</Td>
-                  <Td textAlign="center" px={1}>{new Date(procedure.updatedAt).toLocaleDateString()}</Td>
-                  <Td textAlign="center" px={1}>
+                  <Td textAlign="center">{procedure.name}</Td>
+                  <Td textAlign="center">{procedure.firstName}</Td>
+                  <Td textAlign="center">{procedure.lastName}</Td>
+                  <Td textAlign="center">{procedure.dni}</Td>
+                  <Td textAlign="center">{procedure.location}</Td>
+                  <Td textAlign="center">{procedure.observations}</Td>
+                  <Td textAlign="center">{procedure.isGenderViolence ? 'Sí' : 'No'}</Td>
+                  <Td textAlign="center">{procedure.isDomesticViolence ? 'Sí' : 'No'}</Td>
+                  <Td textAlign="center">{procedure.judicialBody}</Td>
+                  <Td textAlign="center">{procedure.procedureReport}</Td>
+                  <Td textAlign="center">{procedure.procedureCompleted ? 'Sí' : 'No'}</Td>
+                  <Td textAlign="center">{new Date(procedure.createdAt).toLocaleDateString()}</Td>
+                  <Td textAlign="center">{new Date(procedure.updatedAt).toLocaleDateString()}</Td>
+                  <Td textAlign="center">
                     <Button size="sm" onClick={() => handleEdit(procedure)}>Editar</Button>
                   </Td>
                 </Tr>
