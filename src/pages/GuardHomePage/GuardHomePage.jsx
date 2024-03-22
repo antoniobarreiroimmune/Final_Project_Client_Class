@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react'; 
 import { useNavigate } from 'react-router-dom';
+import { Flex, Table, Thead, Tbody, Tr, Th, Td, Box, Button, Alert, AlertIcon, AlertTitle, AlertDescription, Input } from '@chakra-ui/react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
-import {
-  Flex, Table, Thead, Tbody, Tr, Th, Td, Box, Button,
-  Alert, AlertIcon, AlertTitle, AlertDescription, Input
-} from '@chakra-ui/react';
 import Title from '../../components/Title/Title';
 import proceduresService from '../../services/procedures.service';
+import { AuthContext } from '../../contexts/AuthContext'; 
 
 function GuardHomePage() {
   const [procedures, setProcedures] = useState([]);
@@ -16,12 +14,14 @@ function GuardHomePage() {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+  const { user } = useContext(AuthContext); 
+
   useEffect(() => {
     const loadProcedures = async () => {
       try {
         const loadedProcedures = await proceduresService.getAllProcedures();
         setProcedures(loadedProcedures);
-        setFilteredProcedures(loadedProcedures); 
+        setFilteredProcedures(loadedProcedures);
         setShowError(false);
         setErrorMessage('');
       } catch (error) {
@@ -46,7 +46,7 @@ function GuardHomePage() {
   }, [searchTerm, procedures]);
 
   const handleEdit = (procedure) => {
-    navigate(`/edit/${procedure._id}`, { state: { procedure } });
+    navigate(`/editprocedure/${procedure._id}`, { state: { procedure } });
   };
 
   return (
@@ -103,7 +103,9 @@ function GuardHomePage() {
                   <Td textAlign="center">{new Date(procedure.createdAt).toLocaleDateString()}</Td>
                   <Td textAlign="center">{new Date(procedure.updatedAt).toLocaleDateString()}</Td>
                   <Td textAlign="center">
-                    <Button size="sm" onClick={() => handleEdit(procedure)}>Editar</Button>
+                    {user && user.role === 'Guard' && (
+                      <Button size="sm" onClick={() => handleEdit(procedure)}>Editar</Button>
+                    )}
                   </Td>
                 </Tr>
               ))}
@@ -116,3 +118,4 @@ function GuardHomePage() {
 }
 
 export default GuardHomePage;
+

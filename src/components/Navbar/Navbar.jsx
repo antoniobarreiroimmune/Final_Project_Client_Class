@@ -8,17 +8,20 @@ import { AuthContext } from "../../contexts/AuthContext"
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext)
-  const NAVIGATION_LINK = [
-    {
-      link: "/",
-      text: "Home",
-    },
-    { link: "/guardhome", text: "Procedimientos" },
+  const location = useLocation()
+
+  
+  let NAVIGATION_LINK = [
+    { link: "/", text: "Inicio" },
     { link: "/create", text: "Nuevo Procedimiento" },
-    
   ]
 
-  const location = useLocation()
+ 
+  if (user?.role === "Guard") {
+    NAVIGATION_LINK = [...NAVIGATION_LINK, { link: "/guardhome", text: "Procedimientos" }]
+  } else if (user?.role === "Pathologist") {
+    NAVIGATION_LINK = [{ link: "/pathology", text: "Patologías" }, {link:"/guardhome", text:"Procedimientos"}]
+  }
 
   return (
     <Flex

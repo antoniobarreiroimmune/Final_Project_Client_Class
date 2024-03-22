@@ -7,7 +7,7 @@ function SearchProcedures({ onSearch }) {
       <div>
         <input
           type="text"
-          placeholder="Buscar procedimientos..."
+          placeholder="Buscar procedimientos"
           onChange={handleChange}
         />
       </div>

@@ -1,25 +1,32 @@
-import { useContext } from "react"
-import { AuthContext } from "../../contexts/AuthContext"
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { Box, VStack, Heading, Text, Center, Spinner } from "@chakra-ui/react";
 
 const ProfilePage = () => {
-  const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext);
 
- 
   if (!user) {
-    return <div>Loading user data...</div>; 
+    return (
+      <Center height="100vh">
+        <Spinner size="xl" />
+      </Center>
+    );
   }
-  
 
   return (
-    <div>
-      <h1>Profile Page</h1>
-      <div>
-        <h2>User Details:</h2>
-        <p><strong>Username:</strong> {user.username}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-       <p><strong>Departamento</strong> {user.role}</p>
-      </div>
-    </div>
+    <Center height="100vh">
+      <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={5}>
+        <VStack spacing={4} align="stretch">
+          <Heading as="h1" size="2xl" textAlign="center">Profile Page</Heading>
+          <Box>
+            <Heading as="h2" size="xl">User Details:</Heading>
+            <Text fontSize="xl"><strong>Username:</strong> {user.username}</Text>
+            <Text fontSize="xl"><strong>Email:</strong> {user.email}</Text>
+            <Text fontSize="xl"><strong>Department:</strong> {user.role}</Text>
+          </Box>
+        </VStack>
+      </Box>
+    </Center>
   );
 };
 

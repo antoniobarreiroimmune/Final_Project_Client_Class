@@ -7,6 +7,8 @@ import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import GuardHomePage from "../pages/GuardHomePage/GuardHomePage";
 import CreateProcedurePage from "../pages/CreateProcedurePage/CreateProcedurePage";
 import EditProcedure from "../pages/EditProcedure/EditProcedure";
+import PathologistHomePage from "../pages/PathologistHomePage/PathologistHomePage";
+import EditPathology from "../pages/EditPathology/EditPathology";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -32,8 +34,16 @@ const AppRoutes = () => {
           element: <CreateProcedurePage />,
         },
         {
-          path: "edit/:id",
+          path: "editprocedure/:id",
           element: <EditProcedure />,
+        },
+        {
+          path: "pathology",
+          element: <PathologistHomePage />,
+        },
+        {
+          path: "editPathology/:id",
+          element: <EditPathology />,
         },
         {
           path: "profile",
