@@ -45,8 +45,8 @@ function GuardHomePage() {
     setFilteredProcedures(results);
   }, [searchTerm, procedures]);
 
-  const handleEdit = (procedure) => {
-    navigate(`/editprocedure/${procedure._id}`, { state: { procedure } });
+  const handleRowClick = (procedure) => {
+    navigate(`/showprocedure/${procedure._id}`, { state: { procedure } });
   };
 
   return (
@@ -83,12 +83,12 @@ function GuardHomePage() {
                 <Th textAlign="center">Procedimiento Completado</Th>
                 <Th textAlign="center">Creado</Th>
                 <Th textAlign="center">Actualizado</Th>
-                <Th textAlign="center">Acciones</Th>
+                
               </Tr>
             </Thead>
             <Tbody>
               {filteredProcedures.map((procedure, index) => (
-                <Tr key={procedure._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'}>
+                <Tr key={procedure._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'}onClick={() => handleRowClick(procedure)}style={{ cursor: 'pointer' }}>
                   <Td textAlign="center">{procedure.name}</Td>
                   <Td textAlign="center">{procedure.firstName}</Td>
                   <Td textAlign="center">{procedure.lastName}</Td>
@@ -102,11 +102,7 @@ function GuardHomePage() {
                   <Td textAlign="center">{procedure.procedureCompleted ? 'Sí' : 'No'}</Td>
                   <Td textAlign="center">{new Date(procedure.createdAt).toLocaleDateString()}</Td>
                   <Td textAlign="center">{new Date(procedure.updatedAt).toLocaleDateString()}</Td>
-                  <Td textAlign="center">
-                    {user && user.role === 'Guard' && (
-                      <Button size="sm" onClick={() => handleEdit(procedure)}>Editar</Button>
-                    )}
-                  </Td>
+                 
                 </Tr>
               ))}
             </Tbody>

@@ -7,8 +7,10 @@ import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import GuardHomePage from "../pages/GuardHomePage/GuardHomePage";
 import CreateProcedurePage from "../pages/CreateProcedurePage/CreateProcedurePage";
 import EditProcedure from "../pages/EditProcedure/EditProcedure";
-import PathologistHomePage from "../pages/PathologistHomePage/PathologistHomePage";
+import PathologyHomePage from "../pages/PathologyHomePage/PathologyHomePage";
 import EditPathology from "../pages/EditPathology/EditPathology";
+import ShowProcedure from "../pages/ShowProcedure/ShowProcedure";
+import ShowPathology from "../pages/ShowPathology/ShowPathology";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -34,12 +36,20 @@ const AppRoutes = () => {
           element: <CreateProcedurePage />,
         },
         {
+          path: "showprocedure/:id",
+          element: <ShowProcedure />,
+        },
+        {
           path: "editprocedure/:id",
           element: <EditProcedure />,
         },
         {
           path: "pathology",
-          element: <PathologistHomePage />,
+          element: <PathologyHomePage />,
+        },
+        {
+          path: "showpathology/:id",
+          element: <ShowPathology />,
         },
         {
           path: "editPathology/:id",

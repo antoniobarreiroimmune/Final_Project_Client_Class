@@ -34,19 +34,22 @@ function PathologyHome() {
 
   useEffect(() => {
     const results = pathologies.filter(pathology =>
-      pathology.name.toLowerCase().includes(searchTerm.toLowerCase())
+      pathology.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      pathology.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      pathology.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      pathology.dni.includes(searchTerm) ||
+      pathology.location.toLowerCase().includes(searchTerm.toLowerCase())
       
     );
     setFilteredPathologies(results);
   }, [searchTerm, pathologies]);
   const navigate = useNavigate();
 
-  const handleEdit = (pathology) => {
-    navigate(`/editPathology/${pathology._id}`, { state: { pathology } });
-  };
+  
 
-  if (isLoading) return <PageWrapper>Cargando...</PageWrapper>;
-  if (error) return <PageWrapper>Error: {error}</PageWrapper>;
+ const handleRowClick = (pathology) => {
+    navigate(`/showPathology/${pathology._id}`, { state: { pathology } });
+  };
 
   return (
     <PageWrapper>
@@ -73,15 +76,15 @@ function PathologyHome() {
                 <Th textAlign="center">Violencia Doméstica</Th>
                 <Th textAlign="center">Órgano Judicial</Th>
                 <Th textAlign="center">Informe del Procedimiento</Th>
-                <Th textAlign="center">Procedimiento Completado</Th>
+                <Th textAlign="center">Patología Completado</Th>
                 <Th textAlign="center">Creado</Th>
                 <Th textAlign="center">Actualizado</Th>
-                <Th textAlign="center">Acciones</Th>
+                
               </Tr>
             </Thead>
             <Tbody>
               {filteredPathologies.map((pathology, index) => (
-                <Tr key={pathology._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'}>
+                <Tr key={pathology._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'} onClick={()=> handleRowClick(pathology)}style={{cursor:'pointer'}}>
                   <Td textAlign="center">{pathology.name}</Td>
                   <Td textAlign="center">{pathology.firstName}</Td>
                   <Td textAlign="center">{pathology.lastName}</Td>
@@ -92,12 +95,10 @@ function PathologyHome() {
                   <Td textAlign="center">{pathology.isDomesticViolence ? 'Sí' : 'No'}</Td>
                   <Td textAlign="center">{pathology.judicialBody}</Td>
                   <Td textAlign="center">{pathology.procedureReport}</Td>
-                  <Td textAlign="center">{pathology.procedureCompleted ? 'Sí' : 'No'}</Td>
+                  <Td textAlign="center">{pathology.pathologyCompleted ? 'Sí' : 'No'}</Td>
                   <Td textAlign="center">{new Date(pathology.createdAt).toLocaleDateString()}</Td>
                   <Td textAlign="center">{new Date(pathology.updatedAt).toLocaleDateString()}</Td>
-                  <Td textAlign="center">
-                    <Button size="sm" onClick={() => handleEdit(pathology)}>Editar</Button>
-                  </Td>
+                  
                 </Tr>
               ))}
             </Tbody>

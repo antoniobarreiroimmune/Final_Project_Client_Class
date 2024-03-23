@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import FormPageLayout from "../../components/FormPageLayout/FormPageLayout";
-import { Flex, Text, Box, VStack } from "@chakra-ui/react";
-import Input from "../../components/Input/Input";
+import { Flex, Button, Box } from "@chakra-ui/react";
+import { FormInput, FormSwitch, FormSelect } from '../../components/FormControls/FormControls';
 import proceduresService from "../../services/procedures.service";
-import { JUDICIAL_BODY_OPTIONS, BOOLEAN_OPTIONS, OPTIONS } from '../../consts/index';
+import PageWrapper from "../../components/PageWrapper/PageWrapper";
+import { JUDICIAL_BODY_OPTIONS } from '../../consts';
 
 
 function CreateProcedurePage() {
@@ -18,18 +18,14 @@ function CreateProcedurePage() {
     isDomesticViolence: false,
     judicialBody: '',
     procedureReport: "",
-    procedureCompleted: false
   });
-
-  const title = "Nuevo Procedimiento";
-  const subtitle = "Por favor, rellene los campos para crear un nuevo procedimiento.";
 
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const update = {
-      [name]: type === 'checkbox' ? checked : (type === 'select-one' && (name === 'isGenderViolence' || name === 'isDomesticViolence') ? value === 'true' : value)
-    };
-    setProcedureData({ ...procedureData, ...update });
+    setProcedureData(prevState => ({
+      ...prevState,
+      [name]: type === 'checkbox' ? checked : value
+    }));
   };
 
   const onSubmit = async (e) => {
@@ -47,7 +43,6 @@ function CreateProcedurePage() {
         isDomesticViolence: false,
         judicialBody: '',
         procedureReport: "",
-        procedureCompleted: false
       });
     } catch (err) {
       console.error(err);
@@ -55,86 +50,101 @@ function CreateProcedurePage() {
   };
 
   return (
-    
-    <FormPageLayout>
-  <Flex direction={"column"} align={"center"} justify={"center"} width={"100%"} px={"10vw"} py={"20px"}>
-    <Text textAlign={"center"} fontSize={"48px"} fontWeight={"bold"} mb={"4"}>
-      {title}
-    </Text>
-    <Text textAlign={"center"} fontSize={"24px"} mb={"20px"}>
-      {subtitle}
-    </Text>
-    <form onSubmit={onSubmit}>
-      <VStack spacing={4}>
-        <Flex wrap={"wrap"} justifyContent={"space-between"} width={"100%"}>
-          {OPTIONS.map((option) => {
-            const isBoolean = option.includes("Violence") || option.includes("Completed");
-            const isSelect = option === "judicialBody" || isBoolean;
-            const isTextArea = option === "procedureReport";
-            const isProcedureCompleted = option === "procedureCompleted";
-            return (
-              <Box key={option} p={2} mb={4} width={ // Added margin bottom here for all fields
-                  isBoolean && !isProcedureCompleted ? "48%" : // half width for boolean fields, except procedureCompleted
-                  isProcedureCompleted ? "100%" : // full width for procedureCompleted to center it
-                  isTextArea ? "100%" : // full width for text area
-                  "100%"} // full width for other fields
-                bg="gray.200" borderRadius="md">
-                <Text fontSize={"16px"} mb={"2"}>
-                  {option.replace(/([A-Z])/g, ' $1').trim()}
-                </Text>
-                {isSelect ? (
-                  <select name={option} onChange={onChange} value={procedureData[option]}
-                    style={{
-                      width: '100%',
-                      height: '50px',
-                      fontWeight: 'medium',
-                      fontSize: '16px',
-                      borderRadius: '10px',
-                      backgroundColor: 'white',
-                      borderColor: 'gray.200'
-                    }}>
-                    {isBoolean ? BOOLEAN_OPTIONS.map(({ label, value }) => (
-                      <option key={label} value={value}>{label}</option>
-                    )) : JUDICIAL_BODY_OPTIONS.map(body => (
-                      <option key={body} value={body}>{body}</option>
-                    ))}
-                  </select>
-                ) : isTextArea ? (
-                  <textarea name={option} onChange={onChange} value={procedureData[option]} placeholder={option.replace(/([A-Z])/g, ' $1').trim()}
-                    style={{
-                      width: '100%', 
-                      height: '150px', // Adjusted for 5 lines approximately
-                      fontWeight: 'medium',
-                      fontSize: '16px',
-                      borderRadius: '10px',
-                      backgroundColor: 'white',
-                      borderColor: 'gray.200'
-                    }} />
-                ) : (
-                  <Input name={option} onChange={onChange} value={procedureData[option]} placeholder={option.replace(/([A-Z])/g, ' $1').trim()} bg="white" borderColor="gray.200" />
-                )}
-              </Box>
-            );
-          })}
-        </Flex>
-        <Box pt={4} marginBottom={50}>
-          <button type="submit"
-            style={{
-              padding: '10px 20px',
-              fontSize: '16px',
-              cursor: 'pointer',
-              borderRadius: '10px',
-              fontWeight: 'medium',
-              backgroundColor: 'blue.200',
-              borderColor: 'blue.200',
-              color: 'white'
-            }}>Submit</button>
-        </Box>
-      </VStack>
-    </form>
-  </Flex>
-</FormPageLayout>
+    <PageWrapper>
+      <Box p={4}>
+        <form onSubmit={onSubmit}>
+          <Flex direction="column" gap="4">
 
+            <Flex direction="row" gap="4">
+              <FormInput
+                label="Nombre"
+                value={procedureData["name"]}
+                onChange={onChange}
+                name="name"
+              />
+              <FormInput
+                label="Primer Apellido"
+                value={procedureData["firstName"]}
+                onChange={onChange}
+                name="firstName"
+              />
+              <FormInput
+                label="Segundo Apellido"
+                value={procedureData["lastName"]}
+                onChange={onChange}
+                name="lastName"
+              />
+
+            </Flex>
+
+
+            <Flex direction="row" gap="2" align="center">
+              <Box flex="1">
+                <FormInput
+                  label="DNI"
+                  value={procedureData["dni"]}
+                  onChange={onChange}
+                  name="dni"
+                />
+              </Box>
+              <Box flex="1">
+                <FormInput
+                  label="Localización"
+                  value={procedureData["location"]}
+                  onChange={onChange}
+                  name="location"
+                />
+              </Box>
+
+              <Box flex="1">
+                <FormSelect
+                  label="Cuerpo Judicial"
+                  value={procedureData["judicialBody"]}
+                  onChange={onChange}
+                  name="judicialBody"
+                  options={JUDICIAL_BODY_OPTIONS}
+                />
+              </Box>
+            </Flex>
+
+
+
+
+            <Flex direction="row" gap="1">
+              <Box flex="1">
+                <FormSwitch
+                  label="Violencia De Género"
+                  isChecked={procedureData["violenciaDeGenero"]}
+                  onChange={onChange}
+                  name="violenciaDeGenero"
+                />
+              </Box>
+              <Box flex="1">
+                <FormSwitch
+                  label="Violencia Doméstica"
+                  isChecked={procedureData["violenciaDomestica"]}
+                  onChange={onChange}
+                  name="violenciaDomestica"
+                />
+              </Box>
+
+            </Flex>
+
+
+            <FormInput
+              label="Informe de Procedimiento"
+              isTextArea={true}
+              value={procedureData["procedureReport"]}
+              onChange={onChange}
+              name="procedureReport"
+              minH="200px"
+            />
+
+            <Button type="submit" colorScheme="blue">Crear Procedimiento</Button>
+          </Flex>
+        </form>
+      </Box>
+    </PageWrapper>
 
 
 
@@ -143,3 +153,4 @@ function CreateProcedurePage() {
 }
 
 export default CreateProcedurePage;
+

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Input, Textarea, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Input, Textarea, Flex, Text, Switch } from '@chakra-ui/react';
 import proceduresService from '../../services/procedures.service';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 
@@ -90,6 +90,9 @@ function EditProcedure() {
               <FormLabel htmlFor="observations">Observaciones</FormLabel>
               <Textarea id="observations" name="observations" value={procedure.observations || ''} onChange={handleChange} />
             </FormControl>
+            <Text fontSize="md" fontWeight="semibold">Órgano Judicial: {procedure.judicialBody || 'N/A'}</Text>
+            <Text fontSize="md" fontWeight="semibold">Violencia de Género: {procedure.isGenderViolence ? 'Sí' : 'No'}</Text>
+            <Text fontSize="md" fontWeight="semibold">Violencia Doméstica: {procedure.isDomesticViolence ? 'Sí' : 'No'}</Text>
             <FormControl>
               <FormLabel htmlFor="procedureReport">Informe del Procedimiento</FormLabel>
               <Textarea id="procedureReport" name="procedureReport" value={procedure.procedureReport || ''} onChange={handleChange} />
@@ -98,14 +101,13 @@ function EditProcedure() {
               <FormLabel htmlFor="procedureCompleted" mb="0">
                 Procedimiento Completado
               </FormLabel>
-              <Button id="procedureCompleted" colorScheme={procedure.procedureCompleted ? 'green' : 'red'} onClick={() => setProcedure(prev => ({ ...prev, procedureCompleted: !prev.procedureCompleted }))}>
-                {procedure.procedureCompleted ? 'Completado' : 'No Completado'}
-              </Button>
+              <Switch id="procedureCompleted"
+                colorScheme={procedure.procedureCompleted ? 'green' : 'red'}
+                isChecked={procedure.procedureCompleted}
+                onChange={() => setProcedure(prev => ({ ...prev, procedureCompleted: !prev.procedureCompleted }))} />
             </FormControl>
 
-            <Text fontSize="md" fontWeight="semibold">Órgano Judicial: {procedure.judicialBody || 'N/A'}</Text>
-            <Text fontSize="md" fontWeight="semibold">Violencia de Género: {procedure.isGenderViolence ? 'Sí' : 'No'}</Text>
-            <Text fontSize="md" fontWeight="semibold">Violencia Doméstica: {procedure.isDomesticViolence ? 'Sí' : 'No'}</Text>
+
 
             <Button type="submit" colorScheme="blue">Actualizar Procedimiento</Button>
           </Flex>

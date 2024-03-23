@@ -12,7 +12,7 @@ const RoleBasedRedirect = () => {
       case 'Guard':
         return <Navigate to="/guardhome" />;
       case 'Pathologist':
-        return <Navigate to="/pathologies" />;
+        return <Navigate to="/pathology" />;
       default:
         return <Navigate to="/" />;
     }

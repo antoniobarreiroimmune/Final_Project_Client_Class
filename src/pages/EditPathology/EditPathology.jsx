@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Textarea, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Textarea, Flex, Text, Switch } from '@chakra-ui/react';
 import pathologyService from '../../services/pathology.service';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 
@@ -33,7 +33,7 @@ function EditPathology() {
           setPathology(loadedPathology);
         } catch (error) {
           console.error('Error loading the pathology', error);
-          navigate('/PathologistHomePage');
+          navigate('/Pathology');
         }
       };
       loadPathology();
@@ -54,7 +54,7 @@ function EditPathology() {
     e.preventDefault();
     try {
       await pathologyService.updatePathology(id, pathology);
-      navigate('/PathologistHomePage');
+      navigate('/Pathology');
     } catch (error) {
       console.error('Error updating the pathology', error);
     }
@@ -93,19 +93,24 @@ function EditPathology() {
             <FormLabel>Informe del Procedimiento</FormLabel>
             <Text>{pathology.procedureReport || 'N/A'}</Text>
           </FormControl>
-          <FormControl display="flex" alignItems="center" justifyContent="space-between">
-            <FormLabel mb="0">Informe Patología Completado</FormLabel>
-            <Button id="pathologyCompleted" colorScheme={pathology.pathologyCompleted ? 'green' : 'red'} onClick={() => setPathology(prev => ({ ...prev, pathologyCompleted: !prev.pathologyCompleted }))}>
-              {pathology.pathologyCompleted ? 'Completado' : 'No Completado'}
-            </Button>
-          </FormControl>
+          <Text fontSize="md" fontWeight="semibold">Órgano Judicial: {pathology.judicialBody || 'N/A'}</Text>
+          <Text fontSize="md" fontWeight="semibold">Violencia de Género: {pathology.isGenderViolence ? 'Sí' : 'No'}</Text>
+          <Text fontSize="md" fontWeight="semibold">Violencia Doméstica: {pathology.isDomesticViolence ? 'Sí' : 'No'}</Text>
           <FormControl>
             <FormLabel htmlFor="pathologyReport">Informe de Patología</FormLabel>
             <Textarea id="pathologyReport" name="pathologyReport" value={pathology.pathologyReport || ''} onChange={handleChange} />
           </FormControl>
-          <Text fontSize="md" fontWeight="semibold">Órgano Judicial: {pathology.judicialBody || 'N/A'}</Text>
-          <Text fontSize="md" fontWeight="semibold">Violencia de Género: {pathology.isGenderViolence ? 'Sí' : 'No'}</Text>
-          <Text fontSize="md" fontWeight="semibold">Violencia Doméstica: {pathology.isDomesticViolence ? 'Sí' : 'No'}</Text>
+          <FormControl display="flex" alignItems="center" justifyContent="space-between">
+              <FormLabel htmlFor="pathologyCompleted" mb="0">
+                Informe de Patología Completado
+              </FormLabel>
+              <Switch id="pathologyCompleted"
+                colorScheme={pathology.pathologyCompleted ? 'green' : 'red'}
+                isChecked={pathology.pathologyCompleted}
+                onChange={() => setPathology(prev => ({ ...prev, pathologyCompleted: !prev.pathologyCompleted }))} />
+            </FormControl>
+          
+          
   
           <Button type="submit" colorScheme="blue">Actualizar Procedimiento</Button>
         </Flex>

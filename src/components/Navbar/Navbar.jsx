@@ -5,23 +5,23 @@ import AuthLink from "../AuthLink/AuthLink"
 import NavigationLink from "../NavigationLink/NavigationLink"
 import { useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
+import UserRole from "../UserRole/UserRole"
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext)
   const location = useLocation()
 
-  
+
   let NAVIGATION_LINK = [
-    { link: "/", text: "Inicio" },
-    { link: "/create", text: "Nuevo Procedimiento" },
+    { link: "/guardhome", text: "Procedimientos" },
+    { link: "/pathology", text: "Patologías" }
   ]
 
- 
+
   if (user?.role === "Guard") {
-    NAVIGATION_LINK = [...NAVIGATION_LINK, { link: "/guardhome", text: "Procedimientos" }]
-  } else if (user?.role === "Pathologist") {
-    NAVIGATION_LINK = [{ link: "/pathology", text: "Patologías" }, {link:"/guardhome", text:"Procedimientos"}]
+    NAVIGATION_LINK = [{ link: "/create", text: "Nuevo Procedimiento" }, ...NAVIGATION_LINK]
   }
+
 
   return (
     <Flex
@@ -51,15 +51,23 @@ const Navbar = () => {
         })}
       </Flex>
       <Flex gap={"20px"}>
+        {(
+          <>
+            <Text>{user.email}</Text>
+            <Text><UserRole role={user.role} /></Text>
+          </>
+        )}
+      </Flex>
+      <Flex gap={"20px"}>
         {user ? (
           <>
-            <AuthLink to={"/profile"}>Profile</AuthLink>
+
             <AuthLink onClick={logout}>Logout</AuthLink>
           </>
         ) : (
           <>
             <AuthLink to={"/login"}>Login</AuthLink>
-            <AuthLink to={"/signup"}>Signup</AuthLink>
+
           </>
         )}
       </Flex>
