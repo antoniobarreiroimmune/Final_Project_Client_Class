@@ -5,6 +5,7 @@ import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Title from '../../components/Title/Title';
 import proceduresService from '../../services/procedures.service';
 import { AuthContext } from '../../contexts/AuthContext'; 
+import { COLORS } from '../../theme';
 
 function GuardHomePage() {
   const [procedures, setProcedures] = useState([]);
@@ -88,7 +89,15 @@ function GuardHomePage() {
             </Thead>
             <Tbody>
               {filteredProcedures.map((procedure, index) => (
-                <Tr key={procedure._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'}onClick={() => handleRowClick(procedure)}style={{ cursor: 'pointer' }}>
+                <Tr key={procedure._id}
+                bg={index % 2 === 0 ? 'gray.200' : 'blue.200'}
+                onClick={() => handleRowClick(procedure)}
+                style={{ cursor: 'pointer' }}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: COLORS.ACCENT, 
+                  }
+                }}>
                   <Td textAlign="center">{procedure.name}</Td>
                   <Td textAlign="center">{procedure.firstName}</Td>
                   <Td textAlign="center">{procedure.lastName}</Td>

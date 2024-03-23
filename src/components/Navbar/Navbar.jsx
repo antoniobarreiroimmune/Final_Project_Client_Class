@@ -6,6 +6,7 @@ import NavigationLink from "../NavigationLink/NavigationLink"
 import { useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 import UserRole from "../UserRole/UserRole"
+import {COLORS} from "../../theme"
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext)
@@ -44,6 +45,9 @@ const Navbar = () => {
               key={text}
               textDecoration={isActiveLink ? "underline" : "none"}
               fontWeight={isActiveLink ? "bold" : "normal"}
+              backgroundColor={isActiveLink ? COLORS.ACCENT : "transparent"}
+              color={isActiveLink ? COLORS.WHITE : "black"}
+              borderRadius={"5px"}
             >
               <Text>{text}</Text>
             </NavigationLink>
