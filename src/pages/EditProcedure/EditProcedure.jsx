@@ -6,7 +6,6 @@ import PageWrapper from '../../components/PageWrapper/PageWrapper';
 
 function EditProcedure() {
   const { id } = useParams();
-  console.log("Procedure ID:", id);
   const location = useLocation();
   const navigate = useNavigate();
   const [procedure, setProcedure] = useState({

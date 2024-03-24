@@ -1,4 +1,5 @@
 export const JUDICIAL_BODY_OPTIONS = [
+  '',
   'Primera Instancia n1 A Coruña',
   'Primera Instancia n2 A Coruña',
   'Primera Instancia n3 A Coruña',

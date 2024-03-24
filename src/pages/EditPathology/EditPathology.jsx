@@ -3,10 +3,10 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, FormControl, FormLabel, Textarea, Flex, Text, Switch } from '@chakra-ui/react';
 import pathologyService from '../../services/pathology.service';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
+import authService from '../../services/auth.service';
 
 function EditPathology() {
   const { id } = useParams();
-  console.log("Pathology ID:", id);
   const location = useLocation();
   const navigate = useNavigate();
   const [pathology, setPathology] = useState({
@@ -22,15 +22,31 @@ function EditPathology() {
     updatedAt: '',
     isGenderViolence: false,
     isDomesticViolence: false,
-    judicialBody: ''
+    judicialBody: '',
+    pathologyId: '' 
   });
+
+  useEffect (() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const user = await authService.getUser(token);
+          setPathology(prev => ({ ...prev, pathologyId: user._id })); 
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     if (!location.state?.pathology) {
       const loadPathology = async () => {
         try {
           const loadedPathology = await pathologyService.getPathologyById(id);
-          setPathology(loadedPathology);
+          setPathology({ ...loadedPathology, pathologyId: pathology.pathologyId }); 
         } catch (error) {
           console.error('Error loading the pathology', error);
           navigate('/Pathology');
@@ -38,7 +54,7 @@ function EditPathology() {
       };
       loadPathology();
     } else {
-      setPathology(location.state.pathology);
+      setPathology({ ...location.state.pathology, pathologyId: pathology.pathologyId }); 
     }
   }, [id, location.state, navigate]);
 
@@ -53,12 +69,15 @@ function EditPathology() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await pathologyService.updatePathology(id, pathology);
+      await pathologyService.updatePathology(id, { ...pathology, pathologyId: pathology.pathologyId });
       navigate('/Pathology');
     } catch (error) {
       console.error('Error updating the pathology', error);
     }
   };
+
+
+
 
   return (
     <PageWrapper>
@@ -90,7 +109,7 @@ function EditPathology() {
             <Text>{pathology.observations || 'N/A'}</Text>
           </FormControl>
           <FormControl>
-            <FormLabel>Informe del Procedimiento</FormLabel>
+            <FormLabel>Informe del procedimiento</FormLabel>
             <Text>{pathology.procedureReport || 'N/A'}</Text>
           </FormControl>
           <Text fontSize="md" fontWeight="semibold">Órgano Judicial: {pathology.judicialBody || 'N/A'}</Text>

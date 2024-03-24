@@ -6,6 +6,7 @@ import {
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Title from '../../components/Title/Title';
 import PathologyService from '../../services/pathology.service';
+import { COLORS } from '../../theme';
 
 
 function PathologyHome() {
@@ -20,7 +21,7 @@ function PathologyHome() {
     PathologyService.getAllPathologies()
       .then(data => {
         setPathologies(data);
-        setFilteredPathologies(data); 
+        setFilteredPathologies(data);
         setError(null);
       })
       .catch(err => {
@@ -39,15 +40,15 @@ function PathologyHome() {
       pathology.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       pathology.dni.includes(searchTerm) ||
       pathology.location.toLowerCase().includes(searchTerm.toLowerCase())
-      
+
     );
     setFilteredPathologies(results);
   }, [searchTerm, pathologies]);
   const navigate = useNavigate();
 
-  
 
- const handleRowClick = (pathology) => {
+
+  const handleRowClick = (pathology) => {
     navigate(`/showPathology/${pathology._id}`, { state: { pathology } });
   };
 
@@ -55,7 +56,7 @@ function PathologyHome() {
     <PageWrapper>
       <Flex direction="column" align="center" mt="25vh" width="100%">
         <Title>Patología</Title>
-       
+
         <Input
           placeholder="Buscar procedimientos de patología..."
           value={searchTerm}
@@ -79,12 +80,12 @@ function PathologyHome() {
                 <Th textAlign="center">Patología Completado</Th>
                 <Th textAlign="center">Creado</Th>
                 <Th textAlign="center">Actualizado</Th>
-                
+
               </Tr>
             </Thead>
             <Tbody>
               {filteredPathologies.map((pathology, index) => (
-                <Tr key={pathology._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'} onClick={()=> handleRowClick(pathology)}style={{cursor:'pointer'}}>
+                <Tr key={pathology._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'} onClick={() => handleRowClick(pathology)} style={{ cursor: 'pointer' }}sx={{'&:hover':{backgroundColor: COLORS.ACCENT}}}>
                   <Td textAlign="center">{pathology.name}</Td>
                   <Td textAlign="center">{pathology.firstName}</Td>
                   <Td textAlign="center">{pathology.lastName}</Td>
@@ -98,7 +99,7 @@ function PathologyHome() {
                   <Td textAlign="center">{pathology.pathologyCompleted ? 'Sí' : 'No'}</Td>
                   <Td textAlign="center">{new Date(pathology.createdAt).toLocaleDateString()}</Td>
                   <Td textAlign="center">{new Date(pathology.updatedAt).toLocaleDateString()}</Td>
-                  
+
                 </Tr>
               ))}
             </Tbody>
