@@ -1,27 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Text, VStack, HStack, Grid, GridItem, Textarea, Button } from '@chakra-ui/react';
 import { AuthContext } from '../../contexts/AuthContext';
-import UserService from '../../services/users.service';
+import PageWrapper from '../../components/PageWrapper/PageWrapper';
 
 function ShowProcedure() {
   const { state } = useLocation();
   const procedure = state?.procedure;
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  const [guardInfo, setGuardInfo] = useState(null);
-
-  useEffect(() => {
-    if (procedure && procedure.guardId) {
-      UserService.getUserById(procedure.guardId)
-        .then(data => {
-          setGuardInfo(data);
-        })
-        .catch(error => {
-          console.error('Error fetching user data:', error);
-        });
-    }
-  }, [procedure]);
 
   const handleEdit = () => {
     navigate(`/editprocedure/${procedure?._id}`, { state: { procedure } });
@@ -36,17 +23,19 @@ function ShowProcedure() {
   }
 
   return (
-    <Box maxW="80%" margin="auto" mt={5}>
-    {guardInfo && (
-      <Box mt={5}>
-      <Text fontSize="2xl" fontWeight="bold">Procedimiento iniciado por:</Text>
-      <Text><strong>Nombre:</strong> {guardInfo.username}</Text>
-      <Text><strong>Email:</strong> {guardInfo.email}</Text>
-      </Box>
+    <PageWrapper>
+    <Box maxW="80%" margin="auto" >
+      {procedure?.guardInfo && (
+        <Box mt={5}>
+          <Text fontSize="2xl" fontWeight="bold">Procedimiento iniciado por:</Text>
+          <Text><strong>Nombre:</strong> {procedure.guardInfo.name}</Text>
+          <Text><strong>Primer nombre:</strong> {procedure.guardInfo.firstName}</Text>
+          <Text><strong>Apellido:</strong> {procedure.guardInfo.lastName}</Text>
+          <Text><strong>Email:</strong> {procedure.guardInfo.email}</Text>
+        </Box>
       )}
 
-
-            <VStack align="stretch" spacing={4}>
+      <VStack align="stretch" spacing={4}>
         <Text fontSize="2xl" fontWeight="bold">Procedimiento</Text>
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>
           <GridItem colSpan={1}><Text><strong>Nombre:</strong> {procedure.name}</Text></GridItem>
@@ -70,15 +59,14 @@ function ShowProcedure() {
         <HStack justify="space-between">
           <Text><strong>Fecha de creación:</strong> {new Date(procedure.createdAt).toLocaleDateString()}</Text>
           <Text><strong>Fecha de actualización:</strong> {new Date(procedure.updatedAt).toLocaleDateString()}</Text>
+          <Text><strong>Procedimiento completado:</strong> {procedure.procedureCompleted ? 'Sí' : 'No'}</Text>
         </HStack>
-        <Text><strong>Procedimiento completado:</strong> {procedure.procedureCompleted ? 'Sí' : 'No'}</Text>
-        {user && user.role === 'Guard' && (
-          <Button size="sm" onClick={handleEdit}>Editar</Button>
-        )}
-
-
+        {user && user.role === 'Guard' && !procedure.procedureCompleted && (
+  <Button size="sm" onClick={handleEdit}>Editar</Button>
+)}
       </VStack>
     </Box>
+    </PageWrapper>
   );
 }
 

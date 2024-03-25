@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Flex, Button, Box } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom'; 
 import { FormInput, FormSwitch, FormSelect } from '../../components/FormControls/FormControls';
 import proceduresService from "../../services/procedures.service";
 import authService from "../../services/auth.service";
@@ -19,7 +20,15 @@ function CreateProcedurePage() {
     judicialBody: '',
     procedureReport: "",
   });
-  const [guardId, setUserId] = useState(null);
+  const [userInfo, setUserInfo] = useState({
+    guardId: null,
+    name: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
+  
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -27,7 +36,13 @@ function CreateProcedurePage() {
       if (token) {
         try {
           const user = await authService.getUser(token);
-          setUserId(user._id); 
+          setUserInfo({
+            guardId: user._id,
+            name: user.name, 
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email, 
+          });
         } catch (error) {
           console.error('Error fetching user data:', error);
         }
@@ -35,7 +50,7 @@ function CreateProcedurePage() {
     };
     fetchUserData();
   }, []);
-
+  
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
     setProcedureData(prevState => ({
@@ -46,12 +61,18 @@ function CreateProcedurePage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const procedureDataWithUserId = {
+    const procedureDataWithUserInfo = {
       ...procedureData,
-      guardId, 
+      guardInfo: {
+        guardId: userInfo.guardId,
+        name: userInfo.name,
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        email: userInfo.email,
+      },
     };
     try {
-      await proceduresService.createProcedure(procedureDataWithUserId);
+      await proceduresService.createProcedure(procedureDataWithUserInfo);
       setProcedureData({
         name: "",
         firstName: "",
@@ -63,7 +84,8 @@ function CreateProcedurePage() {
         isDomesticViolence: false,
         judicialBody: '',
         procedureReport: "",
-      }); 
+      });
+      navigate('/guardhome'); 
     } catch (err) {
       console.error('Error creating procedure:', err);
     }

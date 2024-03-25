@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Flex, Box, Input, Table, Thead, Tbody, Tr, Th, Td, Button
+  Flex, Box, Input, Table, Thead, Tbody, Tr, Th, Td, 
 } from '@chakra-ui/react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Title from '../../components/Title/Title';
@@ -13,7 +13,7 @@ function PathologyHome() {
   const [pathologies, setPathologies] = useState([]);
   const [filteredPathologies, setFilteredPathologies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -76,7 +76,6 @@ function PathologyHome() {
                 <Th textAlign="center">Violencia de Género</Th>
                 <Th textAlign="center">Violencia Doméstica</Th>
                 <Th textAlign="center">Órgano Judicial</Th>
-                <Th textAlign="center">Informe del Procedimiento</Th>
                 <Th textAlign="center">Patología Completado</Th>
                 <Th textAlign="center">Creado</Th>
                 <Th textAlign="center">Actualizado</Th>
@@ -85,7 +84,7 @@ function PathologyHome() {
             </Thead>
             <Tbody>
               {filteredPathologies.map((pathology, index) => (
-                <Tr key={pathology._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'} onClick={() => handleRowClick(pathology)} style={{ cursor: 'pointer' }}sx={{'&:hover':{backgroundColor: COLORS.ACCENT}}}>
+                <Tr key={pathology._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'} onClick={() => handleRowClick(pathology)} style={{ cursor: 'pointer' }} sx={{ '&:hover': { backgroundColor: COLORS.ACCENT } }}>
                   <Td textAlign="center">{pathology.name}</Td>
                   <Td textAlign="center">{pathology.firstName}</Td>
                   <Td textAlign="center">{pathology.lastName}</Td>
@@ -95,7 +94,6 @@ function PathologyHome() {
                   <Td textAlign="center">{pathology.isGenderViolence ? 'Sí' : 'No'}</Td>
                   <Td textAlign="center">{pathology.isDomesticViolence ? 'Sí' : 'No'}</Td>
                   <Td textAlign="center">{pathology.judicialBody}</Td>
-                  <Td textAlign="center">{pathology.procedureReport}</Td>
                   <Td textAlign="center">{pathology.pathologyCompleted ? 'Sí' : 'No'}</Td>
                   <Td textAlign="center">{new Date(pathology.createdAt).toLocaleDateString()}</Td>
                   <Td textAlign="center">{new Date(pathology.updatedAt).toLocaleDateString()}</Td>

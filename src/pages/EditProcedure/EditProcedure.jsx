@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Input, Textarea, Flex, Text, Switch } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Grid, GridItem, Input, Textarea, Text, Switch } from '@chakra-ui/react';
 import proceduresService from '../../services/procedures.service';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 
@@ -62,57 +62,88 @@ function EditProcedure() {
 
   return (
     <PageWrapper>
-      <Box p={4}>
+      <Box maxW="80%" margin="auto" p={4}>
         <form onSubmit={handleSubmit}>
-          <Flex direction="column" gap="4">
-            <FormControl>
-              <FormLabel htmlFor="name">Nombre</FormLabel>
-              <Input id="name" name="name" value={procedure.name || ''} onChange={handleChange} />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="firstName">Primer apellido</FormLabel>
-              <Input id="firstName" name="firstName" value={procedure.firstName || ''} onChange={handleChange} />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="lastName">Segundo apellido</FormLabel>
-              <Input id="lastName" name="lastName" value={procedure.lastName || ''} onChange={handleChange} />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="dni">DNI</FormLabel>
-              <Input id="dni" name="dni" value={procedure.dni || ''} onChange={handleChange} />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="location">Ubicación</FormLabel>
-              <Input id="location" name="location" value={procedure.location || ''} onChange={handleChange} />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="observations">Observaciones</FormLabel>
-              <Textarea id="observations" name="observations" value={procedure.observations || ''} onChange={handleChange} />
-            </FormControl>
-            <Text fontSize="md" fontWeight="semibold">Órgano Judicial: {procedure.judicialBody || 'N/A'}</Text>
-            <Text fontSize="md" fontWeight="semibold">Violencia de Género: {procedure.isGenderViolence ? 'Sí' : 'No'}</Text>
-            <Text fontSize="md" fontWeight="semibold">Violencia Doméstica: {procedure.isDomesticViolence ? 'Sí' : 'No'}</Text>
-            <FormControl>
-              <FormLabel htmlFor="procedureReport">Informe del Procedimiento</FormLabel>
-              <Textarea id="procedureReport" name="procedureReport" value={procedure.procedureReport || ''} onChange={handleChange} />
-            </FormControl>
-            <FormControl display="flex" alignItems="center" justifyContent="space-between">
-              <FormLabel htmlFor="procedureCompleted" mb="0">
-                Procedimiento Completado
-              </FormLabel>
-              <Switch id="procedureCompleted"
-                colorScheme={procedure.procedureCompleted ? 'green' : 'red'}
-                isChecked={procedure.procedureCompleted}
-                onChange={() => setProcedure(prev => ({ ...prev, procedureCompleted: !prev.procedureCompleted }))} />
-            </FormControl>
+          <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel htmlFor="name">Nombre</FormLabel>
+                <Input id="name" name="name" value={procedure.name || ''} onChange={handleChange} />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={1}>
+              <FormControl>
+                <FormLabel htmlFor="firstName">Primer apellido</FormLabel>
+                <Input id="firstName" name="firstName" value={procedure.firstName || ''} onChange={handleChange} />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={1}>
+              <FormControl>
+                <FormLabel htmlFor="lastName">Segundo apellido</FormLabel>
+                <Input id="lastName" name="lastName" value={procedure.lastName || ''} onChange={handleChange} />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={1}>
+              <FormControl>
+                <FormLabel htmlFor="dni">DNI</FormLabel>
+                <Input id="dni" name="dni" value={procedure.dni || ''} onChange={handleChange} readOnly />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel htmlFor="location">Ubicación</FormLabel>
+                <Input id="location" name="location" value={procedure.location || ''} onChange={handleChange} />
+              </FormControl>
+            </GridItem>
+            
+            <GridItem colSpan={4}>
+              <FormControl>
+                <FormLabel htmlFor="observations">Observaciones</FormLabel>
+                <Textarea id="observations" name="observations" value={procedure.observations || ''} onChange={handleChange} />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={2}>
+              <Text fontSize="md" fontWeight="semibold">Órgano Judicial: {procedure.judicialBody || 'N/A'}</Text>
+            </GridItem>
+            <GridItem colSpan={1}>
+              <Text fontSize="md" fontWeight="semibold">Violencia de Género: {procedure.isGenderViolence ? 'Sí' : 'No'}</Text>
+            </GridItem>
+            <GridItem colSpan={1}>
+              <Text fontSize="md" fontWeight="semibold">Violencia Doméstica: {procedure.isDomesticViolence ? 'Sí' : 'No'}</Text>
+            </GridItem>
+            <GridItem colSpan={6}>
+              <FormControl>
+                <FormLabel htmlFor="procedureReport">Informe del Procedimiento</FormLabel>
+                <Textarea
+                  id="procedureReport"
+                  name="procedureReport"
+                  value={procedure.procedureReport || ''}
+                  onChange={handleChange}
+                  style={{ minHeight: '200px' }}
+                />
+              </FormControl>
+            </GridItem>
 
-
-
-            <Button type="submit" colorScheme="blue">Actualizar Procedimiento</Button>
-          </Flex>
+            <GridItem colSpan={2}>
+              <FormControl display="flex" alignItems="center">
+                <FormLabel htmlFor="procedureCompleted" mb="0">
+                  Procedimiento Completado
+                </FormLabel>
+                <Switch id="procedureCompleted"
+                  colorScheme={procedure.procedureCompleted ? 'green' : 'red'}
+                  isChecked={procedure.procedureCompleted}
+                  onChange={() => setProcedure(prev => ({ ...prev, procedureCompleted: !prev.procedureCompleted }))} />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={2}>
+              <Button type="submit" colorScheme="blue">Actualizar Procedimiento</Button>
+            </GridItem>
+          </Grid>
         </form>
       </Box>
     </PageWrapper>
+
+
   );
 }
 

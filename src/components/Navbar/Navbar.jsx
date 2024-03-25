@@ -15,7 +15,8 @@ const Navbar = () => {
 
   let NAVIGATION_LINK = [
     { link: "/guardhome", text: "Procedimientos" },
-    { link: "/pathology", text: "Patologías" }
+    { link: "/pathology", text: "Patologías" },
+    { link: "/finalreport", text: "Informe Final"}
   ]
 
 

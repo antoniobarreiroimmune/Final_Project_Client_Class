@@ -10,6 +10,7 @@ function ShowPathology() {
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
 
+
     if (!pathology) {
         return (
             <div>
@@ -92,7 +93,7 @@ function ShowPathology() {
                     {pathology.pathologyCompleted ? "Sí" : "No"}
                 </Text>
 
-                {user && user.role === "Pathologist" && (
+                {user && user.role === "Pathologist" && !pathology.pathologyCompleted && (
                     <Button size="sm" onClick={() => handleEdit(pathology)}>
                         Editar
                     </Button>

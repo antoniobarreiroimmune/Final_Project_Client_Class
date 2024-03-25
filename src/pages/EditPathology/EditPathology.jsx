@@ -9,6 +9,7 @@ function EditPathology() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+
   const [pathology, setPathology] = useState({
     name: '',
     firstName: '',
@@ -18,126 +19,123 @@ function EditPathology() {
     observations: '',
     procedureReport: '',
     pathologyCompleted: false, 
-    createdAt: '',
-    updatedAt: '',
-    isGenderViolence: false,
-    isDomesticViolence: false,
     judicialBody: '',
-    pathologyId: '' 
+    pathologyInfo: {} 
   });
 
-  useEffect (() => {
+  const [userInfo, setUserInfo] = useState({
+    userId: '',
+    name: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+  });
+
+  useEffect(() => {
+    const fetchPathology = async () => {
+      try {
+        let loadedPathology = null;
+        if (!location.state?.pathology) {
+          loadedPathology = await pathologyService.getPathologyById(id);
+        } else {
+          loadedPathology = location.state.pathology;
+        }
+        setPathology(loadedPathology);
+      } catch (error) {
+        console.error('Error loading the pathology:', error);
+        navigate('/Pathology');
+      }
+    };
+
     const fetchUserData = async () => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
           const user = await authService.getUser(token);
-          setPathology(prev => ({ ...prev, pathologyId: user._id })); 
+          setUserInfo({
+            userId: user._id,
+            name: user.name,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+          }); 
         } catch (error) {
           console.error('Error fetching user data:', error);
         }
       }
     };
-    fetchUserData();
-  }, []);
 
-  useEffect(() => {
-    if (!location.state?.pathology) {
-      const loadPathology = async () => {
-        try {
-          const loadedPathology = await pathologyService.getPathologyById(id);
-          setPathology({ ...loadedPathology, pathologyId: pathology.pathologyId }); 
-        } catch (error) {
-          console.error('Error loading the pathology', error);
-          navigate('/Pathology');
-        }
-      };
-      loadPathology();
-    } else {
-      setPathology({ ...location.state.pathology, pathologyId: pathology.pathologyId }); 
-    }
+    fetchPathology();
+    fetchUserData();
   }, [id, location.state, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setPathology(prev => ({
-      ...prev,
+    setPathology(prevPathology => ({
+      ...prevPathology,
       [name]: value
+    }));
+  };
+
+  const handleSwitchChange = () => {
+    setPathology(prevPathology => ({
+      ...prevPathology,
+      pathologyCompleted: !prevPathology.pathologyCompleted
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await pathologyService.updatePathology(id, { ...pathology, pathologyId: pathology.pathologyId });
+      const updatedPathology = {
+        ...pathology,
+        pathologyInfo: {
+          pathologyId: userInfo.userId,
+          name: userInfo.name,
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+          email: userInfo.email
+        }
+      };
+      await pathologyService.updatePathology(id, updatedPathology);
       navigate('/Pathology');
     } catch (error) {
-      console.error('Error updating the pathology', error);
+      console.error('Error updating the pathology:', error);
     }
   };
 
-
-
-
   return (
     <PageWrapper>
-    <Box p={4}>
-      <form onSubmit={handleSubmit}>
-        <Flex direction="column" gap="4">
-          <FormControl>
-            <FormLabel>Nombre</FormLabel>
-            <Text>{pathology.name || 'N/A'}</Text>
-          </FormControl>
-          <FormControl>
-            <FormLabel>Primer apellido</FormLabel>
-            <Text>{pathology.firstName || 'N/A'}</Text>
-          </FormControl>
-          <FormControl>
-            <FormLabel>Segundo apellido</FormLabel>
-            <Text>{pathology.lastName || 'N/A'}</Text>
-          </FormControl>
-          <FormControl>
-            <FormLabel>DNI</FormLabel>
-            <Text>{pathology.dni || 'N/A'}</Text>
-          </FormControl>
-          <FormControl>
-            <FormLabel>Ubicación</FormLabel>
-            <Text>{pathology.location || 'N/A'}</Text>
-          </FormControl>
-          <FormControl>
-            <FormLabel>Observaciones</FormLabel>
-            <Text>{pathology.observations || 'N/A'}</Text>
-          </FormControl>
-          <FormControl>
-            <FormLabel>Informe del procedimiento</FormLabel>
-            <Text>{pathology.procedureReport || 'N/A'}</Text>
-          </FormControl>
-          <Text fontSize="md" fontWeight="semibold">Órgano Judicial: {pathology.judicialBody || 'N/A'}</Text>
-          <Text fontSize="md" fontWeight="semibold">Violencia de Género: {pathology.isGenderViolence ? 'Sí' : 'No'}</Text>
-          <Text fontSize="md" fontWeight="semibold">Violencia Doméstica: {pathology.isDomesticViolence ? 'Sí' : 'No'}</Text>
-          <FormControl>
-            <FormLabel htmlFor="pathologyReport">Informe de Patología</FormLabel>
-            <Textarea id="pathologyReport" name="pathologyReport" value={pathology.pathologyReport || ''} onChange={handleChange} />
-          </FormControl>
-          <FormControl display="flex" alignItems="center" justifyContent="space-between">
+      <Box p={4}>
+        <form onSubmit={handleSubmit}>
+          <Flex direction="column" gap="4">
+            <FormControl>
+              <FormLabel>Informe de Patología</FormLabel>
+              <Textarea
+                id="pathologyReport"
+                name="pathologyReport"
+                value={pathology.pathologyReport}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl display="flex" alignItems="center" justifyContent="space-between">
               <FormLabel htmlFor="pathologyCompleted" mb="0">
                 Informe de Patología Completado
               </FormLabel>
-              <Switch id="pathologyCompleted"
+              <Switch
+                id="pathologyCompleted"
                 colorScheme={pathology.pathologyCompleted ? 'green' : 'red'}
                 isChecked={pathology.pathologyCompleted}
-                onChange={() => setPathology(prev => ({ ...prev, pathologyCompleted: !prev.pathologyCompleted }))} />
+                onChange={handleSwitchChange}
+              />
             </FormControl>
-          
-          
-  
-          <Button type="submit" colorScheme="blue">Actualizar Procedimiento</Button>
-        </Flex>
-      </form>
-    </Box>
-  </PageWrapper>
-  
-
+            <Button type="submit" colorScheme="blue">
+              Actualizar Procedimiento
+            </Button>
+          </Flex>
+        </form>
+      </Box>
+    </PageWrapper>
   );
 }
 

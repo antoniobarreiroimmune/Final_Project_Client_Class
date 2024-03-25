@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import { useNavigate } from 'react-router-dom';
-import { Flex, Table, Thead, Tbody, Tr, Th, Td, Box, Button, Alert, AlertIcon, AlertTitle, AlertDescription, Input } from '@chakra-ui/react';
+import { Flex, Table, Thead, Tbody, Tr, Th, Td, Box, Alert, AlertIcon, AlertTitle, AlertDescription, Input } from '@chakra-ui/react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Title from '../../components/Title/Title';
 import proceduresService from '../../services/procedures.service';
-import { AuthContext } from '../../contexts/AuthContext'; 
 import { COLORS } from '../../theme';
+
 
 function GuardHomePage() {
   const [procedures, setProcedures] = useState([]);
@@ -14,8 +14,8 @@ function GuardHomePage() {
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-
-  const { user } = useContext(AuthContext); 
+  
+ 
 
   useEffect(() => {
     const loadProcedures = async () => {
@@ -80,7 +80,6 @@ function GuardHomePage() {
                 <Th textAlign="center">Violencia de Género</Th>
                 <Th textAlign="center">Violencia Doméstica</Th>
                 <Th textAlign="center">Órgano Judicial</Th>
-                <Th textAlign="center">Informe del Procedimiento</Th>
                 <Th textAlign="center">Procedimiento Completado</Th>
                 <Th textAlign="center">Creado</Th>
                 <Th textAlign="center">Actualizado</Th>
@@ -107,7 +106,6 @@ function GuardHomePage() {
                   <Td textAlign="center">{procedure.isGenderViolence ? 'Sí' : 'No'}</Td>
                   <Td textAlign="center">{procedure.isDomesticViolence ? 'Sí' : 'No'}</Td>
                   <Td textAlign="center">{procedure.judicialBody}</Td>
-                  <Td textAlign="center">{procedure.procedureReport}</Td>
                   <Td textAlign="center">{procedure.procedureCompleted ? 'Sí' : 'No'}</Td>
                   <Td textAlign="center">{new Date(procedure.createdAt).toLocaleDateString()}</Td>
                   <Td textAlign="center">{new Date(procedure.updatedAt).toLocaleDateString()}</Td>

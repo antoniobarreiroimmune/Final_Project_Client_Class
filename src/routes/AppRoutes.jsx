@@ -11,6 +11,7 @@ import PathologyHomePage from "../pages/PathologyHomePage/PathologyHomePage";
 import EditPathology from "../pages/EditPathology/EditPathology";
 import ShowProcedure from "../pages/ShowProcedure/ShowProcedure";
 import ShowPathology from "../pages/ShowPathology/ShowPathology";
+import FinalReport from "../pages/FinalReportPage/FinalReportpage";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -54,6 +55,10 @@ const AppRoutes = () => {
         {
           path: "editPathology/:id",
           element: <EditPathology />,
+        },
+        {
+          path:"finalreport",
+          element: <FinalReport />,
         },
         {
           path: "profile",
