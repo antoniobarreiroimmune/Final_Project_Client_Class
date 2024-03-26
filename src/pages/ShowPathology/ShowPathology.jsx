@@ -3,6 +3,7 @@ import { Box, Text, VStack, HStack, Grid, GridItem, Textarea, Button } from "@ch
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
+import PageWrapper from "../../components/PageWrapper/PageWrapper";
 
 function ShowPathology() {
     const { state } = useLocation();
@@ -24,7 +25,17 @@ function ShowPathology() {
     };
 
     return (
+        <PageWrapper>
         <Box maxW="80%" margin="auto" mt={5}>
+        {pathology?.guardInfo && (
+        <Box mt={5}>
+          <Text fontSize="2xl" fontWeight="bold">Procedimiento iniciado por:</Text>
+          <Text><strong>Nombre:</strong> {pathology.guardInfo.name}</Text>
+          <Text><strong>Primer nombre:</strong> {pathology.guardInfo.firstName}</Text>
+          <Text><strong>Apellido:</strong> {pathology.guardInfo.lastName}</Text>
+          <Text><strong>Email:</strong> {pathology.guardInfo.email}</Text>
+        </Box>
+      )}
             <VStack align="stretch" spacing={4}>
                 <Text fontSize="2xl" fontWeight="bold">
                     Patología
@@ -100,6 +111,7 @@ function ShowPathology() {
                 )}
             </VStack>
         </Box>
+        </PageWrapper>
     );
 }
 
