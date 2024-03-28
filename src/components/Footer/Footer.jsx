@@ -8,7 +8,7 @@ const Footer = () => {
   const ICONS = [
     {
       component: <GithubIcon />,
-      link: "#",
+      link: "https://github.com/antoniobarreiroimmune",
       id: 1,
     },
     {

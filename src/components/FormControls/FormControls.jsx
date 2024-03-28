@@ -2,13 +2,13 @@ import React from 'react';
 import { FormControl, FormLabel, Input, Textarea, Switch, Select } from '@chakra-ui/react';
 
 
-export const FormInput = ({ label, value, onChange, isTextArea = false, ...props }) => (
-  <FormControl>
-    <FormLabel>{label}</FormLabel>
+export const FormInput = ({ label, value, onChange, isTextArea = false, mb, ...props }) => (
+  <FormControl >
+    <FormLabel mb={mb}>{label}</FormLabel>
     {isTextArea ? (
-      <Textarea value={value} onChange={onChange} {...props} />
+      <Textarea value={value} onChange={onChange} {...props}  />
     ) : (
-      <Input value={value} onChange={onChange} {...props} />
+      <Input value={value} onChange={onChange} {...props}   />
     )}
   </FormControl>
 );

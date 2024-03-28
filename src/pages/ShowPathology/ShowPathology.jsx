@@ -24,6 +24,11 @@ function ShowPathology() {
         navigate(`/editpathology/${pathology._id}`, { state: { pathology } });
     };
 
+    const showEditButton = (
+        user && user.role === "Pathologist" && !pathology.pathologyCompleted && (
+            !pathology.pathologyInfo || pathology.pathologyInfo.pathologyId === user._id
+        )
+    );
     return (
         <PageWrapper>
         <Box maxW="80%" margin="auto" mt={5}>
@@ -104,7 +109,7 @@ function ShowPathology() {
                     {pathology.pathologyCompleted ? "Sí" : "No"}
                 </Text>
 
-                {user && user.role === "Pathologist" && !pathology.pathologyCompleted && (
+                {showEditButton && (
                     <Button size="sm" onClick={() => handleEdit(pathology)}>
                         Editar
                     </Button>

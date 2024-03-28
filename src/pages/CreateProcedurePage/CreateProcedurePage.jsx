@@ -97,7 +97,7 @@ function CreateProcedurePage() {
         <form onSubmit={onSubmit}>
           <Flex direction="column" gap="4">
             <Flex direction="row" gap="4">
-              <FormInput label="Nombre" value={procedureData.name} onChange={onChange} name="name" />
+              <FormInput label="Nombre" value={procedureData.name} onChange={onChange} name="name" mb={{ base: '8', sm:'2'}} />
               <FormInput label="Primer Apellido" value={procedureData.firstName} onChange={onChange} name="firstName" />
               <FormInput label="Segundo Apellido" value={procedureData.lastName} onChange={onChange} name="lastName" />
             </Flex>

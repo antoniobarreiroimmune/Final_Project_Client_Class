@@ -52,71 +52,70 @@ function GuardHomePage() {
 
   return (
     <PageWrapper>
-      <Flex direction="column" align="center" mt="25vh" width="100%">
-        <Title>Procedimientos</Title>
-        {showError && (
-          <Alert status="error" mb={4}>
-            <AlertIcon />
-            <AlertTitle mr={2}>Error:</AlertTitle>
-            <AlertDescription>{errorMessage}</AlertDescription>
-          </Alert>
-        )}
-        <Input
-          placeholder="Buscar procedimientos..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          my="4"
-        />
-        <Box width="100%" overflowX="auto">
-          <Table variant="simple" size="sm">
-            <Thead>
-              <Tr>
-                <Th textAlign="center">Nombre</Th>
-                <Th textAlign="center">Primer apellido</Th>
-                <Th textAlign="center">Segundo apellido</Th>
-                <Th textAlign="center">DNI</Th>
-                <Th textAlign="center">Ubicación</Th>
-                <Th textAlign="center">Observaciones</Th>
-                <Th textAlign="center">Violencia de Género</Th>
-                <Th textAlign="center">Violencia Doméstica</Th>
-                <Th textAlign="center">Órgano Judicial</Th>
-                <Th textAlign="center">Procedimiento Completado</Th>
-                <Th textAlign="center">Creado</Th>
-                <Th textAlign="center">Actualizado</Th>
-                
-              </Tr>
-            </Thead>
-            <Tbody>
-              {filteredProcedures.map((procedure, index) => (
-                <Tr key={procedure._id}
+    <Flex direction="column" align="center" mt={{ base: '10vh', md: '25vh' }} width="100%">
+      <Title>Procedimientos</Title>
+      {showError && (
+        <Alert status="error" mb={4}>
+          <AlertIcon />
+          <AlertTitle mr={2}>Error:</AlertTitle>
+          <AlertDescription>{errorMessage}</AlertDescription>
+        </Alert>
+      )}
+      <Input
+        placeholder="Buscar procedimientos..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        my="4"
+        width={{ base: '90%', sm: '80%', md: '50%' }}
+      />
+      <Box width="100%" overflowX="auto">
+        <Table variant="simple" size="sm">
+          <Thead>
+            <Tr>
+              <Th isNumeric={false} textAlign="center">Nombre</Th>
+              <Th isNumeric={false} textAlign="center">Primer apellido</Th>
+              <Th isNumeric={false} textAlign="center">Segundo apellido</Th>
+              <Th isNumeric={false} textAlign="center">DNI</Th>
+              <Th isNumeric={false} textAlign="center">Ubicación</Th>
+              <Th isNumeric={false} textAlign="center">Observaciones</Th>
+              <Th isNumeric={false} textAlign="center">Violencia de Género</Th>
+              <Th isNumeric={false} textAlign="center">Violencia Doméstica</Th>
+              <Th isNumeric={false} textAlign="center">Órgano Judicial</Th>
+              <Th isNumeric={false} textAlign="center">Procedimiento Completado</Th>
+              <Th isNumeric={false} textAlign="center">Creado</Th>
+              <Th isNumeric={false} textAlign="center">Actualizado</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {filteredProcedures.map((procedure, index) => (
+              <Tr key={procedure._id}
                 bg={index % 2 === 0 ? 'gray.200' : 'blue.200'}
                 onClick={() => handleRowClick(procedure)}
                 style={{ cursor: 'pointer' }}
                 sx={{
                   '&:hover': {
-                    backgroundColor: COLORS.ACCENT, 
+                    backgroundColor: COLORS.ACCENT,
                   }
                 }}>
-                  <Td textAlign="center">{procedure.name}</Td>
-                  <Td textAlign="center">{procedure.firstName}</Td>
-                  <Td textAlign="center">{procedure.lastName}</Td>
-                  <Td textAlign="center">{procedure.dni}</Td>
-                  <Td textAlign="center">{procedure.location}</Td>
-                  <Td textAlign="center">{procedure.observations}</Td>
-                  <Td textAlign="center">{procedure.isGenderViolence ? 'Sí' : 'No'}</Td>
-                  <Td textAlign="center">{procedure.isDomesticViolence ? 'Sí' : 'No'}</Td>
-                  <Td textAlign="center">{procedure.judicialBody}</Td>
-                  <Td textAlign="center">{procedure.procedureCompleted ? 'Sí' : 'No'}</Td>
-                  <Td textAlign="center">{new Date(procedure.createdAt).toLocaleDateString()}</Td>
-                  <Td textAlign="center">{new Date(procedure.updatedAt).toLocaleDateString()}</Td>
-                 
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </Box>
-      </Flex>
-    </PageWrapper>
+                <Td textAlign="center">{procedure.name}</Td>
+                <Td textAlign="center">{procedure.firstName}</Td>
+                <Td textAlign="center">{procedure.lastName}</Td>
+                <Td textAlign="center">{procedure.dni}</Td>
+                <Td textAlign="center">{procedure.location}</Td>
+                <Td textAlign="center">{procedure.observations}</Td>
+                <Td textAlign="center">{procedure.isGenderViolence ? 'Sí' : 'No'}</Td>
+                <Td textAlign="center">{procedure.isDomesticViolence ? 'Sí' : 'No'}</Td>
+                <Td textAlign="center">{procedure.judicialBody}</Td>
+                <Td textAlign="center">{procedure.procedureCompleted ? 'Sí' : 'No'}</Td>
+                <Td textAlign="center">{new Date(procedure.createdAt).toLocaleDateString()}</Td>
+                <Td textAlign="center">{new Date(procedure.updatedAt).toLocaleDateString()}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Box>
+    </Flex>
+  </PageWrapper>
   );
 }
 
