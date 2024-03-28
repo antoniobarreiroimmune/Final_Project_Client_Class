@@ -27,14 +27,14 @@ const Navbar = () => {
   return (
     <Flex
       as="nav"
-      padding={{ base: "12px", md: "34px 80px", xl: "34px 120px" }}
-      justifyContent={"space-between"}
+      padding={{ base: "12px", md: "34px 80px", xl: "20px 60px" }}
+      
       alignItems={"center"}
       wrap="wrap"
       bg={COLORS.PRIMARY}
       color="white"
     >
-      <Flex align="center" mr={5}>
+      <Flex align="center" mr={100}>
         <CustomLink to="/">
           <Text fontSize={{ base: "24px", md: "40px", xl: "48px" }}>
             Libro de Autopsias
@@ -50,17 +50,19 @@ const Navbar = () => {
         />
       </Box>
 
-      
+
       <Flex
-        display={{ base: isOpen ? "block" : "none", xl: "flex" }} 
+        display={{ base: isOpen ? "block" : "none", xl: "flex" }}
         width={{ base: "full", xl: "auto" }}
         flexGrow={1}
         alignItems="center"
       >
         <Flex
-          direction={{ base: "column", xl: "row" }} 
-          justifyContent={{ base: "center", xl: "space-between" }} 
+          direction={{ base: "column", xl: "row" }}
+          justifyContent={{ base: "center", xl: "space-around" }}
           width="100%"
+        
+       
         >
           {NAVIGATION_LINK.map(({ link, text }) => {
             const isActiveLink = location.pathname === link;
@@ -71,10 +73,11 @@ const Navbar = () => {
                 textDecoration={isActiveLink ? "underline" : "none"}
                 fontWeight={isActiveLink ? "bold" : "normal"}
                 backgroundColor={isActiveLink ? COLORS.ACCENT : "transparent"}
-                color={isActiveLink ? COLORS.WHITE : "black"}
+                color={isActiveLink ? COLORS.WHITE : "grey"}
                 borderRadius="5px"
-                padding="8px"
-                m="2"
+                padding="2"
+                margin="1"
+               
               >
                 <Text fontSize={{ base: "sm", md: "md", xl: "lg" }}>
                   {text}
@@ -84,24 +87,26 @@ const Navbar = () => {
           })}
         </Flex>
       </Flex>
+      <Flex>
 
-      <Box
-        display={{ base: isOpen ? "none" : "flex", xl: "flex" }}
-        mt={{ base: 4, md: 0 }}
-        alignItems="center"
-      >
-        {user ? (
-          <>
-            <Box display={{ base: "none", xl: "block" }}>
-              <Text>{user.email}</Text>
-              <UserRole role={user.role} />
-            </Box>
-            <AuthLink onClick={logout}>Logout</AuthLink>
-          </>
-        ) : (
-          <AuthLink to={"/login"}>Login</AuthLink>
-        )}
-      </Box>
+        <Box
+          display={{ base: isOpen ? "none" : "flex", xl: "flex" }}
+          mt={{ base: 4, md: 0 }}
+          alignItems="center"
+        >
+          {user ? (
+            <>
+              <Box display={{ base: "none", xl: "block" }}>
+                <Text>{user.email}</Text>
+                <UserRole role={user.role} />
+              </Box>
+              <AuthLink onClick={logout}>Logout</AuthLink>
+            </>
+          ) : (
+            <AuthLink to={"/login"}>Login</AuthLink>
+          )}
+        </Box>
+      </Flex>
     </Flex>
   );
 };

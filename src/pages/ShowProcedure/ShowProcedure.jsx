@@ -39,13 +39,13 @@ function ShowProcedure() {
         <Text fontSize="2xl" fontWeight="bold">Procedimiento</Text>
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>
           <GridItem colSpan={1}><Text><strong>Nombre:</strong> {procedure.name}</Text></GridItem>
-          <GridItem colSpan={1}><Text><strong>Primer nombre:</strong> {procedure.firstName}</Text></GridItem>
-          <GridItem colSpan={1}><Text><strong>Apellido:</strong> {procedure.lastName}</Text></GridItem>
-          <GridItem colSpan={1}><Text><strong>DNI:</strong> {procedure.dni}</Text></GridItem>
+          <GridItem colSpan={1}><Text><strong>Primer Apellido:</strong> {procedure.firstName}</Text></GridItem>
+          <GridItem colSpan={1}><Text><strong>Segundo Apellido:</strong> {procedure.lastName}</Text></GridItem>
         </Grid>
         <HStack justify="space-between">
+          <GridItem colSpan={1}><Text><strong>DNI:</strong> {procedure.dni}</Text></GridItem>
           <Text><strong>Ubicación:</strong> {procedure.location}</Text>
-          <Text><strong>Observaciones:</strong> {procedure.observations}</Text>
+
         </HStack>
         <HStack justify="space-between">
           <Text><strong>Violencia de género:</strong> {procedure.isGenderViolence ? 'Sí' : 'No'}</Text>
