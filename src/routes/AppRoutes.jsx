@@ -12,6 +12,8 @@ import EditPathology from "../pages/EditPathology/EditPathology";
 import ShowProcedure from "../pages/ShowProcedure/ShowProcedure";
 import ShowPathology from "../pages/ShowPathology/ShowPathology";
 import FinalReport from "../pages/FinalReportPage/FinalReportpage";
+import ShowFinalReport from "../pages/ShowFinalReport/ShowFinalReport";
+import EditFinalReport from "../pages/EditFinalReport/EditFinalReport";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -59,6 +61,14 @@ const AppRoutes = () => {
         {
           path:"finalreport",
           element: <FinalReport />,
+        },
+        {
+          path: "showfinalReport/:id",
+          element: <ShowFinalReport />,
+        },
+        {
+          path: "editfinalReport/:id",
+          element: <EditFinalReport />,
         },
         {
           path: "profile",

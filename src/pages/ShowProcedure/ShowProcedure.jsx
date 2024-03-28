@@ -61,7 +61,7 @@ function ShowProcedure() {
           <Text><strong>Fecha de actualización:</strong> {new Date(procedure.updatedAt).toLocaleDateString()}</Text>
           <Text><strong>Procedimiento completado:</strong> {procedure.procedureCompleted ? 'Sí' : 'No'}</Text>
         </HStack>
-        {user && user.role === 'Guard' && !procedure.procedureCompleted && (
+        {user && user._id === procedure.guardInfo?.guardId && !procedure.procedureCompleted && (
   <Button size="sm" onClick={handleEdit}>Editar</Button>
 )}
       </VStack>

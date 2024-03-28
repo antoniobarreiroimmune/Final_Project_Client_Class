@@ -9,6 +9,11 @@ class PathologyService extends AxiosConfig {
         const response = await this.axios.get("/list"); 
         return response.data;
     }
+
+    async getPathologyById(id) {
+        const response = await this.axios.get(`/${id}`); 
+        return response.data;
+    }
     
     
     async updatePathology(id, data) {

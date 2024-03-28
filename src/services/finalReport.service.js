@@ -10,6 +10,10 @@ class FinalReportService extends AxiosConfig {
         return response.data;
     }
     
+    async getFinalReportById(id) {
+        const response = await this.axios.get(`/${id}`); 
+        return response.data;
+    }
     
     async updateFinalReport(id, data) {
         const response = await this.axios.put(`/edit/${id}`, data); 
