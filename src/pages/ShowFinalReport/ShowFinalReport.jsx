@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
+import {UserContext } from "../../contexts/UserContext";
 import { useContext } from "react";
 import PageWrapper from "../../components/PageWrapper/PageWrapper";
 import { Box, Text, VStack, Grid, GridItem, Button, HStack, Textarea, Flex} from "@chakra-ui/react";
@@ -9,7 +9,7 @@ function ShowFinalReport() {
     const { state } = useLocation();
     const finalReport = state?.finalReport;
     const navigate = useNavigate();
-    const { user } = useContext(AuthContext);
+    const { user } = useContext(UserContext);
 
     if (!finalReport) {
         return (

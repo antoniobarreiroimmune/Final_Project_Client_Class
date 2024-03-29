@@ -1,10 +1,10 @@
 import { useContext } from "react"
-import { AuthContext } from "../contexts/AuthContext"
+import { UserContext } from "../contexts/UserContext"
 import Loading from "../components/Loading/Loading"
 import { Navigate } from "react-router-dom"
 
 const AuthMiddleware = ({ children }) => {
-  const { isLoading, user } = useContext(AuthContext)
+  const { isLoading, user } = useContext(UserContext)
 
   if (isLoading) return <Loading />
 

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import FormFront from '../../components/FormFront/FormFront';
+import LoginForm from '../../components/FormFront/FormFront'; 
 import { AuthProvider } from '../../contexts/AuthContext';
-
 const LoginPage = () => {
   return (
     <Flex
@@ -10,8 +9,8 @@ const LoginPage = () => {
       justify="center"
       h="100vh"
     >
-      <AuthProvider> 
-      <FormFront />
+      <AuthProvider>
+      <LoginForm />
       </AuthProvider>
     </Flex>
   );

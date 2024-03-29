@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { UserContext } from "../../contexts/UserContext";
 import { Box, VStack, Heading, Text, Center, Spinner } from "@chakra-ui/react";
 
 const ProfilePage = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
 
   if (!user) {
     return (

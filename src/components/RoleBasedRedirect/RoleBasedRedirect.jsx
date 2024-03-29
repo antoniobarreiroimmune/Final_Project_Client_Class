@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AuthContext } from '../../contexts/AuthContext';
+import {UserContext } from '../../contexts/UserContext';
 
 
 const RoleBasedRedirect = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
 
   
   if (user) {

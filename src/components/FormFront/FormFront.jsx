@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import { UserContext } from '../../contexts/UserContext';
 import CustomForm from '../CustomForm/CustomForm';
 import FormPageLayout from '../FormPageLayout/FormPageLayout';
 
 
 const LoginForm = () => {
-  const { login } = useContext(AuthContext);
+  const { login } = useContext(UserContext);
   const [formData, setFormData] = useState({
     email: '',
     password: ''

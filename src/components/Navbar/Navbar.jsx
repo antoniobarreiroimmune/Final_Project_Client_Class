@@ -5,7 +5,7 @@ import CustomLink from "../CustomLink/CustomLink";
 import AuthLink from "../AuthLink/AuthLink";
 import NavigationLink from "../NavigationLink/NavigationLink";
 import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { UserContext } from "../../contexts/UserContext";
 import UserRole from "../UserRole/UserRole";
 import { COLORS } from "../../theme";
 import { Image } from "@chakra-ui/react";
@@ -13,7 +13,7 @@ import imgLogo from "../../assets/logo1.jpg"
 
 const Navbar = () => {
   const { isOpen, onToggle } = useDisclosure();
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useContext(UserContext);
   const location = useLocation();
 
   let NAVIGATION_LINK = [

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Text, VStack, Flex, Textarea, Button } from '@chakra-ui/react';
-import { AuthContext } from '../../contexts/AuthContext';
+import { UserContext } from '../../contexts/UserContext';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import LocationComponent from '../../components/LocationComponent/LocationComponent';
 
@@ -9,7 +9,7 @@ function ShowProcedure() {
   const { state } = useLocation();
   const procedure = state?.procedure; 
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
   const [address, setAddress] = useState(''); 
 
   const handleEdit = () => {

@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { Box, Text, VStack,Flex, Textarea, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
+import {UserContext } from "../../contexts/UserContext";
 import { useContext } from "react";
 import PageWrapper from "../../components/PageWrapper/PageWrapper";
 
@@ -9,7 +9,7 @@ function ShowPathology() {
     const { state } = useLocation();
     const pathology = state?.pathology;
     const navigate = useNavigate();
-    const { user } = useContext(AuthContext);
+    const { user } = useContext(UserContext);
 
 
     if (!pathology) {
