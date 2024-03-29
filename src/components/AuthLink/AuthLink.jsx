@@ -1,20 +1,19 @@
-import { Flex, Text } from "@chakra-ui/layout"
-import CustomLink from "../CustomLink/CustomLink"
-import { COLORS } from "../../theme"
-
+import { Flex, Text } from "@chakra-ui/react"; 
+import CustomLink from "../CustomLink/CustomLink";
+import { COLORS } from "../../theme";
 
 const AuthLink = ({ onClick, children, to }) => {
   return (
     <CustomLink
       onClick={onClick}
-      borderRadius="30px"
-      padding={"10px 20px"}
+      borderRadius="20px" 
+      padding="5px 15px" 
       backgroundColor={COLORS.ACCENT}
-      color={"white"}
+      color="white"
       to={to}
     >
-      <Flex justify={"center"} alignItems={"center"}>
-        <Text as={"span"} fontSize={"20px"}>
+      <Flex justify="center" alignItems="center">
+        <Text as="span" fontSize="14px"> 
           {children}
         </Text>
       </Flex>
@@ -22,4 +21,4 @@ const AuthLink = ({ onClick, children, to }) => {
   )
 }
 
-export default AuthLink
+export default AuthLink;

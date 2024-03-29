@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import UserRole from "../UserRole/UserRole";
 import { COLORS } from "../../theme";
-import imgLogo from "../../assets/logo1.jpg";
+import imgLogo from "../../assets/LogoApp.jpg";
 
 const Navbar = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -33,14 +33,13 @@ const Navbar = () => {
       wrap="wrap"
       bg={COLORS.PRIMARY}
       color="white"
+      justifyContent={{ base: "space-between", xl: "center" }}
     >
-     
-      <Flex align="center" mr={5} flexGrow={1}>
+      <Flex align="center">
         <CustomLink to="/">
           <Box
             display="flex"
             justifyContent="center"
-            mt={{ base: 4, md: 0 }}
             alignItems="center"
           >
             <Image
@@ -48,29 +47,39 @@ const Navbar = () => {
               alt="Libro de Autopsias"
               boxSize={{ base: "100px", md: "100px", xl: "200px" }}
               objectFit="cover"
+              borderRadius="full"
             />
           </Box>
         </CustomLink>
-     
-        <Box display={{ base: "block", xl: "none" }} onClick={onToggle} ml="auto">
+      </Flex>
+
+      <Flex
+        display={{ base: "flex", xl: "none" }}
+        alignItems="center"
+      >
+        <Box onClick={onToggle} mr={4}>
           <IconButton
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             variant="outline"
             aria-label="Toggle Navigation"
+            colorScheme="white"
           />
         </Box>
+        
+        {user && (
+          <AuthLink onClick={logout}>Logout</AuthLink>
+        )}
       </Flex>
 
-     
       <Flex
         display={{ base: isOpen ? "block" : "none", xl: "flex" }}
         width={{ base: "full", xl: "auto" }}
         flexGrow={1}
-        alignItems="center"
+        justifyContent={{ base: "flex-start", xl: "center" }}
       >
         <Flex
           direction={{ base: "column", xl: "row" }}
-          justifyContent={{ base: "center", xl: "space-around" }}
+          justifyContent={{ base: "flex-start", xl: "center" }}
           width="100%"
         >
           {NAVIGATION_LINK.map(({ link, text }) => {
@@ -82,10 +91,10 @@ const Navbar = () => {
                 textDecoration={isActiveLink ? "underline" : "none"}
                 fontWeight={isActiveLink ? "bold" : "normal"}
                 backgroundColor={isActiveLink ? COLORS.ACCENT : "transparent"}
-                color={isActiveLink ? COLORS.WHITE : "grey"}
+                color={isActiveLink ? COLORS.WHITE : "white"}
                 borderRadius="5px"
                 padding="2"
-                margin="1"
+                marginX="1" 
               >
                 <Text fontSize={{ base: "sm", md: "md", xl: "lg" }}>
                   {text}
@@ -96,25 +105,20 @@ const Navbar = () => {
         </Flex>
       </Flex>
 
-    
       <Flex
         direction={{ base: "column", md: "row" }}
         alignItems="center"
+        display={{ base: "none", xl: "flex" }}
         ml={{ base: 0, md: 4 }}
       >
-        {user ? (
+        {user && (
           <>
-            <Box
-              display={{ base: "none", xl: "block" }}
-              mr={{ xl: 4 }}
-            >
+            <Box mr={{ xl: 4 }}>
               <Text>{user.email}</Text>
               <UserRole role={user.role} />
             </Box>
             <AuthLink onClick={logout}>Logout</AuthLink>
           </>
-        ) : (
-          <AuthLink to={"/login"}>Login</AuthLink>
         )}
       </Flex>
     </Flex>
