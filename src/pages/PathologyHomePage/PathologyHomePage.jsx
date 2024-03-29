@@ -89,7 +89,7 @@ function PathologyHome() {
                   <Td textAlign="center">{pathology.firstName}</Td>
                   <Td textAlign="center">{pathology.lastName}</Td>
                   <Td textAlign="center">{pathology.dni}</Td>
-                  <Td textAlign="center">{pathology.location}</Td>
+                  <Td textAlign="center">{pathology.location && pathology.location.coordinates ? pathology.location.coordinates.join(", ") : 'No disponible'}</Td>
                   <Td textAlign="center">{pathology.observations}</Td>
                   <Td textAlign="center">{pathology.isGenderViolence ? 'Sí' : 'No'}</Td>
                   <Td textAlign="center">{pathology.isDomesticViolence ? 'Sí' : 'No'}</Td>

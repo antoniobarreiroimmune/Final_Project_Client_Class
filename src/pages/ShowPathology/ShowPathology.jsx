@@ -2,14 +2,17 @@ import { useLocation } from "react-router-dom";
 import { Box, Text, VStack,Flex, Textarea, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import {UserContext } from "../../contexts/UserContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import PageWrapper from "../../components/PageWrapper/PageWrapper";
+import LocationComponent from "../../components/LocationComponent/LocationComponent";
+
 
 function ShowPathology() {
     const { state } = useLocation();
     const pathology = state?.pathology;
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
+    const [address, setAddress] = useState('');
 
 
     if (!pathology) {
@@ -22,6 +25,10 @@ function ShowPathology() {
 
     const handleEdit = (pathology) => {
         navigate(`/editpathology/${pathology._id}`, { state: { pathology } });
+    };
+
+    const handleAddressFetch = (fetchedAddress) => {
+      setAddress(fetchedAddress);
     };
 
     const showEditButton = (
@@ -41,6 +48,9 @@ function ShowPathology() {
               <Text><strong>Email:</strong> {pathology.guardInfo.email}</Text>
             </Box>
           )}
+
+          <LocationComponent location={pathology.location} onAddressFetch={handleAddressFetch} />
+
           <VStack align="stretch" spacing={4}>
             <Text fontSize="2xl" fontWeight="bold">Patología</Text>
             <Flex direction={["column", "column", "row"]} justify="space-between" wrap="wrap">
@@ -48,11 +58,10 @@ function ShowPathology() {
               <Text mb={[2, 2, 0]}><strong>Primer nombre:</strong> {pathology.firstName}</Text>
               <Text mb={[2, 2, 0]}><strong>Apellido:</strong> {pathology.lastName}</Text>
               <Text mb={[2, 2, 0]}><strong>DNI:</strong> {pathology.dni}</Text>
+              <Text mb={[2, 2, 0]}><strong>Localización:</strong> {address}</Text>
+              <Text mb={[2, 2, 0]}><strong>Dirección:</strong> {pathology.address}</Text>
             </Flex>
-            <Flex direction={["column", "column", "row"]} justify="space-between" wrap="wrap">
-              <Text mb={[2, 0]}><strong>Ubicación:</strong> {pathology.location}</Text>
-              <Text mb={[2, 0]}><strong>Observaciones:</strong> {pathology.observations}</Text>
-            </Flex>
+           
             <Flex justify="space-between" wrap="wrap">
               <Text mb={2}><strong>Violencia de género:</strong> {pathology.isGenderViolence ? "Sí" : "No"}</Text>
               <Text mb={2}><strong>Violencia doméstica:</strong> {pathology.isDomesticViolence ? "Sí" : "No"}</Text>

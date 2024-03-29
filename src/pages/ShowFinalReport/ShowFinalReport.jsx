@@ -1,15 +1,17 @@
 import { useLocation } from "react-router-dom";
 import {UserContext } from "../../contexts/UserContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import PageWrapper from "../../components/PageWrapper/PageWrapper";
-import { Box, Text, VStack, Grid, GridItem, Button, HStack, Textarea, Flex} from "@chakra-ui/react";
+import { Box, Text, VStack, Button, Textarea, Flex} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import LocationComponent from "../../components/LocationComponent/LocationComponent";
 
 function ShowFinalReport() {
     const { state } = useLocation();
     const finalReport = state?.finalReport;
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
+    const [address, setAddress] = useState('');
 
     if (!finalReport) {
         return (
@@ -23,11 +25,15 @@ function ShowFinalReport() {
         navigate(`/editFinalReport/${finalReport._id}`, { state: { finalReport } });
     };
 
+    const handleAddressFetch = (fetchedAddress) => {
+      setAddress(fetchedAddress);
+    };
+
     return (
         <PageWrapper>
   <Box maxW="80%" margin="auto" > 
-    <Flex direction="row"  justify="space-between">
-      
+    
+      <Flex direction={"row"}justify="space-between" wrap="wrap">
         {finalReport?.guardInfo && (
           <Box mt={5}>
             <Text fontSize="2xl" fontWeight="bold">Procedimiento iniciado por:</Text>
@@ -38,7 +44,7 @@ function ShowFinalReport() {
             </Box>
         )}
       
-     
+
         {finalReport?.pathologyInfo && (
           <Box mt={5}>
             <Text fontSize="2xl" fontWeight="bold">Patología realizada por:</Text>
@@ -48,45 +54,40 @@ function ShowFinalReport() {
             <Text><strong>Email:</strong> {finalReport.pathologyInfo.email}</Text>
           </Box>
         )}
-      
-    </Flex>
+</Flex>
+        <LocationComponent location={finalReport.location} onAddressFetch={handleAddressFetch} />
 
-    <VStack align="stretch" spacing={4} mt={5}>
-      <Text fontSize="2xl" fontWeight="bold">
-        Informe Final
-      </Text>
-      <Grid templateColumns="repeat(4, 1fr)" gap={6}>
-        <GridItem colSpan={1}>
-          <Text><strong>Nombre:</strong> {finalReport.name}</Text>
-        </GridItem>
-        <GridItem colSpan={1}>
-          <Text><strong>Primer nombre:</strong> {finalReport.firstName}</Text>
-        </GridItem>
-        <GridItem colSpan={1}>
-          <Text><strong>Apellido:</strong> {finalReport.lastName}</Text>
-        </GridItem>
-        <GridItem colSpan={1}>
-          <Text><strong>DNI:</strong> {finalReport.dni}</Text>
-        </GridItem>
-      </Grid>
-      <HStack justify="space-between">
-        <Text><strong>Ubicación:</strong> {finalReport.location}</Text>
-        <Text><strong>Observaciones:</strong> {finalReport.observations}</Text>
-      </HStack>
-      <HStack justify="space-between">
-        <Text><strong>Violencia de género:</strong> {finalReport.isGenderViolence ? "Sí" : "No"}</Text>
-        <Text><strong>Violencia doméstica:</strong> {finalReport.isDomesticViolence ? "Sí" : "No"}</Text>
-        <Text><strong>Órgano judicial:</strong> {finalReport.judicialBody}</Text>
-      </HStack>
-      <Box>
-        <Text mb={2}><strong>Informe final:</strong></Text>
-        <Textarea minHeight="280px" readOnly value={finalReport.finalReport} />
-      </Box>
-      <HStack justify="space-between">
-        <Text><strong>Fecha de creación:</strong> {new Date(finalReport.createdAt).toLocaleDateString()}</Text>
-        <Text><strong>Fecha de actualización:</strong> {new Date(finalReport.updatedAt).toLocaleDateString()}</Text>
-      </HStack>
-      <Text><strong>Patología completada:</strong> {finalReport.finalReportCompleted ? "Sí" : "No"}</Text>
+      
+   
+
+    <VStack align="stretch" spacing={4}>
+            <Text fontSize="2xl" fontWeight="bold">Informe Final</Text>
+            <Flex direction={["column", "column", "row"]} justify="space-between" wrap="wrap">
+              <Text mb={[2, 2, 0]}><strong>Nombre:</strong> {finalReport.name}</Text>
+              <Text mb={[2, 2, 0]}><strong>Primer nombre:</strong> {finalReport.firstName}</Text>
+              <Text mb={[2, 2, 0]}><strong>Apellido:</strong> {finalReport.lastName}</Text>
+              <Text mb={[2, 2, 0]}><strong>DNI:</strong> {finalReport.dni}</Text>
+              <Text mb={[2, 2, 0]}><strong>Localización:</strong> {address}</Text>
+              <Text mb={[2, 2, 0]}><strong>Dirección:</strong> {finalReport.address}</Text>
+            </Flex>
+           
+            <Flex justify="space-between" wrap="wrap">
+              <Text mb={2}><strong>Violencia de género:</strong> {finalReport.isGenderViolence ? "Sí" : "No"}</Text>
+              <Text mb={2}><strong>Violencia doméstica:</strong> {finalReport.isDomesticViolence ? "Sí" : "No"}</Text>
+              <Text mb={2}><strong>Órgano judicial:</strong> {finalReport.judicialBody}</Text>
+            </Flex>
+            <Box>
+              <Text mb={2}><strong>Informe final:</strong></Text>
+              <Textarea minHeight="280px" readOnly value={finalReport.finalReportReport || ''} />
+            </Box>
+            <Flex justify="space-between" wrap="wrap">
+              <Text mb={2}><strong>Fecha de creación:</strong> {new Date(finalReport.createdAt).toLocaleDateString()}</Text>
+              <Text mb={2}><strong>Fecha de actualización:</strong> {new Date(finalReport.updatedAt).toLocaleDateString()}</Text>
+              <Text><strong>Informe Final Completado:</strong> {finalReport.finalReportCompleted ? "Sí" : "No"}</Text>
+            </Flex>
+            
+          
+    
 
       {
         ((user && user._id === finalReport.guardInfo?.guardId) ||

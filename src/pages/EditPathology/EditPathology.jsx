@@ -1,26 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Textarea, Flex, Text, Switch } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Flex, Switch, Textarea } from '@chakra-ui/react';
 import pathologyService from '../../services/pathology.service';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
+import { UserContext } from '../../contexts/UserContext';
 import authService from '../../services/auth.service';
+
+
+
 
 function EditPathology() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
   const [pathology, setPathology] = useState({
     name: '',
     firstName: '',
     lastName: '',
     dni: '',
-    location: '',
+    address: '',
+    location: { type: '', coordinates: [] },
     observations: '',
     procedureReport: '',
-    pathologyCompleted: false, 
+    pathologyCompleted: false,
     judicialBody: '',
-    pathologyInfo: {} 
+    pathologyInfo: {},
+    isGenderViolence: false,
+    isDomesticViolence: false,
   });
 
   const [userInfo, setUserInfo] = useState({
@@ -77,12 +85,7 @@ function EditPathology() {
     }));
   };
 
-  const handleSwitchChange = () => {
-    setPathology(prevPathology => ({
-      ...prevPathology,
-      pathologyCompleted: !prevPathology.pathologyCompleted
-    }));
-  };
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,37 +109,38 @@ function EditPathology() {
 
   return (
     <PageWrapper>
-      <Box p={4}>
-        <form onSubmit={handleSubmit}>
-          <Flex direction="column" gap="4">
-            <FormControl>
-              <FormLabel>Informe de Patología</FormLabel>
-              <Textarea
-                id="pathologyReport"
-                name="pathologyReport"
-                value={pathology.pathologyReport}
-                onChange={handleChange}
-              />
-            </FormControl>
-            <FormControl display="flex" alignItems="center" justifyContent="space-between">
-              <FormLabel htmlFor="pathologyCompleted" mb="0">
-                Informe de Patología Completado
-              </FormLabel>
-              <Switch
-                id="pathologyCompleted"
-                colorScheme={pathology.pathologyCompleted ? 'green' : 'red'}
-                isChecked={pathology.pathologyCompleted}
-                onChange={handleSwitchChange}
-              />
-            </FormControl>
-            <Button type="submit" colorScheme="blue">
-              Actualizar Procedimiento
-            </Button>
-          </Flex>
-        </form>
-      </Box>
-    </PageWrapper>
+    <Box p={4}>
+      <form onSubmit={handleSubmit}>
+        <Flex direction="column" gap="4">
+          <FormControl>
+            <FormLabel>Informe de Patología</FormLabel>
+            <Textarea
+              id="pathologyReport"
+              name="pathologyReport"
+              value={pathology.pathologyReport}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <FormControl display="flex" alignItems="center" justifyContent="space-between">
+            <FormLabel htmlFor="pathologyCompleted" mb="0">
+              Informe de Patología Completado
+            </FormLabel>
+            <Switch
+              id="pathologyCompleted"
+              colorScheme={pathology.pathologyCompleted ? 'green' : 'red'}
+              isChecked={pathology.pathologyCompleted}
+              onChange={() => setPathology(prev => ({ ...prev, pathologyCompleted: !prev.pathologyCompleted }))}
+            />
+          </FormControl>
+          <Button type="submit" colorScheme="blue">
+            Actualizar Procedimiento
+          </Button>
+        </Flex>
+      </form>
+    </Box>
+  </PageWrapper>
   );
 }
 
 export default EditPathology;
+

@@ -86,7 +86,7 @@ return (
                 <Td textAlign="center">{finalReport.firstName}</Td>
                 <Td textAlign="center">{finalReport.lastName}</Td>
                 <Td textAlign="center">{finalReport.dni}</Td>
-                <Td textAlign="center">{finalReport.location}</Td>
+                <Td textAlign="center">{finalReport.location && finalReport.location.coordinates ? finalReport.location.coordinates.join(", ") : 'No disponible'}</Td>
                 <Td textAlign="center">{finalReport.observations}</Td>
                 <Td textAlign="center">{finalReport.isGenderViolence ? 'Sí' : 'No'}</Td>
                 <Td textAlign="center">{finalReport.isDomesticViolence ? 'Sí' : 'No'}</Td>
