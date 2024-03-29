@@ -8,6 +8,8 @@ import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import UserRole from "../UserRole/UserRole";
 import { COLORS } from "../../theme";
+import { Image } from "@chakra-ui/react";
+import imgLogo from "../../assets/logo1.jpg"
 
 const Navbar = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -28,7 +30,7 @@ const Navbar = () => {
     <Flex
       as="nav"
       padding={{ base: "12px", md: "34px 80px", xl: "20px 60px" }}
-      
+
       alignItems={"center"}
       wrap="wrap"
       bg={COLORS.PRIMARY}
@@ -36,9 +38,19 @@ const Navbar = () => {
     >
       <Flex align="center" mr={100}>
         <CustomLink to="/">
-          <Text fontSize={{ base: "24px", md: "40px", xl: "48px" }}>
-            Libro de Autopsias
-          </Text>
+        <Box
+  display="flex"
+  justifyContent="center" 
+  mt={{ base: 4, md: 0 }}
+  alignItems="center"
+>
+  <Image
+    src= {imgLogo}
+    alt="Libro de Autopsias"
+    boxSize={{ base: "100px", md: "100px", xl: "200px" }} 
+    objectFit="cover" 
+  />
+</Box>
         </CustomLink>
       </Flex>
 
@@ -61,8 +73,8 @@ const Navbar = () => {
           direction={{ base: "column", xl: "row" }}
           justifyContent={{ base: "center", xl: "space-around" }}
           width="100%"
-        
-       
+
+
         >
           {NAVIGATION_LINK.map(({ link, text }) => {
             const isActiveLink = location.pathname === link;
@@ -77,7 +89,7 @@ const Navbar = () => {
                 borderRadius="5px"
                 padding="2"
                 margin="1"
-               
+
               >
                 <Text fontSize={{ base: "sm", md: "md", xl: "lg" }}>
                   {text}
@@ -88,7 +100,6 @@ const Navbar = () => {
         </Flex>
       </Flex>
       <Flex>
-
         <Box
           display={{ base: isOpen ? "none" : "flex", xl: "flex" }}
           mt={{ base: 4, md: 0 }}
@@ -96,7 +107,11 @@ const Navbar = () => {
         >
           {user ? (
             <>
-              <Box display={{ base: "none", xl: "block" }}>
+              <Box
+                display={{ base: "none", xl: "block" }}
+
+                mr={{ xl: 4 }}
+              >
                 <Text>{user.email}</Text>
                 <UserRole role={user.role} />
               </Box>
@@ -107,6 +122,7 @@ const Navbar = () => {
           )}
         </Box>
       </Flex>
+
     </Flex>
   );
 };

@@ -1,17 +1,22 @@
 import React from 'react';
-import { FormControl, FormLabel, Input, Textarea, Switch, Select } from '@chakra-ui/react';
+import {FormControl,FormLabel,Input,Textarea,InputGroup,InputRightElement,Switch, Select} from '@chakra-ui/react';
 
-
-export const FormInput = ({ label, value, onChange, isTextArea = false, mb, ...props }) => (
-  <FormControl >
+export const FormInput = ({
+  label, value,onChange,isTextArea = false, mb, rightElement, ...props
+}) => (
+  <FormControl>
     <FormLabel mb={mb}>{label}</FormLabel>
     {isTextArea ? (
-      <Textarea value={value} onChange={onChange} {...props}  />
+      <Textarea value={value} onChange={onChange} {...props} />
     ) : (
-      <Input value={value} onChange={onChange} {...props}   />
+      <InputGroup>
+        <Input value={value} onChange={onChange} {...props} />
+        {rightElement && <InputRightElement children={rightElement} />}
+      </InputGroup>
     )}
   </FormControl>
 );
+
 
 export const FormSwitch = ({ label, isChecked, onChange, ...props }) => (
   <FormControl display="flex" alignItems="center" justifyContent="start">
