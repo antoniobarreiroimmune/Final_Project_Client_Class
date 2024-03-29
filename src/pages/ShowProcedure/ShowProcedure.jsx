@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Box, Text, VStack, HStack, Grid, GridItem, Textarea, Button } from '@chakra-ui/react';
+import { Box, Text, VStack, Flex, Textarea, Button } from '@chakra-ui/react';
 import { AuthContext } from '../../contexts/AuthContext';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 
@@ -24,7 +24,7 @@ function ShowProcedure() {
 
   return (
     <PageWrapper>
-    <Box maxW="80%" margin="auto" >
+    <Box p={4}>
       {procedure?.guardInfo && (
         <Box mt={5}>
           <Text fontSize="2xl" fontWeight="bold">Procedimiento iniciado por:</Text>
@@ -34,39 +34,36 @@ function ShowProcedure() {
           <Text><strong>Email:</strong> {procedure.guardInfo.email}</Text>
         </Box>
       )}
-
+  
       <VStack align="stretch" spacing={4}>
         <Text fontSize="2xl" fontWeight="bold">Procedimiento</Text>
-        <Grid templateColumns="repeat(4, 1fr)" gap={6}>
-          <GridItem colSpan={1}><Text><strong>Nombre:</strong> {procedure.name}</Text></GridItem>
-          <GridItem colSpan={1}><Text><strong>Primer Apellido:</strong> {procedure.firstName}</Text></GridItem>
-          <GridItem colSpan={1}><Text><strong>Segundo Apellido:</strong> {procedure.lastName}</Text></GridItem>
-        </Grid>
-        <HStack justify="space-between">
-          <GridItem colSpan={1}><Text><strong>DNI:</strong> {procedure.dni}</Text></GridItem>
-          <Text><strong>Ubicación:</strong> {procedure.location}</Text>
-
-        </HStack>
-        <HStack justify="space-between">
-          <Text><strong>Violencia de género:</strong> {procedure.isGenderViolence ? 'Sí' : 'No'}</Text>
-          <Text><strong>Violencia doméstica:</strong> {procedure.isDomesticViolence ? 'Sí' : 'No'}</Text>
-          <Text><strong>Órgano judicial:</strong> {procedure.judicialBody}</Text>
-        </HStack>
+        <Flex direction={["column", "column", "row"]} justify="space-between" wrap="wrap">
+          <Text mb={[2, 2, 0]}><strong>Nombre:</strong> {procedure.name}</Text>
+          <Text mb={[2, 2, 0]}><strong>Primer Apellido:</strong> {procedure.firstName}</Text>
+          <Text mb={[2, 2, 0]}><strong>Segundo Apellido:</strong> {procedure.lastName}</Text>
+          <Text mb={[2, 2, 0]}><strong>DNI:</strong> {procedure.dni}</Text>
+          <Text mb={[2, 2, 0]}><strong>Ubicación:</strong> {procedure.location}</Text>
+        </Flex>
+        <Flex justify="space-between" wrap="wrap">
+          <Text mb={2}><strong>Violencia de género:</strong> {procedure.isGenderViolence ? 'Sí' : 'No'}</Text>
+          <Text mb={2}><strong>Violencia doméstica:</strong> {procedure.isDomesticViolence ? 'Sí' : 'No'}</Text>
+          <Text mb={2}><strong>Órgano judicial:</strong> {procedure.judicialBody}</Text>
+        </Flex>
         <Box>
           <Text mb={2}><strong>Informe de procedimiento:</strong></Text>
           <Textarea minHeight="280px" readOnly value={procedure.procedureReport || ''} />
         </Box>
-        <HStack justify="space-between">
-          <Text><strong>Fecha de creación:</strong> {new Date(procedure.createdAt).toLocaleDateString()}</Text>
-          <Text><strong>Fecha de actualización:</strong> {new Date(procedure.updatedAt).toLocaleDateString()}</Text>
-          <Text><strong>Procedimiento completado:</strong> {procedure.procedureCompleted ? 'Sí' : 'No'}</Text>
-        </HStack>
+        <Flex justify="space-between" wrap="wrap">
+          <Text mb={2}><strong>Fecha de creación:</strong> {new Date(procedure.createdAt).toLocaleDateString()}</Text>
+          <Text mb={2}><strong>Fecha de actualización:</strong> {new Date(procedure.updatedAt).toLocaleDateString()}</Text>
+          <Text mb={2}><strong>Procedimiento completado:</strong> {procedure.procedureCompleted ? 'Sí' : 'No'}</Text>
+        </Flex>
         {user && user._id === procedure.guardInfo?.guardId && !procedure.procedureCompleted && (
-  <Button size="sm" onClick={handleEdit}>Editar</Button>
-)}
+          <Button size="sm" onClick={handleEdit}>Editar</Button>
+        )}
       </VStack>
     </Box>
-    </PageWrapper>
+  </PageWrapper>
   );
 }
 
