@@ -3,11 +3,13 @@ import { extendTheme } from "@chakra-ui/react";
 
 export const COLORS = {
   PRIMARY: "#0f172a",
-  SECONDARY: "#FFF9C7",
-  BACKGROUND: "#F4F4F4",
+  SECONDARY: "#096394 ",
+  BACKGROUND: "#white",
   TEXT: "#333333",
-  ACCENT: "#4be8ff",
+  ACCENT: "#20afd0 ",
   WHITE: "#FFFFFF",
+  TABLEONE: "#cbddde ",
+  TABLETWO: "#78aabd  ",
 };
 
 

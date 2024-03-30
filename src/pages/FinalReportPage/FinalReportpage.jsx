@@ -37,7 +37,7 @@ finalReport.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 finalReport.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
 finalReport.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
 finalReport.dni.includes(searchTerm) ||
-finalReport.location.toLowerCase().includes(searchTerm.toLowerCase())
+(finalReport.location && finalReport.location.coordinates ? finalReport.location.coordinates.join(", ").includes(searchTerm) : false)
 
 );
 setFilteredFinalReports(results);
@@ -51,7 +51,7 @@ navigate(`/showFinalReport/${finalReport._id}`, { state: { finalReport } });
 
 return (
   <PageWrapper>
-    <Flex direction="column" align="center" mt="25vh" width="100%">
+    <Flex direction="column" align="center" mt={{ base: '10vh', md: '15vh' }} width="100%">
       <Title>Informe Final</Title>
 
       <Input
@@ -81,7 +81,7 @@ return (
           </Thead>
           <Tbody>
             {filteredFinalReports.map((finalReport, index) => (
-              <Tr key={finalReport._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'} onClick={() => handleRowClick(finalReport)} style={{ cursor: 'pointer' }} sx={{ '&:hover': { backgroundColor: COLORS.ACCENT } }}>
+              <Tr key={finalReport._id} bg={index % 2 === 0 ? COLORS.TABLEONE : COLORS.TABLETWO} onClick={() => handleRowClick(finalReport)} style={{ cursor: 'pointer' }} sx={{ '&:hover': { backgroundColor: COLORS.ACCENT } }}>
                 <Td textAlign="center">{finalReport.name}</Td>
                 <Td textAlign="center">{finalReport.firstName}</Td>
                 <Td textAlign="center">{finalReport.lastName}</Td>

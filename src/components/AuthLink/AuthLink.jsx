@@ -6,14 +6,14 @@ const AuthLink = ({ onClick, children, to }) => {
   return (
     <CustomLink
       onClick={onClick}
-      borderRadius="20px" 
+      borderRadius="5px" 
       padding="5px 15px" 
       backgroundColor={COLORS.ACCENT}
       color="white"
       to={to}
     >
       <Flex justify="center" alignItems="center">
-        <Text as="span" fontSize="14px"> 
+        <Text as="span" fontSize="20px"> 
           {children}
         </Text>
       </Flex>

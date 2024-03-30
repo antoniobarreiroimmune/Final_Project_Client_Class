@@ -7,16 +7,16 @@ import LocationComponent from '../../components/LocationComponent/LocationCompon
 
 function ShowProcedure() {
   const { state } = useLocation();
-  const procedure = state?.procedure; 
+  const procedure = state?.procedure;
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [address, setAddress] = useState(''); 
+  const [address, setAddress] = useState('');
 
   const handleEdit = () => {
     navigate(`/editprocedure/${procedure?._id}`, { state: { procedure } });
   };
 
- 
+
   const handleAddressFetch = (fetchedAddress) => {
     setAddress(fetchedAddress);
   };
@@ -47,6 +47,9 @@ function ShowProcedure() {
             <Text mb={[2, 2, 0]}><strong>Primer Apellido:</strong> {procedure.firstName}</Text>
             <Text mb={[2, 2, 0]}><strong>Segundo Apellido:</strong> {procedure.lastName}</Text>
             <Text mb={[2, 2, 0]}><strong>DNI:</strong> {procedure.dni}</Text>
+          </Flex>
+
+          <Flex justify="space-between" wrap="wrap">
             <Text mb={[2, 2, 0]}><strong>Localiazación:</strong> {address}</Text>
             <Text mb={[2, 2, 0]}><strong>Dirección:</strong> {procedure.address}</Text>
           </Flex>
@@ -67,8 +70,10 @@ function ShowProcedure() {
           {user && user._id === procedure.guardInfo?.guardId && !procedure.procedureCompleted && (
             <Button size="sm" onClick={handleEdit}>Editar</Button>
           )}
+
         </VStack>
       </Box>
+
     </PageWrapper>
   );
 }

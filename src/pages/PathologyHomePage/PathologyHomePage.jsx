@@ -39,11 +39,11 @@ function PathologyHome() {
       pathology.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       pathology.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       pathology.dni.includes(searchTerm) ||
-      pathology.location.toLowerCase().includes(searchTerm.toLowerCase())
-
+      (pathology.location && pathology.location.coordinates ? pathology.location.coordinates.join(", ").includes(searchTerm) : false)
     );
     setFilteredPathologies(results);
   }, [searchTerm, pathologies]);
+
   const navigate = useNavigate();
 
 
@@ -54,7 +54,7 @@ function PathologyHome() {
 
   return (
     <PageWrapper>
-      <Flex direction="column" align="center" mt="25vh" width="100%">
+      <Flex direction="column" align="center" mt={{ base: '10vh', md: '15vh' }} width="100%">
         <Title>Patología</Title>
 
         <Input
@@ -84,7 +84,7 @@ function PathologyHome() {
             </Thead>
             <Tbody>
               {filteredPathologies.map((pathology, index) => (
-                <Tr key={pathology._id} bg={index % 2 === 0 ? 'gray.200' : 'blue.200'} onClick={() => handleRowClick(pathology)} style={{ cursor: 'pointer' }} sx={{ '&:hover': { backgroundColor: COLORS.ACCENT } }}>
+                <Tr key={pathology._id} bg={index % 2 === 0 ? COLORS.TABLEONE : COLORS.TABLETWO} onClick={() => handleRowClick(pathology)} style={{ cursor: 'pointer' }} sx={{ '&:hover': { backgroundColor: COLORS.ACCENT } }}>
                   <Td textAlign="center">{pathology.name}</Td>
                   <Td textAlign="center">{pathology.firstName}</Td>
                   <Td textAlign="center">{pathology.lastName}</Td>

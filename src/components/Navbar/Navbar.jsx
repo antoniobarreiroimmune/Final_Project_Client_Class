@@ -45,7 +45,7 @@ const Navbar = () => {
             <Image
               src={imgLogo}
               alt="Libro de Autopsias"
-              boxSize={{ base: "100px", md: "100px", xl: "200px" }}
+              boxSize={{ base: "100px", md: "100px", xl: "160px" }}
               objectFit="cover"
               borderRadius="full"
             />
@@ -94,7 +94,8 @@ const Navbar = () => {
                 color={isActiveLink ? COLORS.WHITE : "white"}
                 borderRadius="5px"
                 padding="2"
-                marginX="1" 
+                marginX="2" 
+                marginY={{ base: 2, md: 1 }}
               >
                 <Text fontSize={{ base: "sm", md: "md", xl: "lg" }}>
                   {text}
@@ -113,7 +114,8 @@ const Navbar = () => {
       >
         {user && (
           <>
-            <Box mr={{ xl: 4 }}>
+            <Box mr={{ xl: 10}}>
+              <Text>{user.name} {user.firstName} {user.lastName}</Text>
               <Text>{user.email}</Text>
               <UserRole role={user.role} />
             </Box>
