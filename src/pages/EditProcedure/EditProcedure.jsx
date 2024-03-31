@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Flex,  Switch } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Flex, Switch } from '@chakra-ui/react';
 import proceduresService from '../../services/procedures.service';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import { JUDICIAL_BODY_OPTIONS } from '../../consts';
@@ -21,7 +21,6 @@ function EditProcedure() {
     procedureCompleted: false,
     createdAt: '',
     updatedAt: '',
-    //no editables
     isGenderViolence: false,
     isDomesticViolence: false,
     judicialBody: ''
@@ -72,38 +71,38 @@ function EditProcedure() {
 
   return (
     <PageWrapper>
-  <Box p={4}>
-    <form onSubmit={handleSubmit}>
-      <Flex direction="column" gap="4">
-       
-          <FormInput label="Nombre" value={procedure.name || ''} onChange={handleChange} name="name" mb={{ base: '8', sm: '2'}} />
-          <FormInput label="Primer Apellido" value={procedure.firstName || ''} onChange={handleChange} name="firstName" />
-          <FormInput label="Segundo Apellido" value={procedure.lastName || ''} onChange={handleChange} name="lastName" />
-        
-       
-          <FormInput label="DNI" value={procedure.dni || ''} onChange={handleChange} name="dni" readOnly />
-          <FormInput label="Ubicación" value={procedure.location || ''} onChange={handleChange} name="location" />
-          <FormSelect label="Órgano Judicial" value={procedure.judicialBody || ''} onChange={handleChange} name="judicialBody" options={JUDICIAL_BODY_OPTIONS} />
-        
-        <Flex direction="row" gap="1">
-          <FormSwitch label="Violencia de Género" isChecked={procedure.isGenderViolence} onChange={handleSwitchChange} name="isGenderViolence" />
-          <FormSwitch label="Violencia Doméstica" isChecked={procedure.isDomesticViolence} onChange={handleSwitchChange} name="isDomesticViolence" />
-        </Flex>
-        <FormInput label="Informe del Procedimiento" isTextArea={true} value={procedure.procedureReport || ''} onChange={handleChange} name="procedureReport" minH="200px" />
-        <FormControl display="flex" alignItems="center" mt="4">
-          <FormLabel htmlFor="procedureCompleted" mb="0">
-            Procedimiento Completado
-          </FormLabel>
-          <Switch id="procedureCompleted"
-            colorScheme={procedure.procedureCompleted ? 'green' : 'red'}
-            isChecked={procedure.procedureCompleted}
-            onChange={() => setProcedure(prev => ({ ...prev, procedureCompleted: !prev.procedureCompleted }))} />
-        </FormControl>
-        <Button type="submit" colorScheme="blue" mt="4">Actualizar Procedimiento</Button>
-      </Flex>
-    </form>
-  </Box>
-</PageWrapper>
+      <Box p={4}>
+        <form onSubmit={handleSubmit}>
+          <Flex direction="column" gap="4">
+
+            <FormInput label="Nombre" value={procedure.name || ''} onChange={handleChange} name="name" mb={{ base: '8', sm: '2' }} />
+            <FormInput label="Primer Apellido" value={procedure.firstName || ''} onChange={handleChange} name="firstName" />
+            <FormInput label="Segundo Apellido" value={procedure.lastName || ''} onChange={handleChange} name="lastName" />
+
+
+            <FormInput label="DNI" value={procedure.dni || ''} onChange={handleChange} name="dni" readOnly />
+            <FormInput label="Ubicación" value={procedure.location || ''} onChange={handleChange} name="location" />
+            <FormSelect label="Órgano Judicial" value={procedure.judicialBody || ''} onChange={handleChange} name="judicialBody" options={JUDICIAL_BODY_OPTIONS} />
+
+            <Flex direction="row" gap="1">
+              <FormSwitch label="Violencia de Género" isChecked={procedure.isGenderViolence} onChange={handleSwitchChange} name="isGenderViolence" />
+              <FormSwitch label="Violencia Doméstica" isChecked={procedure.isDomesticViolence} onChange={handleSwitchChange} name="isDomesticViolence" />
+            </Flex>
+            <FormInput label="Informe del Procedimiento" isTextArea={true} value={procedure.procedureReport || ''} onChange={handleChange} name="procedureReport" minH="200px" />
+            <FormControl display="flex" alignItems="center" mt="4">
+              <FormLabel htmlFor="procedureCompleted" mb="0">
+                Procedimiento Completado
+              </FormLabel>
+              <Switch
+                id="procedureCompleted"
+                isChecked={procedure.procedureCompleted}
+                onChange={() => setProcedure(prev => ({ ...prev, procedureCompleted: !prev.procedureCompleted }))} />
+            </FormControl>
+            <Button type="submit" colorScheme="blue" mt="4">Actualizar Procedimiento</Button>
+          </Flex>
+        </form>
+      </Box>
+    </PageWrapper>
   );
 }
 

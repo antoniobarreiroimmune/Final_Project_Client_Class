@@ -154,7 +154,7 @@ function CreateProcedurePage() {
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <Text fontSize="2xl" fontWeight="bold" color={COLORS.PRIMARY}>Error creando el procedimiento. Por favor, rellene todos los campos</Text>
-        <Button colorScheme="blue" onClick={onClose}>Cerrar</Button>
+        <Button colorScheme="blue" onClick={onClose}>X</Button>
       </Modal>
     </PageWrapper>
   );

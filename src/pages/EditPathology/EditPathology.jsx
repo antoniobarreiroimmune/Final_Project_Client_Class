@@ -114,7 +114,7 @@ function EditPathology() {
                 minHeight={300}
               />
             </FormControl>
-            <FormControl display="flex" alignItems="center" justifyContent="space-between">
+            <FormControl display="flex" alignItems="center" mt="4">
               <FormLabel htmlFor="pathologyCompleted" mb="0">
                 Informe de Patología Completado
               </FormLabel>

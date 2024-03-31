@@ -1,9 +1,6 @@
 export const JUDICIAL_BODY_OPTIONS = [
   '',
-  'Primera Instancia n1 A Coruña',
-  'Primera Instancia n2 A Coruña',
-  'Primera Instancia n3 A Coruña',
-  'Primera Instancia n4 A Coruña'
+  'Instrucción N.1 A Coruña', 'Instrucción N.2 A Coruña', 'Instrucción N.3 A Coruña', 'Instrucción N.4 A Coruña', 'Instrucción N.5 A Coruña', 'Instrucción N.6 A Coruña', 'Instrucción N.7 A Coruña', 'Instrucción N.8 A Coruña'
 ];
 
 export const BOOLEAN_OPTIONS = [
