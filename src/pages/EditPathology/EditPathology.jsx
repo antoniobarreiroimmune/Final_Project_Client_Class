@@ -1,21 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Flex, Switch, Textarea, useDisclosure, Text } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Flex, Switch, Textarea, Text, useDisclosure } from '@chakra-ui/react';
 import pathologyService from '../../services/pathology.service';
-import PageWrapper from '../../components/PageWrapper/PageWrapper';
-import { UserContext } from '../../contexts/UserContext';
 import authService from '../../services/auth.service';
-import { COLORS } from '../../theme';
+import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Modal from '../../components/Modal/Modal';
-
-
-
 
 function EditPathology() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [pathology, setPathology] = useState({
@@ -27,6 +21,7 @@ function EditPathology() {
     location: { type: '', coordinates: [] },
     observations: '',
     procedureReport: '',
+    pathologyReport: '', 
     pathologyCompleted: false,
     judicialBody: '',
     pathologyInfo: {},
@@ -45,12 +40,7 @@ function EditPathology() {
   useEffect(() => {
     const fetchPathology = async () => {
       try {
-        let loadedPathology = null;
-        if (!location.state?.pathology) {
-          loadedPathology = await pathologyService.getPathologyById(id);
-        } else {
-          loadedPathology = location.state.pathology;
-        }
+        const loadedPathology = location.state?.pathology || await pathologyService.getPathologyById(id);
         setPathology(loadedPathology);
       } catch (error) {
         console.error('Error loading the pathology:', error);
@@ -70,7 +60,7 @@ function EditPathology() {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
-          }); 
+          });
         } catch (error) {
           console.error('Error fetching user data:', error);
           onOpen();
@@ -80,17 +70,13 @@ function EditPathology() {
 
     fetchPathology();
     fetchUserData();
-  }, [id, location.state, navigate]);
+ 
+  }, [id, location.state, navigate, onOpen]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setPathology(prevPathology => ({
-      ...prevPathology,
-      [name]: value
-    }));
+    setPathology(prevPathology => ({ ...prevPathology, [name]: value }));
   };
-
- 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -115,44 +101,42 @@ function EditPathology() {
 
   return (
     <PageWrapper>
-    <Box p={4}>
-      <form onSubmit={handleSubmit}>
-        <Flex direction="column" gap="4">
-          <FormControl>
-            <FormLabel>Informe de Patología</FormLabel>
-            <Textarea
-              id="pathologyReport"
-              name="pathologyReport"
-              value={pathology.pathologyReport}
-              onChange={handleChange}
-              minHeight={300}
-            />
-          </FormControl>
-          <FormControl display="flex" alignItems="center" justifyContent="space-between">
-            <FormLabel htmlFor="pathologyCompleted" mb="0">
-              Informe de Patología Completado
-            </FormLabel>
-            <Switch
-              id="pathologyCompleted"
-              colorScheme={pathology.pathologyCompleted ? 'green' : 'red'}
-              isChecked={pathology.pathologyCompleted}
-              onChange={() => setPathology(prev => ({ ...prev, pathologyCompleted: !prev.pathologyCompleted }))}
-            />
-          </FormControl>
-          <Button type="submit" colorScheme="blue">
-            Actualizar Patología
-          </Button>
-        </Flex>
-      </form>
-    </Box>
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <Text fontSize="2x1" fontWeight="bold" color={COLORS.PRIMARY}>
-        Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.
-      </Text>
-    </Modal>
-  </PageWrapper>
+      <Box p={4}>
+        <form onSubmit={handleSubmit}>
+          <Flex direction="column" gap="4">
+            <FormControl>
+              <FormLabel>Informe de Patología</FormLabel>
+              <Textarea
+                id="pathologyReport"
+                name="pathologyReport"
+                value={pathology.pathologyReport}
+                onChange={handleChange}
+                minHeight={300}
+              />
+            </FormControl>
+            <FormControl display="flex" alignItems="center" justifyContent="space-between">
+              <FormLabel htmlFor="pathologyCompleted" mb="0">
+                Informe de Patología Completado
+              </FormLabel>
+              <Switch
+                id="pathologyCompleted"
+                isChecked={pathology.pathologyCompleted}
+                onChange={() => setPathology(prev => ({ ...prev, pathologyCompleted: !prev.pathologyCompleted }))}
+              />
+            </FormControl>
+            <Button type="submit" colorScheme="blue">
+              Actualizar Patología
+            </Button>
+          </Flex>
+        </form>
+      </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <Text fontSize="2xl" fontWeight="bold">
+          Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.
+        </Text>
+      </Modal>
+    </PageWrapper>
   );
 }
 
 export default EditPathology;
-

@@ -26,6 +26,7 @@ export const FormSwitch = ({ label, isChecked, onChange, ...props }) => (
 );
 
 export const FormSelect = ({ label, value, onChange, options, ...props }) => (
+
     <FormControl >
       <FormLabel style={{ whiteSpace: 'nowrap' }}>{label}</FormLabel> 
       <Select value={value} onChange={onChange} {...props}>

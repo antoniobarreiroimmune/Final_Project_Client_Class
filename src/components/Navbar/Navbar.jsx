@@ -1,7 +1,6 @@
 import { Flex, Text, Box, IconButton, useDisclosure, Image } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useLocation } from "react-router-dom";
-import CustomLink from "../CustomLink/CustomLink";
 import AuthLink from "../AuthLink/AuthLink";
 import NavigationLink from "../NavigationLink/NavigationLink";
 import { useContext } from "react";
@@ -36,7 +35,7 @@ const Navbar = () => {
       justifyContent={{ base: "space-between", xl: "center" }}
     >
       <Flex align="center">
-        <CustomLink to="/">
+      
           <Box
             display="flex"
             justifyContent="center"
@@ -50,7 +49,7 @@ const Navbar = () => {
               borderRadius="full"
             />
           </Box>
-        </CustomLink>
+       
       </Flex>
 
       <Flex

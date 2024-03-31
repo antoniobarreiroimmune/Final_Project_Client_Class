@@ -1,7 +1,6 @@
 # Libro de autopsias: built using MERN STACK (Mongo, Express, React.JS, Node)
 
-Let Him Cook is a MERN app that displays some of the coolest restaurants around the world and allows
-experienced users to create more restaurants and display them on the web.
+
 
 # Deployed Application
 
@@ -26,9 +25,5 @@ You will need to create a .env (or .env.local) file if you want to run this proj
 | :---------------------------------: | :-----------------------: | :-------: |
 |                  /                  |         Home page         |    ✅     |
 |               /login                |        Login page         |    ❌     |
-|               /signup               |        Signup page        |    ❌     |
 |              /profile               |       Profile Page        |    ✅     |
-|            /restaurants             |     Restaurants Page      |    ✅     |
-|          /restaurants/:id           |  Restaurant Details Page  |    ✅     |
-|         /restaurants/create         | Restaurants Creation Page |    ✅     |
-| /restaurants/reviews/:restaurant_id |     Restaurants Page      |    ✅     |
+

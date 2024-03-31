@@ -2,7 +2,7 @@ import AxiosConfig from "./axios";
 
 class FinalReportService extends AxiosConfig {
     constructor() {
-        super("finalReport") 
+        super("finalReport");
     }
     
     async getAllFinalReports() {
@@ -19,6 +19,8 @@ class FinalReportService extends AxiosConfig {
         const response = await this.axios.put(`/edit/${id}`, data); 
         return response.data;
     }
-    }
+}
 
-    export default new FinalReportService();
+const finalReportService = new FinalReportService();
+
+export default finalReportService;

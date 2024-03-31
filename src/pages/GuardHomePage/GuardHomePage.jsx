@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Table, Thead, Tbody, Tr, Th, Td, Box, Alert, AlertIcon, AlertTitle, AlertDescription, Input, Center } from '@chakra-ui/react';
+import { Flex, Table, Thead, Tbody, Tr, Th, Td, Box, Input } from '@chakra-ui/react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Title from '../../components/Title/Title';
 import proceduresService from '../../services/procedures.service';
@@ -10,22 +10,16 @@ function GuardHomePage() {
   const [procedures, setProcedures] = useState([]);
   const [filteredProcedures, setFilteredProcedures] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const loadProcedures = async () => {
       try {
         const loadedProcedures = await proceduresService.getAllProcedures();
         setProcedures(loadedProcedures);
         setFilteredProcedures(loadedProcedures);
-        setShowError(false);
-        setErrorMessage('');
       } catch (error) {
         console.error('Error loading procedures:', error);
-        setShowError(true);
-        setErrorMessage('Error al cargar los procedimientos');
       }
     };
 
@@ -57,52 +51,51 @@ function GuardHomePage() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           my="4"
-          
         />
         <Box width="100%" overflowX="auto">
           <Table variant="simple" size="sm">
-          <Thead>
-  <Tr>
-    <Th textAlign="center">Nombre</Th>
-    <Th textAlign="center">Primer apellido</Th>
-    <Th textAlign="center">Segundo apellido</Th>
-    <Th textAlign="center">Número procedimiento</Th>
-    <Th display={{ base: 'none', md: 'table-cell '}} textAlign="center">DNI</Th>
-    <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Ubicación</Th>
-    <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Violencia de Género</Th>
-    <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Violencia Doméstica</Th>
-    <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Órgano Judicial</Th>
-    <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Procedimiento Completado</Th>
-    <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Creado</Th>
-    <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Actualizado</Th>
-  </Tr>
-</Thead>
-<Tbody>
-  {filteredProcedures.map((procedure, index) => (
-    <Tr key={procedure._id}
-        bg={index % 2 === 0 ? COLORS.TABLEONE : COLORS.TABLETWO}
-        onClick={() => handleRowClick(procedure)}
-        style={{ cursor: 'pointer' }}
-        sx={{
-          '&:hover': {
-            backgroundColor: COLORS.ACCENT,
-          }
-        }}>
-      <Td textAlign="center">{procedure.name}</Td>
-      <Td textAlign="center">{procedure.firstName}</Td>
-      <Td textAlign="center">{procedure.lastName}</Td>
-      <Td textAlign="center">{procedure.procedureNumber}</Td>
-      <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.dni}</Td>
-      <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.location && procedure.location.coordinates ? procedure.location.coordinates.join(", ") : 'No disponible'}</Td>
-      <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.isGenderViolence ? 'Sí' : 'No'}</Td>
-      <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.isDomesticViolence ? 'Sí' : 'No'}</Td>
-      <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.judicialBody}</Td>
-      <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.procedureCompleted ? 'Sí' : 'No'}</Td>
-      <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{new Date(procedure.createdAt).toLocaleDateString()}</Td>
-      <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{new Date(procedure.updatedAt).toLocaleDateString()}</Td>
-    </Tr>
-  ))}
-</Tbody>
+            <Thead>
+              <Tr>
+                <Th textAlign="center">Nombre</Th>
+                <Th textAlign="center">Primer apellido</Th>
+                <Th textAlign="center">Segundo apellido</Th>
+                <Th textAlign="center">Número procedimiento</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">DNI</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Ubicación</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Violencia de Género</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Violencia Doméstica</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Órgano Judicial</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Procedimiento Completado</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Creado</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Actualizado</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {filteredProcedures.map((procedure, index) => (
+                <Tr key={procedure._id}
+                    bg={index % 2 === 0 ? COLORS.TABLEONE : COLORS.TABLETWO}
+                    onClick={() => handleRowClick(procedure)}
+                    style={{ cursor: 'pointer' }}
+                    sx={{
+                      '&:hover': {
+                        backgroundColor: COLORS.ACCENT,
+                      }
+                    }}>
+                  <Td textAlign="center">{procedure.name}</Td>
+                  <Td textAlign="center">{procedure.firstName}</Td>
+                  <Td textAlign="center">{procedure.lastName}</Td>
+                  <Td textAlign="center">{procedure.procedureNumber}</Td>
+                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.dni}</Td>
+                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.location && procedure.location.coordinates ? procedure.location.coordinates.join(", ") : 'No disponible'}</Td>
+                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.isGenderViolence ? 'Sí' : 'No'}</Td>
+                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.isDomesticViolence ? 'Sí' : 'No'}</Td>
+                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.judicialBody}</Td>
+                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.procedureCompleted ? 'Sí' : 'No'}</Td>
+                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{new Date(procedure.createdAt).toLocaleDateString()}</Td>
+                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{new Date(procedure.updatedAt).toLocaleDateString()}</Td>
+                </Tr>
+              ))}
+            </Tbody>
           </Table>
         </Box>
       </Flex>
