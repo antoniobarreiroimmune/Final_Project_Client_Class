@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Table, Thead, Tbody, Tr, Th, Td, Box, Input } from '@chakra-ui/react';
+import { Flex, Input } from '@chakra-ui/react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Title from '../../components/Title/Title';
+import CustomTable from '../../components/CustomTable/CustomTable';
+import useSearchAndFilter from '../../hooks/useSearchAndFilter';
 import proceduresService from '../../services/procedures.service';
-import { COLORS } from '../../theme';
 
 function GuardHomePage() {
   const [procedures, setProcedures] = useState([]);
-  const [filteredProcedures, setFilteredProcedures] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
@@ -17,30 +17,40 @@ function GuardHomePage() {
       try {
         const loadedProcedures = await proceduresService.getAllProcedures();
         setProcedures(loadedProcedures);
-        setFilteredProcedures(loadedProcedures);
       } catch (error) {
         console.error('Error loading procedures:', error);
       }
     };
 
     loadProcedures();
-  }, [navigate]);
+  }, []);
 
-  useEffect(() => {
-    const results = procedures.filter(procedure =>
-      procedure.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      procedure.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      procedure.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      procedure._id.includes(searchTerm) ||
-      procedure.dni.includes(searchTerm) ||
-      (procedure.location && procedure.location.coordinates ? procedure.location.coordinates.join(", ").includes(searchTerm) : false)
-    );
-    setFilteredProcedures(results);
-  }, [searchTerm, procedures]);
+  const filteredProcedures = useSearchAndFilter(procedures, searchTerm, (procedure, term) => (
+    procedure.name.toLowerCase().includes(term.toLowerCase()) ||
+    procedure.firstName.toLowerCase().includes(term.toLowerCase()) ||
+    procedure.lastName.toLowerCase().includes(term.toLowerCase()) ||
+    procedure.dni.includes(term) ||
+    (procedure.location && procedure.location.coordinates ? procedure.location.coordinates.join(", ").includes(term) : false)
+  ));
 
   const handleRowClick = (procedure) => {
     navigate(`/showprocedure/${procedure._id}`, { state: { procedure } });
   };
+
+  const columns = [
+    { title: 'Nombre', render: item => item.name, display: 'table-cell' },
+    { title: 'Primer apellido', render: item => item.firstName, display: 'table-cell' },
+    { title: 'Segundo apellido', render: item => item.lastName, display: 'table-cell' },
+    { title: 'Número procedimiento', render: item => item.procedureNumber, display: 'table-cell' },
+    { title: 'DNI', render: item => item.dni, display: { base: 'none', md: 'table-cell' } },
+    { title: 'Ubicación', render: item => item.location && item.location.coordinates ? item.location.coordinates.join(", ") : 'No disponible', display: { base: 'none', md: 'table-cell' } },
+    { title: 'Violencia de Género', render: item => item.isGenderViolence ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
+    { title: 'Violencia Doméstica', render: item => item.isDomesticViolence ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
+    { title: 'Órgano Judicial', render: item => item.judicialBody, display: { base: 'none', md: 'table-cell' } },
+    { title: 'Procedimiento Completado', render: item => item.procedureCompleted ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
+    { title: 'Creado', render: item => new Date(item.createdAt).toLocaleDateString(), display: { base: 'none', md: 'table-cell' } },
+    { title: 'Actualizado', render: item => new Date(item.updatedAt).toLocaleDateString(), display: { base: 'none', md: 'table-cell' } },
+  ];
 
   return (
     <PageWrapper>
@@ -52,52 +62,7 @@ function GuardHomePage() {
           onChange={(e) => setSearchTerm(e.target.value)}
           my="4"
         />
-        <Box width="100%" overflowX="auto">
-          <Table variant="simple" size="sm">
-            <Thead>
-              <Tr>
-                <Th textAlign="center">Nombre</Th>
-                <Th textAlign="center">Primer apellido</Th>
-                <Th textAlign="center">Segundo apellido</Th>
-                <Th textAlign="center">Número procedimiento</Th>
-                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">DNI</Th>
-                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Ubicación</Th>
-                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Violencia de Género</Th>
-                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Violencia Doméstica</Th>
-                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Órgano Judicial</Th>
-                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Procedimiento Completado</Th>
-                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Creado</Th>
-                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Actualizado</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {filteredProcedures.map((procedure, index) => (
-                <Tr key={procedure._id}
-                    bg={index % 2 === 0 ? COLORS.TABLEONE : COLORS.TABLETWO}
-                    onClick={() => handleRowClick(procedure)}
-                    style={{ cursor: 'pointer' }}
-                    sx={{
-                      '&:hover': {
-                        backgroundColor: COLORS.ACCENT,
-                      }
-                    }}>
-                  <Td textAlign="center">{procedure.name}</Td>
-                  <Td textAlign="center">{procedure.firstName}</Td>
-                  <Td textAlign="center">{procedure.lastName}</Td>
-                  <Td textAlign="center">{procedure.procedureNumber}</Td>
-                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.dni}</Td>
-                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.location && procedure.location.coordinates ? procedure.location.coordinates.join(", ") : 'No disponible'}</Td>
-                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.isGenderViolence ? 'Sí' : 'No'}</Td>
-                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.isDomesticViolence ? 'Sí' : 'No'}</Td>
-                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.judicialBody}</Td>
-                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.procedureCompleted ? 'Sí' : 'No'}</Td>
-                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{new Date(procedure.createdAt).toLocaleDateString()}</Td>
-                  <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{new Date(procedure.updatedAt).toLocaleDateString()}</Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </Box>
+        <CustomTable columns={columns} data={filteredProcedures} onRowClick={handleRowClick} />
       </Flex>
     </PageWrapper>
   );

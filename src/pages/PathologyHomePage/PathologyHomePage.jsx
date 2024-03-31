@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Box, Input, Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import { Flex, Input } from '@chakra-ui/react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Title from '../../components/Title/Title';
+import CustomTable from '../../components/CustomTable/CustomTable';
+import useSearchAndFilter from '../../hooks/useSearchAndFilter';
 import PathologyService from '../../services/pathology.service';
-import { COLORS } from '../../theme';
 
 function PathologyHome() {
   const [pathologies, setPathologies] = useState([]);
-  const [filteredPathologies, setFilteredPathologies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
@@ -16,84 +16,48 @@ function PathologyHome() {
     PathologyService.getAllPathologies()
       .then(data => {
         setPathologies(data);
-        setFilteredPathologies(data);
       })
-      .catch(err => {
-        console.error('Error fetching pathologies:', err);
-      });
+      .catch(err => console.error('Error fetching pathologies:', err));
   }, []);
 
-  useEffect(() => {
-    const results = pathologies.filter(pathology =>
-      pathology.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      pathology.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      pathology.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      pathology.dni.includes(searchTerm) ||
-      (pathology.location && pathology.location.coordinates ? pathology.location.coordinates.join(", ").includes(searchTerm) : false)
-    );
-    setFilteredPathologies(results);
-  }, [searchTerm, pathologies]);
+  const filteredPathologies = useSearchAndFilter(pathologies, searchTerm, (pathology, term) => (
+    pathology.name.toLowerCase().includes(term.toLowerCase()) ||
+    pathology.firstName.toLowerCase().includes(term.toLowerCase()) ||
+    pathology.lastName.toLowerCase().includes(term.toLowerCase()) ||
+    pathology.dni.includes(term) ||
+    (pathology.location && pathology.location.coordinates ? pathology.location.coordinates.join(", ").includes(term) : false)
+  ));
 
   const handleRowClick = (pathology) => {
     navigate(`/showPathology/${pathology._id}`, { state: { pathology } });
   };
 
+  const columns = [
+    { title: 'Nombre', render: item => item.name, display: 'table-cell' },
+    { title: 'Primer apellido', render: item => item.firstName, display: 'table-cell' },
+    { title: 'Segundo apellido', render: item => item.lastName, display: 'table-cell' },
+    { title: 'Número procedimiento', render: item => item.procedureNumber, display: 'table-cell' },
+    { title: 'DNI', render: item => item.dni, display: { base: 'none', md: 'table-cell' } },
+    { title: 'Ubicación', render: item => item.location && item.location.coordinates ? item.location.coordinates.join(", ") : 'No disponible', display: { base: 'none', md: 'table-cell' } },
+    { title: 'Violencia de Género', render: item => item.isGenderViolence ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
+    { title: 'Violencia Doméstica', render: item => item.isDomesticViolence ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
+    { title: 'Órgano Judicial', render: item => item.judicialBody, display: { base: 'none', md: 'table-cell' } },
+    { title: 'Patología Completada', render: item => item.pathologyCompleted ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
+    { title: 'Creado', render: item => new Date(item.createdAt).toLocaleDateString(), display: { base: 'none', md: 'table-cell' } },
+    { title: 'Actualizado', render: item => new Date(item.updatedAt).toLocaleDateString(), display: { base: 'none', md: 'table-cell' } },
+  ];
+
   return (
     <PageWrapper>
       <Flex direction="column" align="center" mt={{ base: '10vh', md: '15vh' }} width="100%">
-        <Title>Patología</Title>
+        <Title>Patologías</Title>
         <Input
-          placeholder="Buscar procedimientos de patología..."
+          placeholder="Buscar patologías..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           my="4"
         />
-        <Box width="100%" overflowX="auto">
-          <Table variant="simple" size="sm">
-            <Thead>
-              <Tr>
-                <Th textAlign="center">Nombre</Th>
-                <Th textAlign="center">Primer apellido</Th>
-                <Th textAlign="center">Segundo apellido</Th>
-                <Th textAlign="center">Número procedimiento</Th>
-                <Th textAlign="center">DNI</Th>
-                <Th textAlign="center">Ubicación</Th>
-                <Th textAlign="center">Violencia de Género</Th>
-                <Th textAlign="center">Violencia Doméstica</Th>
-                <Th textAlign="center">Órgano Judicial</Th>
-                <Th textAlign="center">Patología Completada</Th>
-                <Th textAlign="center">Creado</Th>
-                <Th textAlign="center">Actualizado</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {filteredPathologies.map((pathology, index) => (
-               <Tr key={pathology._id}
-               bg={index % 2 === 0 ? COLORS.TABLEONE : COLORS.TABLETWO}
-               onClick={() => handleRowClick(pathology)}
-               style={{ cursor: 'pointer' }}
-               sx={{
-                 '&:hover': {
-                   backgroundColor: COLORS.ACCENT,
-                 }
-               }}>
-                  <Td textAlign="center">{pathology.name}</Td>
-                  <Td textAlign="center">{pathology.firstName}</Td>
-                  <Td textAlign="center">{pathology.lastName}</Td>
-                  <Td textAlign="center">{pathology.procedureNumber}</Td>
-                  <Td textAlign="center">{pathology.dni}</Td>
-                  <Td textAlign="center">{pathology.location && pathology.location.coordinates ? pathology.location.coordinates.join(", ") : 'No disponible'}</Td>
-                  <Td textAlign="center">{pathology.isGenderViolence ? 'Sí' : 'No'}</Td>
-                  <Td textAlign="center">{pathology.isDomesticViolence ? 'Sí' : 'No'}</Td>
-                  <Td textAlign="center">{pathology.judicialBody}</Td>
-                  <Td textAlign="center">{pathology.pathologyCompleted ? 'Sí' : 'No'}</Td>
-                  <Td textAlign="center">{new Date(pathology.createdAt).toLocaleDateString()}</Td>
-                  <Td textAlign="center">{new Date(pathology.updatedAt).toLocaleDateString()}</Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </Box>
+        <CustomTable columns={columns} data={filteredPathologies} onRowClick={handleRowClick} />
       </Flex>
     </PageWrapper>
   );
