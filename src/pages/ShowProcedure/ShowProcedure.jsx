@@ -27,54 +27,53 @@ function ShowProcedure() {
 
   return (
     <PageWrapper>
-      <Box p={4}>
-        {procedure?.guardInfo && (
-          <Box mt={5}>
-            <Text fontSize="2xl" fontWeight="bold">Procedimiento iniciado por:</Text>
-            <Text><strong>Nombre:</strong> {procedure.guardInfo.name}</Text>
-            <Text><strong>Primer nombre:</strong> {procedure.guardInfo.firstName}</Text>
-            <Text><strong>Apellido:</strong> {procedure.guardInfo.lastName}</Text>
-            <Text><strong>Email:</strong> {procedure.guardInfo.email}</Text>
-          </Box>
-        )}
-
-        <LocationComponent location={procedure.location} onAddressFetch={handleAddressFetch} />
-
-        <VStack align="stretch" spacing={4}>
-          <Text fontSize="2xl" fontWeight="bold">Procedimiento</Text>
-          <Flex direction={["column", "column", "row"]} justify="space-between" wrap="wrap">
-            <Text mb={[2, 2, 0]}><strong>Nombre:</strong> {procedure.name}</Text>
-            <Text mb={[2, 2, 0]}><strong>Primer Apellido:</strong> {procedure.firstName}</Text>
-            <Text mb={[2, 2, 0]}><strong>Segundo Apellido:</strong> {procedure.lastName}</Text>
-            <Text mb={[2, 2, 0]}><strong>DNI:</strong> {procedure.dni}</Text>
-          </Flex>
-
-          <Flex justify="space-between" wrap="wrap">
-            <Text mb={[2, 2, 0]}><strong>Localiazación:</strong> {address}</Text>
-            <Text mb={[2, 2, 0]}><strong>Dirección:</strong> {procedure.address}</Text>
-          </Flex>
-          <Flex justify="space-between" wrap="wrap">
-            <Text mb={2}><strong>Violencia de género:</strong> {procedure.isGenderViolence ? 'Sí' : 'No'}</Text>
-            <Text mb={2}><strong>Violencia doméstica:</strong> {procedure.isDomesticViolence ? 'Sí' : 'No'}</Text>
-            <Text mb={2}><strong>Órgano judicial:</strong> {procedure.judicialBody}</Text>
-          </Flex>
-          <Box>
-            <Text mb={2}><strong>Informe de procedimiento:</strong></Text>
-            <Textarea minHeight="280px" readOnly value={procedure.procedureReport || ''} />
-          </Box>
-          <Flex justify="space-between" wrap="wrap">
-            <Text mb={2}><strong>Fecha de creación:</strong> {new Date(procedure.createdAt).toLocaleDateString()}</Text>
-            <Text mb={2}><strong>Fecha de actualización:</strong> {new Date(procedure.updatedAt).toLocaleDateString()}</Text>
-            <Text mb={2}><strong>Procedimiento completado:</strong> {procedure.procedureCompleted ? 'Sí' : 'No'}</Text>
-          </Flex>
-          {user && user._id === procedure.guardInfo?.guardId && !procedure.procedureCompleted && (
-            <Button size="sm" onClick={handleEdit}>Editar</Button>
+      <Box maxW="80%" margin="auto" >
+        <Flex direction={"row"} justify="space-around" wrap="wrap" alignItems="center">
+          {procedure?.guardInfo && (
+            <Box mt={5}>
+              <Text fontSize="2xl" fontWeight="bold">Procedimiento iniciado por:</Text>
+              <Text><strong>Nombre:</strong> {procedure.guardInfo.name}</Text>
+              <Text><strong>Primer nombre:</strong> {procedure.guardInfo.firstName}</Text>
+              <Text><strong>Apellido:</strong> {procedure.guardInfo.lastName}</Text>
+              <Text><strong>Email:</strong> {procedure.guardInfo.email}</Text>
+            </Box>
           )}
 
-        </VStack>
-      </Box>
+          {user && user._id === procedure.guardInfo?.guardId && !procedure.procedureCompleted && (
+            <Button size="sm" margin={5} onClick={handleEdit}>Editar</Button>
+          )}
 
-    </PageWrapper>
+        </Flex>
+        <Flex direction={{ base: "column", lg: "row" }} justify="space-between" wrap="wrap" gap={8}>
+          <Box flex={1} mt={5}>
+            <LocationComponent location={procedure.location} onAddressFetch={handleAddressFetch} />
+          </Box>
+
+          <VStack flex={1} mt={5} align="flex-start" spacing={4}>
+            <Text fontSize="2xl" fontWeight="bold">Procedimiento</Text>
+            <Text><strong>Nombre:</strong> {procedure.name}</Text>
+            <Text><strong>Apellido:</strong> {procedure.lastName}</Text>
+            <Text><strong>DNI:</strong> {procedure.dni}</Text>
+            <Text><strong>Localización:</strong> {address}</Text>
+            <Text><strong>Dirección:</strong> {procedure.address}</Text>
+            <Text><strong>Violencia de género:</strong> {procedure.isGenderViolence ? "Sí" : "No"}</Text>
+            <Text><strong>Violencia doméstica:</strong> {procedure.isDomesticViolence ? "Sí" : "No"}</Text>
+            <Text><strong>Órgano judicial:</strong> {procedure.judicialBody}</Text>
+          </VStack>
+        </Flex>
+        <Box mt={5}>
+          <Text mb={2}><strong>Procedimiento:</strong></Text>
+          <Textarea minHeight="280px" readOnly value={procedure.procedureReport || ''} />
+        </Box>
+        <Flex justify="space-between" wrap="wrap">
+          <Text mb={2}><strong>Fecha de creación:</strong> {new Date(procedure.createdAt).toLocaleDateString()}</Text>
+          <Text mb={2}><strong>Fecha de actualización:</strong> {new Date(procedure.updatedAt).toLocaleDateString()}</Text>
+          <Text><strong>Informe Procedimiento Completado:</strong> {procedure.procedureCompleted ? "Sí" : "No"}</Text>
+        </Flex>
+        
+    </Box>
+
+    </PageWrapper >
   );
 }
 

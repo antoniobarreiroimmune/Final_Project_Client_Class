@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Flex, Button, Box, IconButton } from "@chakra-ui/react";
+import { Flex, Button, Box, IconButton, Text, useDisclosure } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
 import { FormInput, FormSwitch, FormSelect } from '../../components/FormControls/FormControls';
 import proceduresService from "../../services/procedures.service";
@@ -7,6 +7,8 @@ import authService from "../../services/auth.service";
 import PageWrapper from "../../components/PageWrapper/PageWrapper";
 import { JUDICIAL_BODY_OPTIONS } from '../../consts';
 import { MdGpsFixed } from 'react-icons/md';
+import Modal from '../../components/Modal/Modal';
+import { COLORS } from "../../theme";
 
 function CreateProcedurePage() {
   const [procedureData, setProcedureData] = useState({
@@ -31,6 +33,7 @@ function CreateProcedurePage() {
   });
 
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -76,10 +79,11 @@ function CreateProcedurePage() {
         },
         (error) => {
           console.error("Error obteniendo la ubicación: ", error);
+          onOpen();
         }
       );
     } else {
-      alert("La geolocalización no está soportada por este navegador.");
+      onOpen();
     }
   };
 
@@ -101,6 +105,7 @@ function CreateProcedurePage() {
       navigate('/guardhome');
     } catch (err) {
       console.error('Error creating procedure:', err);
+      onOpen();
     }
   };
 
@@ -151,6 +156,10 @@ function CreateProcedurePage() {
           </Flex>
         </form>
       </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <Text fontSize="2xl" fontWeight="bold" color={COLORS.PRIMARY}>Error creando el procedimiento. Por favor, rellene todos los campos</Text>
+        <Button colorScheme="blue" onClick={onClose}>X</Button>
+      </Modal>
     </PageWrapper>
   );
 }

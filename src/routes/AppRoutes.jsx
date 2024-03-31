@@ -78,6 +78,7 @@ const AppRoutes = () => {
           path: "*",
           element: <NotFoundPage />,
         },
+       
       ],
       
     },
@@ -85,6 +86,8 @@ const AppRoutes = () => {
       path: "login",
       element: <LoginPage />,
     },
+   
+
   ]);
 
   return <RouterProvider router={router} />;

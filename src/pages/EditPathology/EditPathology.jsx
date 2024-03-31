@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Flex, Switch, Textarea } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Flex, Switch, Textarea, useDisclosure, Text } from '@chakra-ui/react';
 import pathologyService from '../../services/pathology.service';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import { UserContext } from '../../contexts/UserContext';
 import authService from '../../services/auth.service';
+import { COLORS } from '../../theme';
+import Modal from '../../components/Modal/Modal';
 
 
 
@@ -13,7 +15,8 @@ function EditPathology() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [pathology, setPathology] = useState({
     name: '',
@@ -51,6 +54,7 @@ function EditPathology() {
         setPathology(loadedPathology);
       } catch (error) {
         console.error('Error loading the pathology:', error);
+        onOpen();
         navigate('/Pathology');
       }
     };
@@ -69,6 +73,7 @@ function EditPathology() {
           }); 
         } catch (error) {
           console.error('Error fetching user data:', error);
+          onOpen();
         }
       }
     };
@@ -104,6 +109,7 @@ function EditPathology() {
       navigate('/Pathology');
     } catch (error) {
       console.error('Error updating the pathology:', error);
+      onOpen();
     }
   };
 
@@ -119,6 +125,7 @@ function EditPathology() {
               name="pathologyReport"
               value={pathology.pathologyReport}
               onChange={handleChange}
+              minHeight={300}
             />
           </FormControl>
           <FormControl display="flex" alignItems="center" justifyContent="space-between">
@@ -133,11 +140,16 @@ function EditPathology() {
             />
           </FormControl>
           <Button type="submit" colorScheme="blue">
-            Actualizar Procedimiento
+            Actualizar Patología
           </Button>
         </Flex>
       </form>
     </Box>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <Text fontSize="2x1" fontWeight="bold" color={COLORS.PRIMARY}>
+        Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.
+      </Text>
+    </Modal>
   </PageWrapper>
   );
 }

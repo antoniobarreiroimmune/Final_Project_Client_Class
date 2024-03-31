@@ -66,8 +66,8 @@ function GuardHomePage() {
     <Th textAlign="center">Nombre</Th>
     <Th textAlign="center">Primer apellido</Th>
     <Th textAlign="center">Segundo apellido</Th>
-    <Th textAlign="center">DNI</Th>
-    <Th textAlign="center">Número de procedimiento</Th>
+    <Th textAlign="center">Número procedimiento</Th>
+    <Th display={{ base: 'none', md: 'table-cell '}} textAlign="center">DNI</Th>
     <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Ubicación</Th>
     <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Violencia de Género</Th>
     <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Violencia Doméstica</Th>
@@ -91,8 +91,8 @@ function GuardHomePage() {
       <Td textAlign="center">{procedure.name}</Td>
       <Td textAlign="center">{procedure.firstName}</Td>
       <Td textAlign="center">{procedure.lastName}</Td>
-      <Td textAlign="center">{procedure.dni}</Td>
       <Td textAlign="center">{procedure.procedureNumber}</Td>
+      <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.dni}</Td>
       <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.location && procedure.location.coordinates ? procedure.location.coordinates.join(", ") : 'No disponible'}</Td>
       <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.isGenderViolence ? 'Sí' : 'No'}</Td>
       <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{procedure.isDomesticViolence ? 'Sí' : 'No'}</Td>

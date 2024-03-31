@@ -63,21 +63,20 @@ return (
       <Box width="100%" overflowX="auto">
         <Table variant="simple" size="sm">
           <Thead>
-            <Tr>
-              <Th textAlign="center">Nombre</Th>
-              <Th textAlign="center">Primer apellido</Th>
-              <Th textAlign="center">Segundo apellido</Th>
-              <Th textAlign="center">DNI</Th>
-              <Th textAlign="center">Ubicación</Th>
-              <Th textAlign="center">Observaciones</Th>
-              <Th textAlign="center">Violencia de Género</Th>
-              <Th textAlign="center">Violencia Doméstica</Th>
-              <Th textAlign="center">Órgano Judicial</Th>
-              <Th textAlign="center">Infome Final Completado</Th>
-              <Th textAlign="center">Creado</Th>
-              <Th textAlign="center">Actualizado</Th>
-
-            </Tr>
+          <Tr>
+                <Th textAlign="center">Nombre</Th>
+                <Th textAlign="center">Primer apellido</Th>
+                <Th textAlign="center">Segundo apellido</Th>
+                <Th textAlign="center">Número de procedimiento</Th>
+                <Th display={{ base: 'none', md: 'table-cell ' }} textAlign="center">DNI</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Ubicación</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Violencia de Género</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Violencia Doméstica</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Órgano Judicial</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Informe Final Completado</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Creado</Th>
+                <Th display={{ base: 'none', md: 'table-cell' }} textAlign="center">Actualizado</Th>
+              </Tr>
           </Thead>
           <Tbody>
             {filteredFinalReports.map((finalReport, index) => (
@@ -85,15 +84,15 @@ return (
                 <Td textAlign="center">{finalReport.name}</Td>
                 <Td textAlign="center">{finalReport.firstName}</Td>
                 <Td textAlign="center">{finalReport.lastName}</Td>
-                <Td textAlign="center">{finalReport.dni}</Td>
-                <Td textAlign="center">{finalReport.location && finalReport.location.coordinates ? finalReport.location.coordinates.join(", ") : 'No disponible'}</Td>
-                <Td textAlign="center">{finalReport.observations}</Td>
-                <Td textAlign="center">{finalReport.isGenderViolence ? 'Sí' : 'No'}</Td>
-                <Td textAlign="center">{finalReport.isDomesticViolence ? 'Sí' : 'No'}</Td>
-                <Td textAlign="center">{finalReport.judicialBody}</Td>
-                <Td textAlign="center">{finalReport.pathologyCompleted ? 'Sí' : 'No'}</Td>
-                <Td textAlign="center">{new Date(finalReport.createdAt).toLocaleDateString()}</Td>
-                <Td textAlign="center">{new Date(finalReport.updatedAt).toLocaleDateString()}</Td>
+                <Td textAlign="center">{finalReport.procedureNumber}</Td>
+                <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{finalReport.dni}</Td>
+                <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{finalReport.location && finalReport.location.coordinates ? finalReport.location.coordinates.join(", ") : 'No disponible'}</Td>
+                <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{finalReport.isGenderViolence ? 'Sí' : 'No'}</Td>
+                <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{finalReport.isDomesticViolence ? 'Sí' : 'No'}</Td>
+                <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{finalReport.judicialBody}</Td>
+                <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{finalReport.finalReportCompleted ? 'Sí' : 'No'}</Td>
+                <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{new Date(finalReport.createdAt).toLocaleDateString()}</Td>
+                <Td display={{ base: 'none', md: 'table-cell' }} textAlign="center">{new Date(finalReport.updatedAt).toLocaleDateString()}</Td>
 
               </Tr>
             ))}

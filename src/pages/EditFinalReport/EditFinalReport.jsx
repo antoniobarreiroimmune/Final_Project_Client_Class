@@ -125,7 +125,7 @@ function EditFinalReport() {
             
             <FormControl>
               <FormLabel>Informe Final</FormLabel>
-              <Textarea name="finalReport" value={finalReport.finalReport} onChange={handleChange} />
+              <Textarea name="finalReport" value={finalReport.finalReport} onChange={handleChange} minHeight={300} />
             </FormControl>
            
             <FormControl>

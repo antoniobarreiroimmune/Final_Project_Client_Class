@@ -75,16 +75,16 @@ function EditProcedure() {
   <Box p={4}>
     <form onSubmit={handleSubmit}>
       <Flex direction="column" gap="4">
-        <Flex direction="row" gap="4">
+       
           <FormInput label="Nombre" value={procedure.name || ''} onChange={handleChange} name="name" mb={{ base: '8', sm: '2'}} />
           <FormInput label="Primer Apellido" value={procedure.firstName || ''} onChange={handleChange} name="firstName" />
           <FormInput label="Segundo Apellido" value={procedure.lastName || ''} onChange={handleChange} name="lastName" />
-        </Flex>
-        <Flex direction="row" gap="2">
+        
+       
           <FormInput label="DNI" value={procedure.dni || ''} onChange={handleChange} name="dni" readOnly />
           <FormInput label="Ubicación" value={procedure.location || ''} onChange={handleChange} name="location" />
           <FormSelect label="Órgano Judicial" value={procedure.judicialBody || ''} onChange={handleChange} name="judicialBody" options={JUDICIAL_BODY_OPTIONS} />
-        </Flex>
+        
         <Flex direction="row" gap="1">
           <FormSwitch label="Violencia de Género" isChecked={procedure.isGenderViolence} onChange={handleSwitchChange} name="isGenderViolence" />
           <FormSwitch label="Violencia Doméstica" isChecked={procedure.isDomesticViolence} onChange={handleSwitchChange} name="isDomesticViolence" />
