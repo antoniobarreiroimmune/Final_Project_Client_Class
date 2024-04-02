@@ -15,6 +15,7 @@ function EditProcedure() {
     firstName: '',
     lastName: '',
     dni: '',
+    address: '',
     location: '',
     observations: '',
     procedureReport: '',
@@ -78,7 +79,8 @@ function EditProcedure() {
             <FormInput label="Nombre" value={procedure.name || ''} onChange={handleChange} name="name" mb={{ base: '8', sm: '2' }} />
             <FormInput label="Primer Apellido" value={procedure.firstName || ''} onChange={handleChange} name="firstName" />
             <FormInput label="Segundo Apellido" value={procedure.lastName || ''} onChange={handleChange} name="lastName" />
-            <FormInput label="DNI" value={procedure.dni || ''} onChange={handleChange} name="dni" readOnly />
+            <FormInput label="DNI" value={procedure.dni || ''} onChange={handleChange} name="dni"  />
+            <FormInput label="Dirección" value={procedure.address || ''} onChange={handleChange} name="address" />
             <FormInput label="Ubicación" value={procedure.location || ''} onChange={handleChange} name="location" />
             <Text><strong>Órgano Judicial:</strong> {procedure.judicialBody || ''}</Text>
 

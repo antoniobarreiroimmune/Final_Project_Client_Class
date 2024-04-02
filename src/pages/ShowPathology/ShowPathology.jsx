@@ -74,8 +74,23 @@ function ShowPathology() {
           </VStack>
         </Flex>
         <Box mt={5}>
-          <Text mb={2}><strong>Patología:</strong></Text>
+          <Text mb={2}><strong>Informe de Patología:</strong></Text>
           <Textarea minHeight="280px" readOnly value={pathology.pathologyReport || ''} />
+        </Box>
+        <Box mt={5}>
+          <Text mb={4}><strong>Pruebas solicitadas al INTCF:</strong></Text>
+          <Flex direction={{ base: "column", md: "row" }}
+            justify="space-between"
+            wrap="wrap"
+            mb={2}>
+            <Text mb={2}><strong>Histopatología:</strong> {pathology.histopathology ? "Sí" : "No"}</Text>
+            <Text mb={2}><strong>Tóxicos:</strong> {pathology.toxics ? "Sí" : "No"}</Text>
+            <Text><strong>Biología:</strong> {pathology.biology ? "Sí" : "No"}</Text>
+          </Flex>
+        </Box>
+        <Box mt={5}>
+          <Text mb={2}><strong>Informe de Procedimiento</strong></Text>
+          <Textarea minHeight="280px" readOnly value={pathology.procedureReport || ''} />
         </Box>
         <Flex justify="space-between" wrap="wrap">
           <Text mb={2}><strong>Fecha de creación:</strong> {new Date(pathology.createdAt).toLocaleDateString()}</Text>

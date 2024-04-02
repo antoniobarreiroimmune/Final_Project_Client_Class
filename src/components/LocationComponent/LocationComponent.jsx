@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
 
 const Marker = ({ text }) => (
@@ -26,6 +26,12 @@ const Marker = ({ text }) => (
 
 function LocationComponent({ location, onAddressFetch }) {
   useEffect(() => {
+    if (!location.coordinates || location.coordinates.length !== 2 || 
+        (location.coordinates[0] === 0 && location.coordinates[1] === 0)) {
+      onAddressFetch('Ubicación no geolocalizada');
+      return;
+    }
+
     const getAddressFromCoordinates = async () => {
       const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
       try {
@@ -35,7 +41,7 @@ function LocationComponent({ location, onAddressFetch }) {
         const data = await response.json();
         if (data.status === 'OK') {
           const fetchedAddress = data.results[0].formatted_address;
-          onAddressFetch(fetchedAddress); 
+          onAddressFetch(fetchedAddress);
         }
       } catch (error) {
         console.error('Error fetching address:', error);
@@ -45,6 +51,28 @@ function LocationComponent({ location, onAddressFetch }) {
 
     getAddressFromCoordinates();
   }, [location, onAddressFetch]);
+
+  if (!location.coordinates || location.coordinates.length !== 2 ||
+      (location.coordinates[0] === 0 && location.coordinates[1] === 0)) {
+    return (
+      <div style={{ 
+        height: '400px', 
+        width: '100%', 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        flexDirection: 'column', 
+        fontSize: '24px', 
+        color: 'black',
+        textAlign: 'center', 
+        lineHeight: '1.5' 
+      }}>
+        {"Ubicación no geolocalizada".split(" ").map((word, index) => (
+          <div key={index}>{word}</div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div style={{ height: '400px', width: '100%' }}>
@@ -59,7 +87,6 @@ function LocationComponent({ location, onAddressFetch }) {
         <Marker
           lat={location.coordinates[1]}
           lng={location.coordinates[0]}
-          
         />
       </GoogleMapReact>
     </div>
@@ -67,3 +94,4 @@ function LocationComponent({ location, onAddressFetch }) {
 }
 
 export default LocationComponent;
+
