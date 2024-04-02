@@ -62,6 +62,7 @@ function ShowPathology() {
 
           <VStack flex={1} mt={5} align="flex-start" spacing={4}>
             <Text fontSize="2xl" fontWeight="bold">Procedimiento</Text>
+            <Text><strong> Número de Procedimiento:</strong> {pathology.procedureNumber}</Text>
             <Text><strong>Nombre:</strong> {pathology.name}</Text>
             <Text><strong>Apellido:</strong> {pathology.lastName}</Text>
             <Text><strong>DNI:</strong> {pathology.dni}</Text>

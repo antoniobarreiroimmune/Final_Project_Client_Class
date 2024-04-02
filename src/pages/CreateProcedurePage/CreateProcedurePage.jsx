@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Flex, Box, Button, IconButton, Text, useDisclosure } from "@chakra-ui/react";
+import { Flex, Box, Button, IconButton, Text, useDisclosure, } from "@chakra-ui/react";
 import { MdGpsFixed } from 'react-icons/md';
 import { FormInput, FormSwitch, FormSelect } from '../../components/FormControls/FormControls';
 import Modal from '../../components/Modal/Modal';
@@ -154,7 +154,6 @@ function CreateProcedurePage() {
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <Text fontSize="2xl" fontWeight="bold" color={COLORS.PRIMARY}>Error creando el procedimiento. Por favor, rellene todos los campos</Text>
-        <Button colorScheme="blue" onClick={onClose}>X</Button>
       </Modal>
     </PageWrapper>
   );

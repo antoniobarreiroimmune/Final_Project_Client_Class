@@ -13,6 +13,7 @@ function EditPathology() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [pathology, setPathology] = useState({
+    procedureNumber: '',
     name: '',
     firstName: '',
     lastName: '',
@@ -21,7 +22,7 @@ function EditPathology() {
     location: { type: '', coordinates: [] },
     observations: '',
     procedureReport: '',
-    pathologyReport: '', 
+    pathologyReport: '',
     pathologyCompleted: false,
     judicialBody: '',
     pathologyInfo: {},
@@ -70,7 +71,7 @@ function EditPathology() {
 
     fetchPathology();
     fetchUserData();
- 
+
   }, [id, location.state, navigate, onOpen]);
 
   const handleChange = (e) => {
@@ -105,7 +106,8 @@ function EditPathology() {
         <form onSubmit={handleSubmit}>
           <Flex direction="column" gap="4">
             <FormControl>
-              <FormLabel>Informe de Patología</FormLabel>
+              <Text><strong> Número de Procedimiento:</strong> {pathology.procedureNumber}</Text>
+              <FormLabel>Informe de Patología:</FormLabel>
               <Textarea
                 id="pathologyReport"
                 name="pathologyReport"

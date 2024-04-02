@@ -51,6 +51,7 @@ function ShowProcedure() {
 
           <VStack flex={1} mt={5} align="flex-start" spacing={4}>
             <Text fontSize="2xl" fontWeight="bold">Procedimiento</Text>
+            <Text><strong> Número de Procedimiento:</strong> {procedure.procedureNumber}</Text>
             <Text><strong>Nombre:</strong> {procedure.name}</Text>
             <Text><strong>Apellido:</strong> {procedure.lastName}</Text>
             <Text><strong>DNI:</strong> {procedure.dni}</Text>

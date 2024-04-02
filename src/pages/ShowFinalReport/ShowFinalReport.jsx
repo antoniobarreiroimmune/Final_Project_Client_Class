@@ -72,6 +72,7 @@ function ShowFinalReport() {
 
           <VStack flex={1} mt={5} align="flex-start" spacing={4}>
             <Text fontSize="2xl" fontWeight="bold">Detalles del Informe</Text>
+            <Text><strong> Número de Procedimiento:</strong> {finalReport.procedureNumber}</Text>
             <Text><strong>Nombre:</strong> {finalReport.name}</Text>
             <Text><strong>Apellido:</strong> {finalReport.lastName}</Text>
             <Text><strong>DNI:</strong> {finalReport.dni}</Text>

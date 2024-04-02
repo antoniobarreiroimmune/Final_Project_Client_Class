@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Flex, Switch } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Flex, Switch, Text } from '@chakra-ui/react';
 import proceduresService from '../../services/procedures.service';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
-import { JUDICIAL_BODY_OPTIONS } from '../../consts';
-import { FormInput, FormSelect, FormSwitch } from '../../components/FormControls/FormControls';
+
+import { FormInput, FormSwitch } from '../../components/FormControls/FormControls';
 
 function EditProcedure() {
   const { id } = useParams();
@@ -74,15 +74,13 @@ function EditProcedure() {
       <Box p={4}>
         <form onSubmit={handleSubmit}>
           <Flex direction="column" gap="4">
-
+            <Text><strong>Número de Procedimiento:</strong>{procedure.procedureNumber}</Text>
             <FormInput label="Nombre" value={procedure.name || ''} onChange={handleChange} name="name" mb={{ base: '8', sm: '2' }} />
             <FormInput label="Primer Apellido" value={procedure.firstName || ''} onChange={handleChange} name="firstName" />
             <FormInput label="Segundo Apellido" value={procedure.lastName || ''} onChange={handleChange} name="lastName" />
-
-
             <FormInput label="DNI" value={procedure.dni || ''} onChange={handleChange} name="dni" readOnly />
             <FormInput label="Ubicación" value={procedure.location || ''} onChange={handleChange} name="location" />
-            <FormSelect label="Órgano Judicial" value={procedure.judicialBody || ''} onChange={handleChange} name="judicialBody" options={JUDICIAL_BODY_OPTIONS} />
+            <Text><strong>Órgano Judicial:</strong> {procedure.judicialBody || ''}</Text>
 
             <Flex direction="row" gap="1">
               <FormSwitch label="Violencia de Género" isChecked={procedure.isGenderViolence} onChange={handleSwitchChange} name="isGenderViolence" />

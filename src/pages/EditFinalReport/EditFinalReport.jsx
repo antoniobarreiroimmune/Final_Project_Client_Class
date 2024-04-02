@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Textarea, Flex, Switch } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Textarea, Flex, Switch,Text, useDisclosure } from '@chakra-ui/react';
 import finalreportService from '../../services/finalReport.service';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import authService from '../../services/auth.service';
+import { COLORS } from '../../theme';
+import Modal  from '../../components/Modal/Modal';
 
 function EditFinalReport() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [finalReport, setFinalReport] = useState({
+   procedureNumber: '',
     name: '',
     firstName: '',
     lastName: '',
@@ -89,6 +93,7 @@ function EditFinalReport() {
     if (field === 'finalReportCompleted') {
       if (!finalReport.guardValidate || !finalReport.pathologyValidate) {
         console.error("No se puede completar el informe final hasta que se validen guardia y patología.");
+        onOpen();
         return;
       }
     }
@@ -97,8 +102,8 @@ function EditFinalReport() {
       return;
     }
     if (field === 'pathologyValidate' && finalReport.pathologyInfo.pathologyId !== userInfo.userId) {
-      console.error("No tienes permiso para cambiar la validación de patología.");
-      return;
+      console.error("No tienes permiso para cambiar la validación de patología.",);
+      return
     }
     setFinalReport(prevFinalReport => ({
       ...prevFinalReport,
@@ -121,7 +126,7 @@ function EditFinalReport() {
       <Box p={4}>
         <form onSubmit={handleSubmit}>
           <Flex direction="column" gap="4">
-            
+          <Text><strong> Número de Procedimiento:</strong> {finalReport.procedureNumber}</Text>
             <FormControl>
               <FormLabel>Informe Final</FormLabel>
               <Textarea name="finalReport" value={finalReport.finalReport} onChange={handleChange} minHeight={300} />
@@ -148,6 +153,10 @@ function EditFinalReport() {
           </Flex>
         </form>
       </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <Text fontSize="2xl" fontWeight="bold" color={COLORS.PRIMARY}>Error, Informe Final no completado. Falta validación de otro departamento</Text>
+       
+      </Modal>
     </PageWrapper>
   );
 }

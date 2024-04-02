@@ -25,6 +25,7 @@ function FinalReport() {
     finalReport.firstName.toLowerCase().includes(term.toLowerCase()) ||
     finalReport.lastName.toLowerCase().includes(term.toLowerCase()) ||
     finalReport.dni.includes(term) ||
+    (finalReport.procedureNumber && finalReport.procedureNumber.toString().includes(term)) ||
     (finalReport.location && finalReport.location.coordinates ? finalReport.location.coordinates.join(", ").includes(term) : false)
   ));
 
@@ -33,15 +34,15 @@ function FinalReport() {
   };
 
   const columns = [
-    { title: 'Nombre', render: item => item.name, display: 'table-cell' },
-    { title: 'Primer apellido', render: item => item.firstName, display: 'table-cell' },
-    { title: 'Segundo apellido', render: item => item.lastName, display: 'table-cell' },
+    { title: 'Nombre', render: item => item.name, display: { base: 'none', md: 'table-cell' } },
+    { title: 'Primer apellido', render: item => item.firstName, display: { base: 'none', md: 'table-cell' } },
+    { title: 'Segundo apellido', render: item => item.lastName, display: { base: 'none', md: 'table-cell' } },
     { title: 'Número de procedimiento', render: item => item.procedureNumber, display: 'table-cell' },
-    { title: 'DNI', render: item => item.dni, display: { base: 'none', md: 'table-cell' } },
+    { title: 'DNI', render: item => item.dni, display:'table-cell' },
     { title: 'Ubicación', render: item => item.location && item.location.coordinates ? item.location.coordinates.join(", ") : 'No disponible', display: { base: 'none', md: 'table-cell' } },
     { title: 'Violencia de Género', render: item => item.isGenderViolence ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
     { title: 'Violencia Doméstica', render: item => item.isDomesticViolence ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
-    { title: 'Órgano Judicial', render: item => item.judicialBody, display: { base: 'none', md: 'table-cell' } },
+    { title: 'Órgano Judicial', render: item => item.judicialBody, display: 'table-cell' },
     { title: 'Informe Final Completado', render: item => item.finalReportCompleted ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
     { title: 'Creado', render: item => new Date(item.createdAt).toLocaleDateString(), display: { base: 'none', md: 'table-cell' } },
     { title: 'Actualizado', render: item => new Date(item.updatedAt).toLocaleDateString(), display: { base: 'none', md: 'table-cell' } },
@@ -49,7 +50,7 @@ function FinalReport() {
 
   return (
     <PageWrapper>
-      <Flex direction="column" align="center" mt={{ base: '10vh', md: '15vh' }} width="100%">
+      <Flex direction="column" align="center" mt={{ base: '3vh', md: '5vh' }} width="100%">
         <Title>Informe Final</Title>
         <Input
           placeholder="Buscar Informe Final..."

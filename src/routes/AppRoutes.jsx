@@ -1,7 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "../layouts/Layout";
 import LoginPage from "../pages/LoginPage/LoginPage";
-import SignupPage from "../pages/SignupPage/SignupPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import GuardHomePage from "../pages/GuardHomePage/GuardHomePage";
@@ -29,10 +28,6 @@ const AppRoutes = () => {
         {
           path: "guardhome",
           element: <GuardHomePage />,
-        },
-        {
-          path: "signup",
-          element: <SignupPage />,  
         },
         {
           path: "create",

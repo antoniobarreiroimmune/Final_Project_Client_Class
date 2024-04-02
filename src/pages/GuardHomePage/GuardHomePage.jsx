@@ -30,7 +30,8 @@ function GuardHomePage() {
     procedure.firstName.toLowerCase().includes(term.toLowerCase()) ||
     procedure.lastName.toLowerCase().includes(term.toLowerCase()) ||
     procedure.dni.includes(term) ||
-    (procedure.location && procedure.location.coordinates ? procedure.location.coordinates.join(", ").includes(term) : false)
+    (procedure.procedureNumber && procedure.procedureNumber.toString().includes(term)) || 
+    ((procedure.location && procedure.location.coordinates) ? procedure.location.coordinates.join(", ").includes(term) : false)
   ));
 
   const handleRowClick = (procedure) => {
@@ -54,7 +55,7 @@ function GuardHomePage() {
 
   return (
     <PageWrapper>
-      <Flex direction="column" align="center" mt={{ base: '10vh', md: '15vh' }} width="100%">
+      <Flex direction="column" align="center" mt={{ base: '3vh', md: '5vh' }} width="100%">
         <Title>Procedimientos</Title>
         <Input
           placeholder="Buscar procedimientos..."

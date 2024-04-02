@@ -25,6 +25,7 @@ function PathologyHome() {
     pathology.firstName.toLowerCase().includes(term.toLowerCase()) ||
     pathology.lastName.toLowerCase().includes(term.toLowerCase()) ||
     pathology.dni.includes(term) ||
+    (pathology.procedureNumber && pathology.procedureNumber.toString().includes(term)) ||
     (pathology.location && pathology.location.coordinates ? pathology.location.coordinates.join(", ").includes(term) : false)
   ));
 
@@ -33,15 +34,15 @@ function PathologyHome() {
   };
 
   const columns = [
-    { title: 'Nombre', render: item => item.name, display: 'table-cell' },
-    { title: 'Primer apellido', render: item => item.firstName, display: 'table-cell' },
-    { title: 'Segundo apellido', render: item => item.lastName, display: 'table-cell' },
+    { title: 'Nombre', render: item => item.name, display: { base: 'none', md: 'table-cell' } },
+    { title: 'Primer apellido', render: item => item.firstName, display: { base: 'none', md: 'table-cell' } },
+    { title: 'Segundo apellido', render: item => item.lastName, display: { base: 'none', md: 'table-cell' } },
     { title: 'Número procedimiento', render: item => item.procedureNumber, display: 'table-cell' },
-    { title: 'DNI', render: item => item.dni, display: { base: 'none', md: 'table-cell' } },
+    { title: 'DNI', render: item => item.dni, display: 'table-cell' },
     { title: 'Ubicación', render: item => item.location && item.location.coordinates ? item.location.coordinates.join(", ") : 'No disponible', display: { base: 'none', md: 'table-cell' } },
     { title: 'Violencia de Género', render: item => item.isGenderViolence ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
     { title: 'Violencia Doméstica', render: item => item.isDomesticViolence ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
-    { title: 'Órgano Judicial', render: item => item.judicialBody, display: { base: 'none', md: 'table-cell' } },
+    { title: 'Órgano Judicial', render: item => item.judicialBody, display: 'table-cell' },
     { title: 'Patología Completada', render: item => item.pathologyCompleted ? 'Sí' : 'No', display: { base: 'none', md: 'table-cell' } },
     { title: 'Creado', render: item => new Date(item.createdAt).toLocaleDateString(), display: { base: 'none', md: 'table-cell' } },
     { title: 'Actualizado', render: item => new Date(item.updatedAt).toLocaleDateString(), display: { base: 'none', md: 'table-cell' } },
@@ -49,10 +50,10 @@ function PathologyHome() {
 
   return (
     <PageWrapper>
-      <Flex direction="column" align="center" mt={{ base: '10vh', md: '15vh' }} width="100%">
-        <Title>Patologías</Title>
+      <Flex direction="column" align="center" mt={{ base: '3vh', md: '5vh' }} width="100%">
+        <Title>Departamento de Patología</Title>
         <Input
-          placeholder="Buscar patologías..."
+          placeholder="Buscar procedimientos..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           my="4"
