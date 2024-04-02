@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Flex, Switch, Textarea, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Flex, Switch, Textarea, Text, useDisclosure} from '@chakra-ui/react';
 import pathologyService from '../../services/pathology.service';
 import authService from '../../services/auth.service';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
@@ -28,6 +28,9 @@ function EditPathology() {
     pathologyInfo: {},
     isGenderViolence: false,
     isDomesticViolence: false,
+    histopathology: false,
+    toxics: false,
+    biology: false,
   });
 
   const [userInfo, setUserInfo] = useState({
@@ -37,6 +40,7 @@ function EditPathology() {
     lastName: '',
     email: '',
   });
+
 
   useEffect(() => {
     const fetchPathology = async () => {
@@ -75,9 +79,16 @@ function EditPathology() {
   }, [id, location.state, navigate, onOpen]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setPathology(prevPathology => ({ ...prevPathology, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    if (type === "checkbox") {
+      setPathology(prevPathology => ({ ...prevPathology, [name]: checked }));
+    } else {
+      setPathology(prevPathology => ({ ...prevPathology, [name]: value }));
+    }
   };
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,6 +127,30 @@ function EditPathology() {
                 minHeight={300}
               />
             </FormControl>
+            <Box>
+              <Text mb={4}><strong>Pruebas Complementarias del INTCF</strong></Text>
+
+              <FormControl display="flex" alignItems="center">
+                <FormLabel htmlFor="histopathology" mb="0">
+                  Histopatología
+                </FormLabel>
+                <Switch id="histopathology" name="histopathology" isChecked={pathology.histopathology} onChange={handleChange} />
+              </FormControl>
+
+              <FormControl display="flex" alignItems="center">
+                <FormLabel htmlFor="toxics" mb="0">
+                  Tóxicos
+                </FormLabel>
+                <Switch id="toxics" name="toxics" isChecked={pathology.toxics} onChange={handleChange} />
+              </FormControl>
+
+              <FormControl display="flex" alignItems="center">
+                <FormLabel htmlFor="biology" mb="0">
+                  Biología
+                </FormLabel>
+                <Switch id="biology" name="biology" isChecked={pathology.biology} onChange={handleChange} />
+              </FormControl>
+            </Box>
             <FormControl display="flex" alignItems="center" mt="4">
               <FormLabel htmlFor="pathologyCompleted" mb="0">
                 Informe de Patología Completado
