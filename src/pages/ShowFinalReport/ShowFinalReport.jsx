@@ -87,7 +87,7 @@ function ShowFinalReport() {
 
         <Box mt={5}>
           <Text mb={2}><strong>Informe final:</strong></Text>
-          <Textarea minHeight="280px" readOnly value={finalReport.finalReportReport || ''} />
+          <Textarea minHeight="280px" readOnly value={finalReport.finalReport || ''} />
         </Box>
         <Flex justify="space-between" wrap="wrap">
           <Text mb={2}><strong>Fecha de creación:</strong> {new Date(finalReport.createdAt).toLocaleDateString()}</Text>
