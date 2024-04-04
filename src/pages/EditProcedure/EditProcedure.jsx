@@ -81,7 +81,6 @@ function EditProcedure() {
             <FormInput label="Segundo Apellido" value={procedure.lastName || ''} onChange={handleChange} name="lastName" />
             <FormInput label="DNI" value={procedure.dni || ''} onChange={handleChange} name="dni"  />
             <FormInput label="Dirección" value={procedure.address || ''} onChange={handleChange} name="address" />
-            <FormInput label="Ubicación" value={procedure.location || ''} onChange={handleChange} name="location" />
             <Text><strong>Órgano Judicial:</strong> {procedure.judicialBody || ''}</Text>
 
             <Flex direction="row" gap="1">

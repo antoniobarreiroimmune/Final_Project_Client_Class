@@ -73,7 +73,6 @@ const AppRoutes = () => {
           path: "*",
           element: <NotFoundPage />,
         },
-       
       ],
       
     },

@@ -51,11 +51,12 @@ const Navbar = () => {
           </Box>
        
       </Flex>
-
+      {user && (
       <Flex
         display={{ base: "flex", xl: "none" }}
         alignItems="center"
       >
+       
         <Box onClick={onToggle} mr={4}>
           <IconButton
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -65,11 +66,14 @@ const Navbar = () => {
           />
         </Box>
         
-        {user && (
+        
+        
           <AuthLink onClick={logout}>Logout</AuthLink>
-        )}
+        
       </Flex>
+      )}
 
+       {user && (
       <Flex
         display={{ base: isOpen ? "block" : "none", xl: "flex" }}
         width={{ base: "full", xl: "auto" }}
@@ -104,6 +108,7 @@ const Navbar = () => {
           })}
         </Flex>
       </Flex>
+      )}
 
       <Flex
         direction={{ base: "column", md: "row" }}
